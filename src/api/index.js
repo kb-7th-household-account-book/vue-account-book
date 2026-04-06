@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // json-server의 기본 주소. package.json 스크립트에 4000 포트로 띄우도록 설정됨
 const apiClient = axios.create({
-  baseURL: 'http://localhost:4000',
+  baseURL: '/api',
   headers: {
     'Content-Type': 'application/json'
   }
