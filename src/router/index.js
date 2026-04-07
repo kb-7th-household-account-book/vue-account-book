@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import Transaction from '@/views/Transaction.vue'
 import Home from '@/views/Home.vue' // 새로 만든 Home 컴포넌트 불러오기
 
 const router = createRouter({
@@ -8,6 +9,11 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: Home
+    },
+    {
+      path: '/transaction',
+      name: 'transaction',
+      component: Transaction
     }
   ],
 })
