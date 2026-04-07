@@ -1,6 +1,7 @@
 <template>
     <button
         :class="['type-button', {active: isActive}]"
+        :style="{ '--active-color': activeColor }"
         @click="$emit('click')"
     >
         <div class="icon-box" :style="{ background: bgGradient}">
@@ -20,6 +21,7 @@ defineProps({
     icon: String,
     bgGradient: String,
     isActive: Boolean,
+    activeColor: String 
 });
 defineEmits(['click']);
 </script>
@@ -39,8 +41,12 @@ defineEmits(['click']);
 
 /* 활성화(선택) 되었을 때 스타일 */
 .type-button.active {
-    background-color: rgba(44, 107, 237, 0.15);
-    border-color: #2c6bed;
+    /* 부모에게 받은 변수 사용하여 테두리 색상 결정 */
+    border-color: var(--active-color);
+    background-color: color-mix(in srgb, var(--active-color), transparent 85%);
+
+    /* background-color: rgba(44, 107, 237, 0.15); */
+    /* border-color: #2c6bed; */
 }
 
 /* 아이콘 box */
