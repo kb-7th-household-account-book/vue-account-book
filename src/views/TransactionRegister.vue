@@ -18,7 +18,7 @@ const selectedType = ref('income');
                     label="수입"
                     sub-label="급여, 보너스 등"
                     icon="💰"
-                    bgColor="#2c6bed"
+                    bg-gradient="linear-gradient(135deg, #51A2FF 0%, #2B7FFF 100%)"
                     :is-active="selectedType === 'income'"
                     @click="selectedType = 'income'"
                 />
@@ -26,7 +26,7 @@ const selectedType = ref('income');
                     label="지출"
                     sub-label="식비, 쇼핑 등"
                     icon="💸"
-                    bgColor="#ff36b0"
+                    bg-gradient="linear-gradient(135deg, #FF637E 0%, #FF2056 100%)"
                     :is-active="selectedType === 'expense'"
                     @click="selectedType = 'expense'"
                 >
