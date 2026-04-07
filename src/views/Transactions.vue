@@ -20,7 +20,7 @@ import TransactionList from '@/components/Transactions/TransactionList.vue';
 <style scoped>
 .transaction-layout {
   display: grid;
-  grid-template-columns: 300px 1fr;
+  grid-template-columns: 340px 1fr;
   min-height: 100vh;
 }
 
