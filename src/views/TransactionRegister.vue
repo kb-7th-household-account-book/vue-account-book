@@ -18,26 +18,27 @@ const transactionAmount = ref(''); // 입력된 금액을 저장할 반응형 �
         <div class="RegisterTopView">
             <div class="type-toggle-container">
                 <p class="type-toggle-label">거래 유형을 선택하세요</p>
-
-                <TopTypeButton 
-                    label="수입"
-                    sub-label="급여, 보너스 등"
-                    icon="💰"
-                    active-color="#2c6bed"
-                    bg-gradient="linear-gradient(135deg, #51A2FF 0%, #2B7FFF 100%)"
-                    :is-active="selectedType === 'income'"
-                    @click="selectedType = 'income'"
-                />
-                <TopTypeButton
-                    label="지출"
-                    sub-label="식비, 쇼핑 등"
-                    icon="💸"
-                    active-color="#FF637E"
-                    bg-gradient="linear-gradient(135deg, #FF637E 0%, #FF2056 100%)"
-                    :is-active="selectedType === 'expense'"
-                    @click="selectedType = 'expense'"
-                >
-                </TopTypeButton>
+                <div class="button-row">
+                    <TopTypeButton 
+                        label="수입"
+                        sub-label="급여, 보너스 등"
+                        icon="💰"
+                        active-color="#2c6bed"
+                        bg-gradient="linear-gradient(135deg, #51A2FF 0%, #2B7FFF 100%)"
+                        :is-active="selectedType === 'income'"
+                        @click="selectedType = 'income'"
+                    />
+                    <TopTypeButton
+                        label="지출"
+                        sub-label="식비, 쇼핑 등"
+                        icon="💸"
+                        active-color="#FF637E"
+                        bg-gradient="linear-gradient(135deg, #FF637E 0%, #FF2056 100%)"
+                        :is-active="selectedType === 'expense'"
+                        @click="selectedType = 'expense'"
+                    >
+                    </TopTypeButton>
+                </div>
             </div>
         </div>
         <div class="money-field-wrapper">
@@ -60,19 +61,21 @@ const transactionAmount = ref(''); // 입력된 금액을 저장할 반응형 �
 </template>
 
 <style scoped>
+/* 페이지 전체 뼈대 */
 .register-page {
   background-color: #000000;
   min-height: 100vh;
   padding: 16px;
 }
 
+/* 헤더 영역 */
 .register-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 4px;
-    margin-bottom: 20px;
-    color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 4px;
+  margin-bottom: 20px;
+  color: white;
 }
 
 .register-header h1 {
@@ -88,63 +91,28 @@ const transactionAmount = ref(''); // 입력된 금액을 저장할 반응형 �
   cursor: pointer;
 }
 
+/* Top, 유형 선택 카드 (어두운 배경) */
 .RegisterTopView {
+  background-color: #111111;
+  border-radius: 24px;
   padding: 20px;
-  background-color: #111111; /* 카드 형태의 배경색 */
-  border-radius: 20px;
-  color: white;
-  position: relative;
-}
-
-/* 헤더: 제목과 X버튼 양옆 배치 */
-.RegisterTopView h1 {
-  font-size: 20px;
-  font-weight: 700;
-  margin-bottom: 30px;
-}
-
-.RegisterTopView .close-btn {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background: none;
-  border: none;
-  color: #8e8e93;
-  font-size: 20px;
-  cursor: pointer;
-}
-
-/* 버튼 컨테이너 스타일 */
-.RegisterTopView .type-toggle-container {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.RegisterTopView .type-toggle-label {
-  font-size: 14px;
-  color: #8e8e93;
-  margin-bottom: 4px;
-}
-
-.RegisterTopView .type-toggle-container :deep(.type-button) {
-  display: inline-flex; /* 컴포넌트들이 가로로 배치되도록 */
-}
-
-/* 버튼들 사이의 간격을 위해 가로 정렬용 flex 추가 */
-.RegisterTopView .type-toggle-container {
-  display: flex;
-  flex-wrap: wrap; /* 내용이 넘치면 다음줄로 */
-  flex-direction: row; /* 가로 배치 */
-  justify-content: space-between;
-  gap: 12px;
 }
 
 .type-toggle-label {
-  width: 100%; 
+  font-size: 14px;
+  color: #8e8e93;
+  margin-bottom: 16px;
 }
 
+/* 가로 배치 */
+.button-row {
+  display: flex;
+  gap: 12px; /* 두 버튼 사이의 간격 */
+  width: 100%;
+}
+
+/* 컴포넌트 간의 간격 */
 .money-field-wrapper {
-    margin-top: 24px;
+  margin-top: 24px;
 }
 </style>

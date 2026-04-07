@@ -72,7 +72,7 @@ const addAmount = (valueToAdd) => {
 
 /* 입력창 래퍼 */
 .amount-input-wrapper {
-    position: flex;
+    display: flex;
     align-items: center;
     background-color: #1c1c1e;
     border-radius: 16px;
