@@ -1,16 +1,21 @@
 <script setup>
 import TopTypeButton from '@/components/transaction-register/TopTypeButton.vue';
+import TopMoneyField from '@/components/transaction-register/TopMoneyField.vue';
 import { ref } from 'vue';
 
-// 현재 선택된 타입 관리 (income or expense)
-const selectedType = ref('income');
+const selectedType = ref('income'); // 현재 선택된 지출 타입 관리 (income or expense)
+const transactionAmount = ref(''); // 입력된 금액을 저장할 반응형 변수
+
 </script>
 <template>
     <div class="register-page">
-        <div class="RegisterTopView">
+        
+        <header class="register-header">
             <h1>새 거래 등록</h1>
             <button class="close-btn"> X </button>
+        </header>
 
+        <div class="RegisterTopView">
             <div class="type-toggle-container">
                 <p class="type-toggle-label">거래 유형을 선택하세요</p>
 
@@ -35,9 +40,10 @@ const selectedType = ref('income');
                 </TopTypeButton>
             </div>
         </div>
-    
+        <div class="money-field-wrapper">
+            <TopMoneyField v-model="transactionAmount"/>
+        </div>
         <div class="RegisterMidView"> 
-            <div> 금액 텍스트 필드 컨테이너 </div>
             <div> 날짜 선택 컨테이너 </div>
             <div> 시간 선택 컨테이너 </div>
             <div> 카테고리 컨테이너 </div>
@@ -58,6 +64,28 @@ const selectedType = ref('income');
   background-color: #000000;
   min-height: 100vh;
   padding: 16px;
+}
+
+.register-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 4px;
+    margin-bottom: 20px;
+    color: white;
+}
+
+.register-header h1 {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: #8e8e93;
+  font-size: 24px;
+  cursor: pointer;
 }
 
 .RegisterTopView {
@@ -114,5 +142,9 @@ const selectedType = ref('income');
 
 .type-toggle-label {
   width: 100%; 
+}
+
+.money-field-wrapper {
+    margin-top: 24px;
 }
 </style>
