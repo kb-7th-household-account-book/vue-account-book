@@ -1,10 +1,17 @@
 <script setup>
 import TopTypeButton from '@/components/transaction-register/TopTypeButton.vue';
 import TopMoneyField from '@/components/transaction-register/TopMoneyField.vue';
+import MidDateField from '@/components/transaction-register/MidDateField.vue';
+import MidTimeField from '@/components/transaction-register/MidTimeField.vue';
+
+
 import { ref } from 'vue';
 
 const selectedType = ref('income'); // 현재 선택된 지출 타입 관리 (income or expense)
 const transactionAmount = ref(''); // 입력된 금액을 저장할 반응형 변수
+
+const transactionDate = ref('');
+const transactionTime = ref({ period: 'AM', hour: '', minute: ''});
 
 </script>
 <template>
@@ -45,8 +52,10 @@ const transactionAmount = ref(''); // 입력된 금액을 저장할 반응형 �
             <TopMoneyField v-model="transactionAmount"/>
         </div>
         <div class="RegisterMidView"> 
-            <div> 날짜 선택 컨테이너 </div>
-            <div> 시간 선택 컨테이너 </div>
+            <div class="date-time-row">
+                <MidDateField v-model="transactionDate"/>
+                <MidTimeField v-model="transactionTime"/>
+            </div>
             <div> 카테고리 컨테이너 </div>
             <div> 메모 텍스트 필드 컨테이너 </div>
             <div> 저장 버튼 컨테이너 </div>
@@ -111,8 +120,20 @@ const transactionAmount = ref(''); // 입력된 금액을 저장할 반응형 �
   width: 100%;
 }
 
-/* 컴포넌트 간의 간격 */
+/* Top, 금액 입력 필드 */
 .money-field-wrapper {
   margin-top: 24px;
+}
+
+/* Mid, 날짜 시간 반반씩 가로 배치 */
+.date-time-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+/* 자식 컴포넌트가 동일한 너비를 가지도록 설정 */
+.date-time-row > * {
+    flex: 1;
 }
 </style>
