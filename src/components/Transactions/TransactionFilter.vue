@@ -1,5 +1,6 @@
 <script setup>
 import FilterItem from './FilterItem.vue';
+import PriceRangeSlider from './PriceRangeSlider.vue';
 
 // 필요한 로직은 여기에!
 </script>
@@ -24,14 +25,14 @@ import FilterItem from './FilterItem.vue';
         </section>
 
         <section class="filter-group">
-            <h3>거래 유형</h3>
+            <h3 class="type">거래 유형</h3>
             <FilterItem color="#FF7F50" label="전체" :count="84" />
             <FilterItem color="#00BFFF" label="수입" :count="12" />
             <FilterItem color="#023FFF" label="지출" :count="12" />
         </section>
 
         <section class="filter-group">
-            <h3>카테고리</h3> 
+            <h3 class="type">카테고리</h3> 
             <FilterItem color="#FF7F50" label="식비" :count="84" />
             <FilterItem color="#00BFFF" label="교통비" :count="12" />
             <FilterItem color="#FB64B6" label="쇼핑" :count="32" />
@@ -40,6 +41,7 @@ import FilterItem from './FilterItem.vue';
 
         <section class="filter-group">
             <h3>금액 범위</h3>
+            <PriceRangeSlider/>
         </section>
     </div>
 </template>
@@ -68,6 +70,10 @@ import FilterItem from './FilterItem.vue';
     font-weight: 500;
     line-height: 20px; /* 142.857% */
     letter-spacing: 0.2px;
+}
+
+.type {
+    padding-bottom: 16px;
 }
 
 .choose-month {

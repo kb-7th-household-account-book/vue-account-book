@@ -22,7 +22,7 @@ defineProps({
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 8px 0;
+  padding: 8px;
   cursor: pointer;
 }
 
