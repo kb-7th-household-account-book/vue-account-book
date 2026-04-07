@@ -1,7 +1,7 @@
 <script setup>
-import MonthlySummary from '@/components/Transaction/MonthlySummary.vue';
-import TransactionFilter from '@/components/Transaction/TransactionFilter.vue';
-import TransactionList from '@/components/Transaction/TransactionList.vue';
+import MonthlySummary from '@/components/Transactions/MonthlySummary.vue';
+import TransactionFilter from '@/components/Transactions/TransactionFilter.vue';
+import TransactionList from '@/components/Transactions/TransactionList.vue';
 </script>
 
 <template>
@@ -20,9 +20,7 @@ import TransactionList from '@/components/Transaction/TransactionList.vue';
 <style scoped>
 .transaction-layout {
   display: grid;
-  grid-template-columns: 300px 1fr; 
-  background-color: #0A0A0B;
-  color: #FFFFFF;
+  grid-template-columns: 300px 1fr;
   min-height: 100vh;
 }
 
