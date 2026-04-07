@@ -1,9 +1,17 @@
+<script setup lang="ts">
+import CategoryButton from '@/components/Transactions/CategoryButton.vue';
+
+</script>
+
 <template>
   <div class="transaction-item-layout">
     <div class="left-content">
       <div class="icon-box">💰</div>
       <div class="text-group">
-        <span class="title">월급</span>
+        <div class="title-top">
+            <span class="title">월급</span>
+            <CategoryButton />
+        </div>
         <span class="category-tag">급여</span>
       </div>
     </div>
@@ -77,5 +85,11 @@
 .time { 
   color: rgba(255, 255, 255, 0.3); 
   font-size: 12px; 
+}
+
+.title-top {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
 }
 </style>
