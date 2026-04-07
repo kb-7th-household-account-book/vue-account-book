@@ -1,8 +1,6 @@
 <script setup>
 import FilterItem from './FilterItem.vue';
 import PriceRangeSlider from './PriceRangeSlider.vue';
-
-// 필요한 로직은 여기에!
 </script>
 
 <template>
