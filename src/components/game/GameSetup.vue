@@ -5,11 +5,12 @@ import { useGameStore } from '@/store/game';
 const emit = defineEmits(['start-game']); 
 const gameStore = useGameStore();
 
-const inputYear = ref(2026);
-const inputMonth = ref(4);
+const today = new Date();
+const inputYear = ref(today.getFullYear());
+const inputMonth = ref(today.getMonth() + 1);
 
-const handleStart = () => {
-  gameStore.extractTopExpenses(inputYear.value, inputMonth.value);
+const handleStart = async () => {
+  await gameStore.extractTopExpenses(inputYear.value, inputMonth.value);
   
   emit('start-game'); 
 };
@@ -18,6 +19,7 @@ const handleStart = () => {
 <template>
   <div class="setup-box">
     <h2>💸 일단 다 담아! 💸</h2>
+    <p>원하는 아이템을 다 담아볼까요?</p>
     <div class="inputs">
       <select v-model="inputYear">
         <option :value="2025">2025년</option>
@@ -41,10 +43,21 @@ const handleStart = () => {
   background: white;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  color:black
+  color: black;
 }
 select, button {
   padding: 10px;
   font-size: 1.2rem;
+}
+button {
+  background-color: #ff6b6b;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+button:hover {
+  background-color: #ff5252;
 }
 </style>

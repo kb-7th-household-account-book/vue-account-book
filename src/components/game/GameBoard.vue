@@ -2,12 +2,13 @@
 import { ref, onMounted, onUnmounted } from 'vue';
 import Player from '@/components/game/Player.vue';
 import { useGameStore } from '@/store/game';
+import { categoryMeta } from '@/constants/category';
 
 const gameStore = useGameStore();
 const playerX = ref(window.innerWidth / 2);
 
-const SPEED = 7; 
-const ITEM_SPEED = 2; // 아이템 떨어지는 속도
+const PLAYER_SPEED = 7; 
+const ITEM_SPEED = 2;
 
 const keys = {
   ArrowLeft: false,
@@ -33,8 +34,8 @@ let animationFrameId;
 
 const gameLoop = () => {
   // 플레이어 이동
-  if (keys.ArrowLeft) playerX.value -= SPEED;
-  if (keys.ArrowRight) playerX.value += SPEED;
+  if (keys.ArrowLeft) playerX.value -= PLAYER_SPEED;
+  if (keys.ArrowRight) playerX.value += PLAYER_SPEED;
   keepPlayerInside();
 
   // 아이템 낙하
@@ -74,9 +75,10 @@ onUnmounted(() => {
       v-show="!item.isCaught" 
       :style="{ left: `${item.x}px`, top: `${item.y}px` }"
     >
-      <div class="item-box">
-        <span class="price">-{{ item.amount.toLocaleString() }}원</span>
-        <span class="title">{{ item.title }}</span>
+      <div 
+        class="icon-badge"
+      >
+        {{ categoryMeta[item.category]?.icon || '💸' }}
       </div>
     </div>
 
@@ -93,7 +95,6 @@ onUnmounted(() => {
   overflow: hidden;
 }
 
-/* 떨어지는 아이템 스타일 */
 .falling-item {
   position: absolute;
   pointer-events: none; 
@@ -121,5 +122,9 @@ onUnmounted(() => {
   font-size: 0.8rem;
   color: #666;
   margin-top: 4px;
+}
+
+.icon-badge {
+  font-size: 3rem;
 }
 </style>
