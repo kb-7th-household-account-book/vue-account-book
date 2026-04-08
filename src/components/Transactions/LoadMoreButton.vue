@@ -24,5 +24,6 @@ const count = "3";
     line-height: 20px; /* 142.857% */
     letter-spacing: -0.15px;
     align-self: center;
+    cursor: pointer;
 }
 </style>
