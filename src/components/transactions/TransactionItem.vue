@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import CategoryButton from '../transactions/CategoryButton.vue';
+import CategoryButton from '@/components/transactions/CategoryButton.vue';
+
 </script>
 
 <template>
