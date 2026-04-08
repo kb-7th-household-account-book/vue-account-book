@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
-import { ref, reactive, readonly } from 'vue';
-import { getTransactions } from '@/api/transactions';
+import { ref, reactive, readonly, toRaw } from 'vue';
+import { getTransactions, getTransactionsCount } from '@/api/transactions';
 
 // YYYY-MM-DD 형식의 현재 달 시작/종료일 반환
 export const getDefaultDates = () => {
@@ -19,7 +19,9 @@ export const useTransactionStore = defineStore('transactions', () => {
   const _page = ref(1);            // 현재 페이지
   const _isLastPage = ref(false);  // 마지막 페이지 여부
   const _loading = ref(false);     // 로딩 상태
+  const _counts = reactive({ all: 0, income: 0, expense: 0 }); // 개수 상태
   const { startDate, endDate } = getDefaultDates(); // 날짜 상태
+
   
   // 기본 데이터 상태
   const _filters = reactive({
@@ -36,6 +38,24 @@ export const useTransactionStore = defineStore('transactions', () => {
   const filters = readonly(_filters);
   const isLastPage = readonly(_isLastPage);
   const loading = readonly(_loading);
+  const counts = readonly(_counts);
+
+  const updateCounts = async () => {
+    try {
+      const res = await getTransactionsCount({ 
+        startDate: _filters.startDate, 
+        endDate: _filters.endDate 
+      });
+      
+      const allData = Array.isArray(res) ? res : res.data || [];
+      
+      _counts.all = allData.length;
+      _counts.income = allData.filter(t => t.type === 'income').length;
+      _counts.expense = allData.filter(t => t.type === 'expense').length;
+    } catch (error) {
+      console.error("카운트 계산 실패:", error);
+    }
+  };
   
   // 데이터 불러오기
   const fetchList = async (isReset = false) => {
@@ -79,7 +99,13 @@ export const useTransactionStore = defineStore('transactions', () => {
   // 필터 업데이트 함수
   const setFilter = (key, value) => {
     _filters[key] = value;
-    fetchList(true); // 필터 변경 시 자동으로 데이터 리셋 후 다시 호출
+
+    // 날짜 변경 시 거래 유형 개수도 다시 계산
+    if (key === 'startDate' || key === 'endDate') {
+      updateCounts(); 
+    }
+
+    fetchList(true);
   };
 
   // 페이지네이션 함수
@@ -89,13 +115,20 @@ export const useTransactionStore = defineStore('transactions', () => {
     }
   };
 
+  const init = async () => {
+    await updateCounts(); 
+    await fetchList(true);
+  };
+
   return {
     list,
     filters,
+    counts,
     isLastPage,
     loading,
     fetchList,
     setFilter,
-    loadNextPage
+    loadNextPage,
+    init
   };
 });

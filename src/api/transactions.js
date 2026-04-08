@@ -1,9 +1,19 @@
 import apiClient from "./index";
 
+// 이번달 요약 카드 컴포넌트에 사용하는 API
 export const getMonthlySummary = () => {
   const currentMonth = new Date().getMonth() + 1;
   return apiClient.get(`/monthly_stats?month=${currentMonth}`);
 }
+
+// 필터링 쪽 거래 유형 컴포넌트에에 사용하는 API
+export const getTransactionsCount = (filters) => {
+  const params = new URLSearchParams();
+  if (filters.startDate) params.append("date_gte", filters.startDate);
+  if (filters.endDate) params.append("date_lte", filters.endDate);
+
+  return apiClient.get(`/transactions?${params.toString()}`);
+};
 
 export const getTransactions = (filters) => {
   const params = new URLSearchParams();

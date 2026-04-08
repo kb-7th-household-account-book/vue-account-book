@@ -6,7 +6,7 @@ import { useTransactionStore } from '@/store/transactions';
 import { getDefaultDates } from '@/store/transactions';
 
 const store = useTransactionStore();
-const { filters } = storeToRefs(store);
+const { filters, counts } = storeToRefs(store);
 const currentDate = getDefaultDates();
 
 // 기간 필터
@@ -18,6 +18,25 @@ const selectMonthFilter = (type) => {
         store.setFilter('startDate', '');
         store.setFilter('endDate', '');
     }
+};
+
+// 거래 유형 필터
+const selectType = (typeValue) => {
+  store.setFilter('type', typeValue);
+};
+
+// 카테고리 필터 핸들
+const toggleCategory = (categoryName) => {
+  const currentCategories = [...filters.value.categories];
+  const index = currentCategories.indexOf(categoryName);
+  
+  if (index > -1) {
+    currentCategories.splice(index, 1); // 이미 있으면 제거
+  } else {
+    currentCategories.push(categoryName); // 없으면 추가
+  }
+  
+  store.setFilter('categories', currentCategories);
 };
 
 </script>
@@ -40,18 +59,36 @@ const selectMonthFilter = (type) => {
                   @click="selectMonthFilter('all')"
                 >전체</button>
             </div>
-            <div class="date-display">
-                <span>2026.04.01</span>
+            <div class="date-display" v-if="filters.startDate && filters.endDate">
+                <span>{{ filters.startDate }}</span>
                 <span>~</span>
-                <span>2026.04.30</span>
-            </div>
+                <span>{{ filters.endDate }}</span>
+        </div>
         </section>
 
         <section class="filter-group">
             <h3 class="type">거래 유형</h3>
-            <FilterItem color="#FF7F50" label="전체" :count="84" />
-            <FilterItem color="#00BFFF" label="수입" :count="12" />
-            <FilterItem color="#023FFF" label="지출" :count="12" />
+            <FilterItem 
+                color="#FF7F50" 
+                label="전체" 
+                :count="counts.all"
+                :active="filters.type === 'all'"
+                @click="selectType('all')" 
+            />
+            <FilterItem 
+                color="#00BFFF" 
+                label="수입" 
+                :count="counts.income"
+                :active="filters.type === 'income'"
+                @click="selectType('income')" 
+            />
+            <FilterItem 
+                color="#023FFF" 
+                label="지출" 
+                :count="counts.expense"
+                :active="filters.type === 'expense'"
+                @click="selectType('expense')" 
+            />
         </section>
 
         <section class="filter-group">
