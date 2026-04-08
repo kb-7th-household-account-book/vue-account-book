@@ -26,10 +26,12 @@ body {
 }
 </style>
 
-<!-- <script setup>
+<!-- 
+<script setup>
 </script>
 
 <template>
+  <Header />
   <router-view />
 </template>
 
