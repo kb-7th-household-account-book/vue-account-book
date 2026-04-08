@@ -1,4 +1,43 @@
 <script setup>
+import { ref, watch } from 'vue';
+
+// 1. 상태 정의
+const period = ref('오전');
+const hour = ref('')
+const minute = ref('');
+
+// 2. 부모에게 전달할 emit 정의
+const emit = defineEmits(['update:time']);
+
+// 오전/오후 변경 함수
+const togglePeriod = (p) => {
+    period.value = p;
+}
+
+// 시(Hour) 로직: 0~24 제한 및 오전/오후 자동 토글
+watch(hour, (newVal) => {
+  if (newVal === '') return;
+  let val = parseInt(newVal);
+
+  if (val > 24) hour.value = 24;
+  if (val < 0) hour.value = 0;
+
+  // 12시 기준 자동 토글 (사용자 편의성)
+  if (val >= 12 && val <= 24) {
+    period.value = '오후';
+  } else {
+    period.value = '오전';
+  }
+});
+
+// 분(Minute) 로직: 0~59 제한
+watch(minute, (newVal) => {
+  if (newVal === '') return;
+  let val = parseInt(newVal);
+
+  if (val > 59) minute.value = 59;
+  if (val < 0) minute.value = 0;
+});
 
 </script>
 <template>
@@ -11,17 +50,41 @@
     </div>
     
     <div class="toggle-row">
-      <button class="toggle-btn active">오전</button>
-      <button class="toggle-btn">오후</button>
+      <button 
+        type="button"
+        class="toggle-btn" 
+        :class="{ active: period === '오전' }"
+        @click="togglePeriod('오전')"
+      >오전</button>
+      <button 
+        type="button"
+        class="toggle-btn" 
+        :class="{ active: period === '오후' }"
+        @click="togglePeriod('오후')"
+      >오후</button>
     </div>
 
-    <div class="time-input-row">
+   <div class="time-input-row">
       <div class="time-box">
-        <input type="number" class="time-input" />
+        <input 
+          type="number" 
+          class="time-input" 
+          v-model="hour" 
+          placeholder="00"
+          min="1"
+          max="12"
+        />
         <span>시</span>
       </div>
       <div class="time-box">
-        <input type="number" class="time-input" />
+        <input 
+          type="number" 
+          class="time-input" 
+          v-model="minute" 
+          placeholder="00"
+          min="0"
+          max="59"
+        />
         <span>분</span>
       </div>
     </div>

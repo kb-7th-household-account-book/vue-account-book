@@ -6,7 +6,7 @@ import MidTimeField from '@/components/transaction-register/MidTimeField.vue';
 import MidCategoryButton from '@/components/transaction-register/MidCategoryButton.vue';
 import MidMemoField from '@/components/transaction-register/MidMemoField.vue';
 import MidSaveButton from '@/components/transaction-register/MidSaveButton.vue';
-
+import MidTransactionTitle from '@/components/transaction-register/MidTransactionTitle.vue';
 import BotSummaryList from '@/components/transaction-register/BotSummaryList.vue';
 import BotRecentTransaction from '@/components/transaction-register/BotRecentTransaction.vue';
 import BotQuickTip from '@/components/transaction-register/BotQuickTip.vue';
@@ -19,6 +19,7 @@ const transactionAmount = ref(''); // 입력된 금액을 저장할 반응형 �
 const transactionDate = ref('');
 const transactionTime = ref({ period: 'AM', hour: '', minute: ''});
 
+const transactionTitle = ref('');
 const transactionCategory = ref('');
 const transactionMemo = ref('');
 
@@ -88,6 +89,7 @@ const handleSave = () => {
                 <MidCategoryButton v-model="transactionCategory"/>
             </div>
             <div> 
+                <MidTransactionTitle v-model="transactionTitle"/>
                 <MidMemoField v-model="transactionMemo"/>
             </div>
             <div> 
