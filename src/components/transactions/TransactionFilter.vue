@@ -27,16 +27,9 @@ const selectType = (typeValue) => {
 
 // 카테고리 필터 핸들
 const toggleCategory = (categoryName) => {
-  const currentCategories = [...filters.value.categories];
-  const index = currentCategories.indexOf(categoryName);
-  
-  if (index > -1) {
-    currentCategories.splice(index, 1); // 이미 있으면 제거
-  } else {
-    currentCategories.push(categoryName); // 없으면 추가
-  }
-  
-  store.setFilter('categories', currentCategories);
+  const nextValue = filters.value.categories[0] === categoryName ? [] : [categoryName];
+
+  store.setFilter('categories', nextValue);
 };
 
 const categoryMeta = {
@@ -108,11 +101,11 @@ const categoryMeta = {
             <h3 class="type">카테고리</h3> 
             <FilterItem
                 v-for="item in counts.categories"
-                :key="item.categories"
+                :key="item.category" 
                 :color="categoryMeta[item.category]?.color || '#888'"
                 :label="categoryMeta[item.category]?.label || item.category" 
                 :count="item.count"
-                :active="filters.categories.includes(item.category)"
+                :active="filters.categories[0] === item.category"
                 @click="toggleCategory(item.category)"
             />
         </section>
