@@ -4,6 +4,7 @@ import Player from '@/components/game/Player.vue';
 import { useGameStore } from '@/store/game';
 import { categoryMeta } from '@/constants/category';
 
+const emit = defineEmits(['game-over']);
 const gameStore = useGameStore();
 const playerX = ref(window.innerWidth / 2);
 
@@ -33,22 +34,38 @@ const keepPlayerInside = () => {
 let animationFrameId;
 
 const gameLoop = () => {
-  // 플레이어 이동
   if (keys.ArrowLeft) playerX.value -= PLAYER_SPEED;
   if (keys.ArrowRight) playerX.value += PLAYER_SPEED;
   keepPlayerInside();
 
-  // 아이템 낙하
+  const PLAYER_Y_ZONE = window.innerHeight - 100;
+
   gameStore.fallingItems.forEach(item => {
     if (!item.isCaught) {
       item.y += ITEM_SPEED;
       
-      // 화면 맨 아래를 벗어나면 삭제
-      if (item.y > window.innerHeight) {
+      const isAtPlayerY = item.y >= PLAYER_Y_ZONE && item.y <= window.innerHeight;
+      const itemHitRadius = (item.size * 16) / 2; 
+      const playerHitRadius = 40; 
+      const isAtPlayerX = Math.abs(item.x - playerX.value) < (itemHitRadius + playerHitRadius);
+
+      if (isAtPlayerY && isAtPlayerX) {
+        item.isCaught = true; 
+        gameStore.score += item.amount;
+      } else if (item.y > window.innerHeight + 100) {
         item.isCaught = true; 
       }
     }
   });
+
+  // 종료 조건: 아이템이 생성되었고 && 모든 아이템이 사라졌을 때
+  const isGameOver = gameStore.fallingItems.length > 0 && gameStore.fallingItems.every(item => item.isCaught);
+
+  if (isGameOver) {
+    cancelAnimationFrame(animationFrameId); 
+    emit('game-over'); 
+    return;
+  }
 
   animationFrameId = requestAnimationFrame(gameLoop);
 };
@@ -68,6 +85,10 @@ onUnmounted(() => {
 
 <template>
   <div class="board">
+    <div class="score-board">
+      획득한 금액 💰 <span>{{ gameStore.score.toLocaleString() }}</span>원
+    </div>
+
     <div 
       v-for="item in gameStore.fallingItems" 
       :key="item.id"
@@ -77,6 +98,7 @@ onUnmounted(() => {
     >
       <div 
         class="icon-badge"
+        :style="{ fontSize: `${item.size}rem` }"
       >
         {{ categoryMeta[item.category]?.icon || '💸' }}
       </div>
@@ -100,31 +122,28 @@ onUnmounted(() => {
   pointer-events: none; 
 }
 
-.item-box {
-  background-color: white;
-  border: 2px solid #333;
-  border-radius: 8px;
-  padding: 8px 12px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  transform: translate(-50%, -50%); 
-}
-
-.price {
-  font-weight: bold;
-  color: #e74c3c;
-  font-size: 1.1rem;
-}
-
-.title {
-  font-size: 0.8rem;
-  color: #666;
-  margin-top: 4px;
-}
-
 .icon-badge {
-  font-size: 3rem;
+  transform: translate(-50%, -50%); 
+  line-height: 1;
+}
+
+.score-board {
+  position: absolute;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%); 
+  font-size: 2rem;
+  font-weight: 900;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 15px 30px;
+  border-radius: 50px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  z-index: 100; 
+  white-space: nowrap;
+}
+
+.score-board span {
+  color: #ff4757; 
+  font-size: 2.5rem;
 }
 </style>

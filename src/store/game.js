@@ -1,17 +1,17 @@
+// src/store/game.js
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import { getTransactions } from '@/api/game';
 
 export const useGameStore = defineStore('game', () => {
-  // -- State --
   const selectedYear = ref(2026);
   const selectedMonth = ref(4);
-  const fallingItems = ref([]); // 하늘에서 떨어질 Top 20 아이템들
-  const score = ref(0); // 획득한 금액
-  const isLoading = ref(false); // 로딩 상태
+  const fallingItems = ref([]);
+  const score = ref(0);
+  const isLoading = ref(false);
 
-  // -- Actions --
-  const extractTopExpenses = async (year, month) => {
+    const extractTopExpenses = async (year, month) => {
+    score.value = 0;
     selectedYear.value = year;
     selectedMonth.value = parseInt(month);
     isLoading.value = true;
@@ -19,7 +19,6 @@ export const useGameStore = defineStore('game', () => {
     try {
       const rawTransactions = await getTransactions();
 
-      // 필터링: 지출 중 [연/월]과 일치하는 항목
       const filtered = rawTransactions.filter(item => {
         const itemDate = new Date(item.date);
         return item.type === 'expense' &&
@@ -27,19 +26,24 @@ export const useGameStore = defineStore('game', () => {
                (itemDate.getMonth() + 1) === selectedMonth.value;
       });
 
-      // 비싼 것부터 정렬 후 Top 20 자르기
       const sorted = filtered.sort((a, b) => b.amount - a.amount);
       const top20 = sorted.slice(0, 20);
 
-      // 게임용 데이터로 맵핑
+      // ⭐️ 최고 금액 찾기 (비율 계산의 기준점)
+      const maxAmount = top20.length > 0 ? top20[0].amount : 1;
+
       fallingItems.value = top20.map((item, index) => {
+        // ⭐️ 크기 계산: 최소 3rem ~ 최대 15rem (원하는 만큼 더 키워도 됩니다!)
+        const minSize = 3;
+        const maxSize = 15; 
+        const calculatedSize = minSize + (maxSize - minSize) * (item.amount / maxAmount);
+
         return {
           ...item,
-          // 화면 양끝 30px 여백을 두고 랜덤 X 좌표 생성
           x: Math.random() * (window.innerWidth - 60) + 30, 
-          // 겹치지 않게 위쪽에서 순서대로 대기
           y: -100 - (index * 200), 
-          isCaught: false 
+          isCaught: false,
+          size: calculatedSize // 👈 계산된 크기를 객체에 쏙 넣어줍니다.
         };
       });
       
