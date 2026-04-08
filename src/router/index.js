@@ -21,6 +21,16 @@ const router = createRouter({
       name: 'settings',
       component: Settings,
     },
+    {
+      path: '/calendar',
+      name: 'calendar',
+      component: Transactions,
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: Transactions,
+    },
   ],
 });
 

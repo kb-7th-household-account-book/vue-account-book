@@ -2,12 +2,13 @@
 defineProps({
   color: { type: String, default: '#FF7F50' },
   label: { type: String, required: true },
-  count: { type: Number, default: 0 }
+  count: { type: Number, default: 0 },
+  active: { type: Boolean, default: false }
 });
 </script>
 
 <template>
-  <div class="filter-item">
+  <div class="filter-item" :class="{ active: active }">
     <div class="left-section">
       <span class="dot" :style="{ backgroundColor: color }"></span>
       <span class="label">{{ label }}</span>
@@ -59,5 +60,19 @@ defineProps({
 
 .filter-item:hover .label {
   color: white;
+}
+
+.filter-item.active .label {
+  color: white;
+  font-weight: 600;
+}
+
+.filter-item.active .count {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.filter-item.active {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
 }
 </style>

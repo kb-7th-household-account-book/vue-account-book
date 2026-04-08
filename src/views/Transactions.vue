@@ -1,8 +1,16 @@
 <script setup>
-import LoadMoreButton from '@/components/Transactions/LoadMoreButton.vue';
-import MonthlySummary from '@/components/Transactions/MonthlySummary.vue';
-import TransactionFilter from '@/components/Transactions/TransactionFilter.vue';
-import TransactionList from '@/components/Transactions/TransactionList.vue';
+import { onMounted, toRaw, watch } from 'vue';
+import { useTransactionStore } from '@/store/transactions';
+import LoadMoreButton from '@/components/transactions/LoadMoreButton.vue';
+import MonthlySummary from '@/components/transactions/MonthlySummary.vue';
+import TransactionFilter from '@/components/transactions/TransactionFilter.vue';
+import TransactionList from '@/components/transactions/TransactionList.vue';
+
+const store = useTransactionStore();
+
+onMounted(() => {
+  store.init();
+});
 </script>
 
 <template>
@@ -12,9 +20,12 @@ import TransactionList from '@/components/Transactions/TransactionList.vue';
     </aside>
 
     <main class="content-section">
-        <MonthlySummary/>
-        <TransactionList/>
-        <LoadMoreButton/>
+      <MonthlySummary />
+      <TransactionList />
+      <LoadMoreButton 
+        v-if="!store.isLastPage && !store.loading"
+        @click="store.loadNextPage" 
+      />
     </main>
   </div>
 </template>
