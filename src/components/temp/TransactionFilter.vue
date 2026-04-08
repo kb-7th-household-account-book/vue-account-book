@@ -1,6 +1,6 @@
 <script setup>
-import FilterItem from './FilterItem.vue';
 import PriceRangeSlider from './PriceRangeSlider.vue';
+import FilterItem from './FilterItem.vue';
 </script>
 
 <template>
