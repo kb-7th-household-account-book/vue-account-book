@@ -39,6 +39,19 @@ const toggleCategory = (categoryName) => {
   store.setFilter('categories', currentCategories);
 };
 
+const categoryMeta = {
+  FOOD: { label: "식비", color: "#FF7F50" },
+  COFFEE: { label: "커피", color: "#FFB347" },
+  TRANSPORT: { label: "교통", color: "#00BFFF" },
+  SHOPPING: { label: "쇼핑", color: "#FF69B4" },
+  CULTURE: { label: "문화", color: "#DA70D6" },
+  MEDICAL: { label: "의료", color: "#FF4D4D" },
+  EDUCATION: { label: "교육", color: "#6495ED" },
+  HOUSING: { label: "주거", color: "#00FA9A" },
+  FINANCE: { label: "금융", color: "#BA55D3" },
+  OTHERS: { label: "기타", color: "#FFFFFF" }
+};
+
 </script>
 
 <template>
@@ -93,10 +106,15 @@ const toggleCategory = (categoryName) => {
 
         <section class="filter-group">
             <h3 class="type">카테고리</h3> 
-            <FilterItem color="#FF7F50" label="식비" :count="84" />
-            <FilterItem color="#00BFFF" label="교통비" :count="12" />
-            <FilterItem color="#FB64B6" label="쇼핑" :count="32" />
-            <FilterItem color="#C27AFF" label="문화생활" :count="8" />
+            <FilterItem
+                v-for="item in counts.categories"
+                :key="item.categories"
+                :color="categoryMeta[item.category]?.color || '#888'"
+                :label="categoryMeta[item.category]?.label || item.category" 
+                :count="item.count"
+                :active="filters.categories.includes(item.category)"
+                @click="toggleCategory(item.category)"
+            />
         </section>
 
         <section class="filter-group">

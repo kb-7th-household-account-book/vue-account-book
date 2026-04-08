@@ -13,12 +13,12 @@ onMounted(() => {
 });
 
 watch(() => store.list, (newList) => {
-  console.log('데이터 로드 완료:', toRaw(newList));
+  console.log('list 데이터 로드 완료:', toRaw(newList));
 }, { deep: true });
 
 
 watch(() => store.counts, (newCounts) => {
-  console.log('데이터 로드 완료:', toRaw(newCounts));
+  console.log('count 데이터 로드 완료:', toRaw(newCounts));
 }, { deep: true });
 </script>
 

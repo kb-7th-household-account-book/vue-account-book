@@ -70,4 +70,9 @@ defineProps({
 .filter-item.active .count {
   color: rgba(255, 255, 255, 0.8);
 }
+
+.filter-item.active {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+}
 </style>

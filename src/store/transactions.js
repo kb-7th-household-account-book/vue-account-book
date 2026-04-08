@@ -19,7 +19,7 @@ export const useTransactionStore = defineStore('transactions', () => {
   const _page = ref(1);            // 현재 페이지
   const _isLastPage = ref(false);  // 마지막 페이지 여부
   const _loading = ref(false);     // 로딩 상태
-  const _counts = reactive({ all: 0, income: 0, expense: 0 }); // 개수 상태
+  const _counts = reactive({ all: 0, income: 0, expense: 0, categories: [] }); // 개수 상태
   const { startDate, endDate } = getDefaultDates(); // 날짜 상태
 
   
@@ -52,6 +52,17 @@ export const useTransactionStore = defineStore('transactions', () => {
       _counts.all = allData.length;
       _counts.income = allData.filter(t => t.type === 'income').length;
       _counts.expense = allData.filter(t => t.type === 'expense').length;
+
+      const categoryMap = allData.reduce((acc, cur) => {
+        if (!cur.category) return acc;
+        acc[cur.category] = (acc[cur.category] || 0) + 1;
+        return acc;
+      }, {});
+
+      _counts.categories = Object.entries(categoryMap).map(([name, count]) => ({
+        category: name,
+        count: count
+      }));
     } catch (error) {
       console.error("카운트 계산 실패:", error);
     }
