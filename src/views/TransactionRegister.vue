@@ -7,6 +7,10 @@ import MidCategoryButton from '@/components/transaction-register/MidCategoryButt
 import MidMemoField from '@/components/transaction-register/MidMemoField.vue';
 import MidSaveButton from '@/components/transaction-register/MidSaveButton.vue';
 
+import BotSummaryList from '@/components/transaction-register/BotSummaryList.vue';
+
+
+
 import { ref } from 'vue';
 
 const selectedType = ref('income'); // 현재 선택된 지출 타입 관리 (income or expense)
@@ -95,9 +99,15 @@ const handleSave = () => {
         </div>
     
         <div class="RegisterBotView">
-            <div> 입력된 요약 컨테이너 </div>
-            <div> 최근 거래 리스트 컨테이너</div>
-        </div>
+        <BotSummaryList 
+            :type="selectedType"
+            :amount="transactionAmount"
+            :date="transactionDate"
+            :category="transactionCategory"
+        />
+        
+        <div> 최근 거래 리스트 컨테이너</div>
+    </div>
     </div>
 
 </template>

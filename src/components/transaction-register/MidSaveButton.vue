@@ -16,7 +16,7 @@ defineEmits(['cancel', 'save']);
 </script>
 
 <style scoped>
-/* 💡 버튼들을 가로로 나란히 배치 */
+/* 버튼들을 가로로 나란히 배치 */
 .action-button-row {
     display: flex;
     gap: 12px;

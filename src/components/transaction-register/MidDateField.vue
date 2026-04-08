@@ -1,5 +1,14 @@
 <script setup>
+defineProps({
+    modelValue: {
+        type: String,
+        default: ''
+    }
+})
+
+defineEmits(['update:modelValue'])
 </script>
+
 <template>
     <section class="input-card">
     <p class="section-label">날짜</p>
@@ -7,7 +16,7 @@
       <span class="icon">
         <img src="/public/images/DateIcon.svg" alt="날짜 아이콘" />
       </span>
-      <input type="date" class="custom-input" />
+      <input type="date" class="custom-input" :value="modelValue" @input="$emit('update:modelValue', $event.target.value)" />
     </div>
   </section>
 </template>
