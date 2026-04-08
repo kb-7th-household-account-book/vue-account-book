@@ -1,19 +1,17 @@
 <template>
   <div class="body">
-    <div class="margin">
-      <div class="flex">
+    <div class="wrapper">
+      <div class="account-row">
         <AccountBox
           v-for="account in accounts"
           :key="account.id"
           :account="account"
         />
       </div>
-    </div>
-    <div class="calendar">
-      <FullCalendar />
-    </div>
-    <div class="margin">
-      <div class="flex">
+      <div class="calendar">
+        <FullCalendar />
+      </div>
+      <div class="button-row">
         <Button v-for="add in adds" :key="add.id" :add="add" />
       </div>
     </div>
@@ -42,16 +40,25 @@ const adds = [
 .body {
   background-color: #000;
 }
-.margin {
-  margin: 0 80px;
+
+.wrapper {
+  max-width: 1350px; /* 달력 기준 */
+  min-width: 1350px;
+
+  margin: 0 auto; /* 가운데 정렬 */
 }
-.flex {
-  width: 100%;
+
+.account-row {
   display: flex;
   gap: 15px;
 }
+
 .calendar {
-  padding: 20px;
-  margin: 10px 80px;
+  padding: 20px 0;
+}
+
+.button-row {
+  display: flex;
+  gap: 15px;
 }
 </style>

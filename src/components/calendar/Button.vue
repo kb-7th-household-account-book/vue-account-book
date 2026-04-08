@@ -23,7 +23,7 @@ const addTransaction = () => {
   padding: 20px;
   margin: 20px;
   border: none;
-  font-size: 18px;
+  font-size: 21px;
 }
 .todayTransaction {
   background-color: #ccc;
