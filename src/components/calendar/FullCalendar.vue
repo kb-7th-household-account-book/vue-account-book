@@ -8,41 +8,39 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { onMounted } from 'vue';
 
-const transactions = [
-  {
-    date: '2026-04-02',
-    items: [
-      { type: 'income', amount: 200000 },
-      { type: 'expense', amount: -45000 },
-    ],
-  },
-  {
-    date: '2026-04-08',
-    items: [
-      { type: 'income', amount: 200000 },
-      { type: 'expense', amount: -45000 },
-    ],
-  },
-  {
-    date: '2026-04-11',
-    items: [
-      { type: 'income', amount: 200000 },
-      { type: 'expense', amount: -45000 },
-    ],
-  },
-];
+// 부모(App)에서 전달받은 월별 데이터
+// [{ date, income, expense, items: [] }]
+const props = defineProps({
+  monthlyData: Array,
+});
 
-const handleDateClick = (info) => {
-  // 기존 선택 제거
+// 부모로 이벤트 전달 (날짜 선택)
+const emit = defineEmits(['dateSelect']);
+
+const selectDay = (dateStr, dayEl) => {
+  // 기존 선택된 날짜 스타일 제거
   document
     .querySelectorAll('.fc-daygrid-day')
     .forEach((el) => el.classList.remove('selected-day'));
 
-  // 클릭한 날짜 선택
-  info.dayEl.classList.add('selected-day');
-  console.log('선택된 날짜:', info.dateStr);
+  // 현재 클릭한 날짜에 클래스 추가
+  if (dayEl) dayEl.classList.add('selected-day');
+
+  // 부모 컴포넌트로 선택된 날짜 전달
+  emit('dateSelect', dateStr);
 };
 
+const handleDateClick = (info) => {
+  selectDay(info.dateStr, info.dayEl);
+};
+
+const handleEventClick = (info) => {
+  // 이벤트가 속한 날짜 셀 찾기
+  const dayEl = info.el.closest('.fc-daygrid-day');
+  selectDay(info.event.startStr, dayEl);
+};
+
+// 🔥 컴포넌트 마운트 후 오늘 날짜 자동 선택 스타일 적용
 onMounted(() => {
   setTimeout(() => {
     const todayEl = document.querySelector('.fc-day-today');
@@ -51,45 +49,54 @@ onMounted(() => {
     }
   }, 0);
 });
-const events = transactions.flatMap((day) =>
+
+// 🔥 FullCalendar에 넣을 이벤트 데이터 생성
+// monthlyData → items → 이벤트로 변환
+const events = props.monthlyData.flatMap((day) =>
   day.items.map((item) => ({
-    date: day.date,
-    extendedProps: item,
+    date: day.date, // 이벤트 날짜
+    extendedProps: item, // 추가 데이터 (amount, category 등)
   })),
 );
 
+// 🔥 이벤트(금액) 커스텀 렌더링
 const renderEvent = (arg) => {
   const { amount } = arg.event.extendedProps;
-
   return {
     html: `
-        <div style="font-size:11px; text-align:center;">
-            <div style="color:${amount > 0 ? '#4dabf7' : '#ff6b6b'}">
-                ${amount > 0 ? '+' : ''}${amount.toLocaleString()}
-            </div>
+      <div style="font-size:11px; text-align:center;">
+        <div style="color:${amount > 0 ? '#4dabf7' : '#ff6b6b'}">
+          ${amount > 0 ? '+' : ''}${amount.toLocaleString()}
         </div>
+      </div>
     `,
   };
 };
 
+// 🔥 FullCalendar 전체 설정
 const calendarOptions = {
   plugins: [dayGridPlugin, interactionPlugin],
   initialView: 'dayGridMonth',
+
+  // 상단 헤더 (이전 / 제목 / 다음)
   headerToolbar: {
     left: 'prev title next',
     center: '',
     right: '',
   },
 
-  fixedWeekCount: false, // 6주가 기본인데 5주로 줄이기
-  dateClick: handleDateClick,
-  events: events,
-  eventContent: renderEvent,
+  fixedWeekCount: false, // 달마다 주 수 맞춤 (빈 줄 제거)
+  dateClick: handleDateClick, // 날짜 클릭 이벤트
+  eventClick: handleEventClick, // 지출, 수입 클릭 이벤트
+  events: events, // 우리가 만든 이벤트 데이터
+  eventContent: renderEvent, // 이벤트 커스텀 렌더링
   locale: 'ko',
+
+  // 날짜 숫자만 표시 (1일 → 1)
   dayCellContent: (arg) => {
     return arg.date.getDate();
   },
-  height: 'auto',
+  contentHeight: 'auto',
 };
 </script>
 
@@ -97,6 +104,11 @@ const calendarOptions = {
 :deep(.fc-scrollgrid),
 :deep(.fc-scrollgrid-section > td) {
   border: none !important;
+}
+
+:deep(.fc-event *) {
+  cursor: default !important;
+  user-select: none;
 }
 
 :deep(.fc-toolbar-chunk) {

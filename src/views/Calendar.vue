@@ -9,10 +9,19 @@
         />
       </div>
       <div class="calendar">
-        <FullCalendar />
+        <FullCalendar
+          :monthlyData="monthlyData"
+          @dateSelect="handleDateSelect"
+        />
       </div>
       <div class="button-row">
         <Button v-for="add in adds" :key="add.id" :add="add" />
+      </div>
+      <div>
+        <TransactionDetail
+          :selectedDate="selectedDate"
+          :selectedData="selectedData"
+        />
       </div>
     </div>
   </div>
@@ -22,6 +31,49 @@
 import AccountBox from '@/components/calendar/AccountBox.vue';
 import FullCalendar from '@/components/calendar/FullCalendar.vue';
 import Button from '@/components/calendar/Button.vue';
+import TransactionDetail from '@/components/calendar/TransactionDetail.vue';
+import { ref, computed } from 'vue';
+
+/* 🔥 오늘 날짜 */
+const getToday = () => {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, '0');
+  const day = String(today.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
+
+/* 🔥 선택된 날짜 */
+const selectedDate = ref(getToday());
+
+/* 🔥 FullCalendar에서 날짜 받기 */
+const handleDateSelect = (date) => {
+  selectedDate.value = date;
+};
+const monthlyData = [
+  {
+    date: '2026-04-07',
+    income: 200000,
+    expense: 45000,
+    items: [
+      { id: 1, title: '월급', category: '급여', amount: 200000 },
+      { id: 2, title: '점심', category: '식비', amount: -12000 },
+    ],
+  },
+  {
+    date: '2026-04-11',
+    income: 100000,
+    expense: 20000,
+    items: [{ id: 3, title: '용돈', category: '기타', amount: 100000 }],
+  },
+];
+
+const selectedData = computed(() => {
+  const result = monthlyData.find((d) => {
+    return d.date === selectedDate.value;
+  });
+  return result;
+});
 
 const accounts = [
   { id: 1, name: '총 수입', balance: '3,600,000', type: 'totalIncome' },
@@ -42,10 +94,10 @@ const adds = [
 }
 
 .wrapper {
-  max-width: 1350px; /* 달력 기준 */
+  max-width: 1350px;
   min-width: 1350px;
-
-  margin: 0 auto; /* 가운데 정렬 */
+  margin: 0 auto;
+  padding-bottom: 80px;
 }
 
 .account-row {
