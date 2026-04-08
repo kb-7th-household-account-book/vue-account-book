@@ -2,7 +2,7 @@
   <div class="settings-page">
     <h2 class="page-title">설정</h2>
 
-    <ProfileCard :user="userData" />
+    <ProfileCard :user="userData" @update-profile="handleProfileUpdate" />
 
     <SettingMenuList />
 
@@ -58,7 +58,7 @@
       로그아웃
     </button>
     <footer class="app-footer-info">
-      <p class="app-version">가계부 앱 v1.0.0</p>
+      <p class="app-version">가계부 v1.0.0</p>
       <p class="app-copyright">© 2026 All rights reserved</p>
     </footer>
   </div>
@@ -72,7 +72,7 @@ import SettingMenuList from '@/components/settings/SettingMenuList.vue';
 // 🌟 db.json 구조를 참고한 Mock Data 상태 관리
 const userData = reactive({
   email: 'jisu@email.com',
-  imgUrl: 'awdawd',
+  imgUrl: '',
   nickname: '박지수',
 });
 
@@ -81,6 +81,12 @@ const userStats = reactive({
   usage_days: 186,
   category_count: 10, // db.json에 맞춰 10개로 렌더링
 });
+
+const handleProfileUpdate = (newData) => {
+  userData.email = newData.email;
+  userData.nickname = newData.nickname;
+  userData.imgUrl = newData.imgUrl;
+};
 </script>
 
 <style scoped>
