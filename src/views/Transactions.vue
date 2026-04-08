@@ -1,4 +1,5 @@
 <script setup>
+import LoadMoreButton from '@/components/Transactions/LoadMoreButton.vue';
 import MonthlySummary from '@/components/Transactions/MonthlySummary.vue';
 import TransactionFilter from '@/components/Transactions/TransactionFilter.vue';
 import TransactionList from '@/components/Transactions/TransactionList.vue';
@@ -13,6 +14,7 @@ import TransactionList from '@/components/Transactions/TransactionList.vue';
     <main class="content-section">
         <MonthlySummary/>
         <TransactionList/>
+        <LoadMoreButton/>
     </main>
   </div>
 </template>
