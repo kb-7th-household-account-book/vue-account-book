@@ -17,7 +17,7 @@ const handleStart = () => {
 
 <template>
   <div class="setup-box">
-    <h2>💸 과소비 회수 작전 💸</h2>
+    <h2>💸 일단 다 담아! 💸</h2>
     <div class="inputs">
       <select v-model="inputYear">
         <option :value="2025">2025년</option>
@@ -41,6 +41,7 @@ const handleStart = () => {
   background: white;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  color:black
 }
 select, button {
   padding: 10px;
