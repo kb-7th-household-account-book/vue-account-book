@@ -8,8 +8,7 @@ import MidMemoField from '@/components/transaction-register/MidMemoField.vue';
 import MidSaveButton from '@/components/transaction-register/MidSaveButton.vue';
 
 import BotSummaryList from '@/components/transaction-register/BotSummaryList.vue';
-
-
+import BotRecentTransaction from '@/components/transaction-register/BotRecentTransaction.vue';
 
 import { ref } from 'vue';
 
@@ -106,7 +105,7 @@ const handleSave = () => {
             :category="transactionCategory"
         />
         
-        <div> 최근 거래 리스트 컨테이너</div>
+        <BotRecentTransaction />
     </div>
     </div>
 
