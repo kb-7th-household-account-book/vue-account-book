@@ -1,7 +1,8 @@
 import apiClient from "./index";
 
 export const getMonthlySummary = () => {
-    return apiClient.get('/monthly_stats');
+  const currentMonth = new Date().getMonth() + 1;
+  return apiClient.get(`/monthly_stats?month=${currentMonth}`);
 }
 
 export const getTransactions = (filters) => {

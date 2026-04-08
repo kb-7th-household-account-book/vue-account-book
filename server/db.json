@@ -35,7 +35,7 @@
     { "month": 1, "income": 3000000, "expense": 2100000, "net_income": 900000, "income_change": 5, "expense_change": -2, "savings_rate": 30.0 },
     { "month": 2, "income": 3200000, "expense": 2500000, "net_income": 700000, "income_change": 6.6, "expense_change": 19.0, "savings_rate": 21.8 },
     { "month": 3, "income": 3500000, "expense": 2850000, "net_income": 650000, "income_change": 9.3, "expense_change": 14.0, "savings_rate": 18.5 },
-    { "month": 4, "income": 3500000, "expense": 2850000, "net_income": 650000, "income_change": 0, "expense_change": 0, "savings_rate": 18.5 },
+    { "month": 4, "income": 6500000, "expense": 2850000, "net_income": 650000, "income_change": 0, "expense_change": 0, "savings_rate": 18.5 },
     { "month": 5, "income": 4000000, "expense": 3800000, "net_income": 200000, "income_change": 14.2, "expense_change": 33.3, "savings_rate": 5.0 },
     { "month": 6, "income": 3400000, "expense": 2200000, "net_income": 1200000, "income_change": -15.0, "expense_change": -42.1, "savings_rate": 35.2 },
     { "month": 7, "income": 3600000, "expense": 3100000, "net_income": 500000, "income_change": 5.8, "expense_change": 40.9, "savings_rate": 13.8 },

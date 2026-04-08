@@ -4,10 +4,11 @@ import MonthlySummary from '@/components/Transactions/MonthlySummary.vue';
 import TransactionFilter from '@/components/Transactions/TransactionFilter.vue';
 import TransactionList from '@/components/Transactions/TransactionList.vue';
 import { useTransactionStore } from '@/store/transactions';
+import { toRaw } from 'vue';
 
 const store = useTransactionStore();
+console.log('필터링 가능한 거래 내역 데이터:', toRaw(store.list));
 
-// console.log(store);
 </script>
 
 <template>
