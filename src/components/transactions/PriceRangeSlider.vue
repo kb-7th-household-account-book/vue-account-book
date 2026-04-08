@@ -1,11 +1,24 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import Slider from '@vueform/slider'
 import '@vueform/slider/themes/default.css'
+import { useTransactionStore } from '@/store/transactions'
 
+const store = useTransactionStore();
 const priceRange = ref([0, 2000000])
 
 const formatPrice = (val) => '₩' + val.toLocaleString()
+
+let debounceTimer = null;
+
+watch(priceRange, (newRange) => {
+  if (debounceTimer) clearTimeout(debounceTimer);
+
+  debounceTimer = setTimeout(() => {
+    store.setFilter('minAmount', newRange[0]);
+    store.setFilter('maxAmount', newRange[1]);
+  }, 300); 
+});
 </script>
 
 <template>
