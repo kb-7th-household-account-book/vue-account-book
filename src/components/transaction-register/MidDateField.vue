@@ -4,7 +4,9 @@
     <section class="input-card">
     <p class="section-label">날짜</p>
     <div class="input-wrapper">
-      <span class="icon">📅</span>
+      <span class="icon">
+        <img src="/public/images/DateIcon.svg" alt="날짜 아이콘" />
+      </span>
       <input type="date" class="custom-input" />
     </div>
   </section>

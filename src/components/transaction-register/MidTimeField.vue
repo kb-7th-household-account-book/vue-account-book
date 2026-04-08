@@ -1,6 +1,11 @@
 <template>
   <section class="input-card">
-    <p class="section-label">시간 🕒</p>
+    <div class="time-wrapper">
+        <p class="section-label">시간 </p>
+        <span class="time-icon">
+            <img src="/public/images/TimeIcon.svg" alt="시간 아이콘"/>
+        </span>
+    </div>
     
     <div class="toggle-row">
       <button class="toggle-btn active">오전</button>
@@ -21,6 +26,10 @@
 </template>
 
 <style scoped>
+.time-wrapper {
+    display: flex;
+    gap: 4px;
+}
 .input-card {
   background-color: #111111;
   border-radius: 20px;
