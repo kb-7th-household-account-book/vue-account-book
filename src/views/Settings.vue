@@ -68,24 +68,24 @@
 import { reactive } from 'vue';
 import ProfileCard from '@/components/settings/ProfileCard.vue';
 import SettingMenuList from '@/components/settings/SettingMenuList.vue';
+import { useUserStore } from '@/store/user.js'; // Pinia 스토어 불러오기
 
-// 🌟 db.json 구조를 참고한 Mock Data 상태 관리
-const userData = reactive({
-  email: 'jisu@email.com',
-  imgUrl: '',
-  nickname: '박지수',
+const userStore = useUserStore();
+
+// 화면 켜질 때 서버(db.json)에서 데이터 싹 가져옴
+onMounted(() => {
+  userStore.fetchUserInfo();
 });
 
-const userStats = reactive({
-  total_transaction_count: 1247,
-  usage_days: 186,
-  category_count: 10, // db.json에 맞춰 10개로 렌더링
-});
-
-const handleProfileUpdate = (newData) => {
-  userData.email = newData.email;
-  userData.nickname = newData.nickname;
-  userData.imgUrl = newData.imgUrl;
+// 프로필 모달창에서 '저장' 버튼을 눌렀을 때 실행됨
+const handleProfileUpdate = async (newData) => {
+  // Pinia 스토어의 updateProfile 액션을 실행해서 서버에 수정 요청!
+  await userStore.updateProfile({
+    email: newData.email,
+    nickname: newData.nickname,
+    imgUrl: newData.imgUrl,
+  });
+  alert('프로필 정보가 성공적으로 업데이트되었습니다! 🎉');
 };
 </script>
 
