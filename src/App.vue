@@ -1,10 +1,13 @@
 <script setup>
 import Header from './components/Header.vue'
+import TransactionRegister from './views/TransactionRegister.vue'
 </script>
 
 <template>
   <Header />
-  <router-view />
+  <TransactionRegister />
+  <!-- <router-view />  -->
+
 </template>
 
 <style>
