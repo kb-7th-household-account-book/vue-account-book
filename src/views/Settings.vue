@@ -167,7 +167,7 @@ const handleProfileUpdate = (newData) => {
   align-items: center;
   justify-content: center;
 
-  /* 💡 만약 아이콘이 '미세하게' 위로 올라가 보인다면 아래 주석을 풀어 조절하세요 */
+  /* 만약 아이콘이 '미세하게' 위로 올라가 보인다면 아래 주석을 풀어 조절하세요 */
   /* transform: translateY(1px); */
 }
 </style>
