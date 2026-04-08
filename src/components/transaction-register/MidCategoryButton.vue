@@ -69,7 +69,7 @@ const categories = [
 .category-grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 12px;
+    gap: 35px;
 }
 
 /* 개별 버튼 스타일 */
@@ -79,13 +79,18 @@ const categories = [
     align-items: center;
     justify-content: center;
     aspect-ratio: 1 / 1; /* 정사각형 비율 유지 */
+
+    width: 100%;
+    max-width: 250px; /* 원하는 크기로 숫자를 줄이거나 늘려보세요! (예: 56px, 64px) */
+    margin: 0 auto;  /* 칸 안에서 버튼을 가운데로 정렬 */
+
     border-radius: 16px;
     border: 2px solid transparent; /* active 상태 테두리를 위한 공간 확보 */
     cursor: pointer;
     transition: transform 0.1s ease, border-color 0.2s ease;
 }
 
-/* 선택(활성화) 되었을 때 하얀색 테두리 표시 */
+/* 선택(활성화) 되었을 때 테두리 표시 */
 .category-item.active {
     border-color: #b8b8b8b7;
     transform: scale(0.95); /* 눌린 듯한 효과 */

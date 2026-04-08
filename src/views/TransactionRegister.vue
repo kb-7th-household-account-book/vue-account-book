@@ -4,6 +4,7 @@ import TopMoneyField from '@/components/transaction-register/TopMoneyField.vue';
 import MidDateField from '@/components/transaction-register/MidDateField.vue';
 import MidTimeField from '@/components/transaction-register/MidTimeField.vue';
 import MidCategoryButton from '@/components/transaction-register/MidCategoryButton.vue';
+import MidMemoField from '@/components/transaction-register/MidMemoField.vue';
 
 import { ref } from 'vue';
 
@@ -14,6 +15,7 @@ const transactionDate = ref('');
 const transactionTime = ref({ period: 'AM', hour: '', minute: ''});
 
 const transactionCategory = ref('');
+const transactionMemo = ref('');
 
 </script>
 <template>
@@ -61,7 +63,9 @@ const transactionCategory = ref('');
             <div> 
                 <MidCategoryButton v-model="transactionCategory"/>
             </div>
-            <div> 메모 텍스트 필드 컨테이너 </div>
+            <div> 
+                <MidMemoField v-model="transactionMemo"/>
+            </div>
             <div> 저장 버튼 컨테이너 </div>
         </div>
     
