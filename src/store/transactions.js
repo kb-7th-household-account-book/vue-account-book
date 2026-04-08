@@ -3,7 +3,7 @@ import { ref, reactive, readonly } from 'vue';
 import { getTransactions } from '@/api/transactions';
 
 // YYYY-MM-DD 형식의 현재 달 시작/종료일 반환
-const getDefaultDates = () => {
+export const getDefaultDates = () => {
   const now = new Date();
   const start = new Date(now.getFullYear(), now.getMonth(), 1);
   const end = new Date(now.getFullYear(), now.getMonth() + 1, 0);

@@ -1,6 +1,25 @@
 <script setup>
 import PriceRangeSlider from './PriceRangeSlider.vue';
 import FilterItem from './FilterItem.vue';
+import { storeToRefs } from 'pinia';
+import { useTransactionStore } from '@/store/transactions';
+import { getDefaultDates } from '@/store/transactions';
+
+const store = useTransactionStore();
+const { filters } = storeToRefs(store);
+const currentDate = getDefaultDates();
+
+// 기간 필터
+const selectMonthFilter = (type) => {
+    if (type === 'thisMonth') {
+        store.setFilter('startDate', currentDate.startDate);
+        store.setFilter('endDate', currentDate.endDate);
+    } else {
+        store.setFilter('startDate', '');
+        store.setFilter('endDate', '');
+    }
+};
+
 </script>
 
 <template>
@@ -12,8 +31,14 @@ import FilterItem from './FilterItem.vue';
         <section class="filter-group">
             <h3>기간</h3>
             <div class="choose-month">
-                <button class="active">이번달</button>
-                <button>전체</button>
+                <button 
+                  :class="{ active: filters.startDate !== '' }" 
+                  @click="selectMonthFilter('thisMonth')"
+                >이번달</button>
+                <button 
+                  :class="{ active: filters.startDate === '' }" 
+                  @click="selectMonthFilter('all')"
+                >전체</button>
             </div>
             <div class="date-display">
                 <span>2026.04.01</span>
