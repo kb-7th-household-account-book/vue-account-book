@@ -1,3 +1,6 @@
+<script setup>
+
+</script>
 <template>
   <section class="input-card">
     <div class="time-wrapper">
@@ -60,7 +63,7 @@
   cursor: pointer;
 }
 
-/* 이미지처럼 활성화 시 노란색 배경 */
+/* Todo: 버튼 활성화 시 노란색 배경 */
 .toggle-btn.active {
   background-color: #ffb340; 
   color: #000;
@@ -74,21 +77,25 @@
 
 .time-box {
   display: flex;
+  flex: 1;
   align-items: center;
+  background-color: #1c1c1e;
   color: #8e8e93;
+  border-radius: 12px; 
+  padding: 12px 16px; 
   font-size: 14px;
+  transition: all 0.2s;
 }
 
 .time-input {
+  flex: 1; /* 박스 내부 남는 공간을 다 차지 */
   width: 60px;
-  background-color: #1c1c1e;
+  background-color: transparent; /* 배경은 부모(box)가 가지고 있으므로 투명하게 */
   border: none;
-  border-radius: 8px;
-  padding: 10px;
   color: white;
   text-align: center;
-  font-size: 16px;
-  margin-right: 8px;
+  font-size: 20px; /* 숫자를 더 크게 해서 크기감을 줌 */
+  font-weight: bold;
   outline: none;
 }
 
