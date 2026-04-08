@@ -23,7 +23,7 @@ onMounted(() => {
       <MonthlySummary />
       <TransactionList />
       <LoadMoreButton 
-        v-if="!store.isLastPage" 
+        v-if="!store.isLastPage && !store.loading"
         @click="store.loadNextPage" 
       />
     </main>

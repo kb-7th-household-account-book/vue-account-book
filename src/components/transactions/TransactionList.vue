@@ -40,38 +40,36 @@ const formatDate = (dateStr) => {
   };
 };
 </script>
-
 <template>
   <div class="list-container">
-    <div 
-      v-for="group in groupedTransactions" 
-      :key="group.date" 
-      class="transaction-group"
-    >
-      <div class="date-bar">
-        <div class="date-info">
-          {{ formatDate(group.date).fullDate }}
-          <span class="day-of-week">({{ formatDate(group.date).dayOfWeek }})</span>
-        </div>
-        
-        <div class="money-summary">
-          <span v-if="group.income > 0" class="income-text">
-            수입 +₩{{ group.income.toLocaleString() }}
-          </span>
-          <span v-if="group.expense > 0" class="expense-text">
-            지출 -₩{{ group.expense.toLocaleString() }}
-          </span>
-        </div>
-      </div>
+    <LoadingSpinner v-if="store.loading && store.list.length === 0" />
 
-      <div class="list-items-layout">
-        <TransactionItem 
-          v-for="item in group.data" 
-          :key="item.id" 
-          :transaction="item" 
-        />
+    <template v-else-if="groupedTransactions.length > 0">
+      <div 
+        v-for="group in groupedTransactions" 
+        :key="group.date" 
+        class="transaction-group"
+      >
+        <div class="date-bar">
+          <div class="date-info">
+            {{ formatDate(group.date).fullDate }}
+            <span class="day-of-week">({{ formatDate(group.date).dayOfWeek }})</span>
+          </div>
+          <div class="money-summary">
+            <span v-if="group.income > 0" class="income-text">수입 +₩{{ group.income.toLocaleString() }}</span>
+            <span v-if="group.expense > 0" class="expense-text">지출 -₩{{ group.expense.toLocaleString() }}</span>
+          </div>
+        </div>
+
+        <div class="list-items-layout">
+          <TransactionItem 
+            v-for="item in group.data" 
+            :key="item.id" 
+            :transaction="item" 
+          />
+        </div>
       </div>
-    </div>
+    </template>
   </div>
 </template>
 
