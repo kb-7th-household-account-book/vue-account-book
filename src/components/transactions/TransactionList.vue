@@ -1,27 +1,35 @@
 <script setup>
 import TransactionItem from './TransactionItem.vue';
+import { useTransactionStore } from '@/store/transactions';
+import { computed } from 'vue';
 
-const groupedTransactions = [
-  {
-    date: "2026-04-07",
-    income: 200000,
-    expense: 15000,
-    data: [
-      { id: 1, type: "income", amount: 200000, time: "09:00", category: "SALARY", memo: "부업 입금" },
-      { id: 2, type: "expense", amount: 12000, time: "12:30", category: "FOOD", memo: "점심 (돈까스)" },
-      { id: 3, type: "expense", amount: 3000, time: "18:00", category: "TRANSPORT", memo: "지하철 퇴근" }
-    ]
-  },
-  {
-    date: "2026-04-06",
-    income: 0,
-    expense: 140000,
-    data: [
-      { id: 5, type: "expense", amount: 15000, time: "19:30", category: "FOOD", memo: "저녁 배달" },
-      { id: 6, type: "expense", amount: 125000, time: "14:30", category: "SHOPPING", memo: "백화점 쇼핑" }
-    ]
-  }
-];
+const store = useTransactionStore();
+
+const groupedTransactions = computed(() => {
+  const groups = {};
+
+  store.list.forEach(item => {
+    const date = item.date;
+    if (!groups[date]) {
+      groups[date] = {
+        date: date,
+        income: 0,
+        expense: 0,
+        data: []
+      };
+    }
+
+    if (item.type === 'income') {
+      groups[date].income += item.amount;
+    } else {
+      groups[date].expense += item.amount;
+    }
+    
+    groups[date].data.push(item);
+  });
+
+  return Object.values(groups).sort((a, b) => new Date(b.date) - new Date(a.date));
+});
 
 const formatDate = (dateStr) => {
   const date = new Date(dateStr);

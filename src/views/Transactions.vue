@@ -11,15 +11,6 @@ const store = useTransactionStore();
 onMounted(() => {
   store.init();
 });
-
-watch(() => store.list, (newList) => {
-  console.log('list 데이터 로드 완료:', toRaw(newList));
-}, { deep: true });
-
-
-watch(() => store.counts, (newCounts) => {
-  console.log('count 데이터 로드 완료:', toRaw(newCounts));
-}, { deep: true });
 </script>
 
 <template>
@@ -30,9 +21,7 @@ watch(() => store.counts, (newCounts) => {
 
     <main class="content-section">
       <MonthlySummary />
-      
       <TransactionList />
-      
       <LoadMoreButton 
         v-if="!store.isLastPage" 
         @click="store.loadNextPage" 
