@@ -3,7 +3,7 @@ import TopTypeButton from '@/components/transaction-register/TopTypeButton.vue';
 import TopMoneyField from '@/components/transaction-register/TopMoneyField.vue';
 import MidDateField from '@/components/transaction-register/MidDateField.vue';
 import MidTimeField from '@/components/transaction-register/MidTimeField.vue';
-
+import MidCategoryButton from '@/components/transaction-register/MidCategoryButton.vue';
 
 import { ref } from 'vue';
 
@@ -12,6 +12,8 @@ const transactionAmount = ref(''); // 입력된 금액을 저장할 반응형 �
 
 const transactionDate = ref('');
 const transactionTime = ref({ period: 'AM', hour: '', minute: ''});
+
+const transactionCategory = ref('');
 
 </script>
 <template>
@@ -56,7 +58,9 @@ const transactionTime = ref({ period: 'AM', hour: '', minute: ''});
                 <MidDateField v-model="transactionDate"/>
                 <MidTimeField v-model="transactionTime"/>
             </div>
-            <div> 카테고리 컨테이너 </div>
+            <div> 
+                <MidCategoryButton v-model="transactionCategory"/>
+            </div>
             <div> 메모 텍스트 필드 컨테이너 </div>
             <div> 저장 버튼 컨테이너 </div>
         </div>
