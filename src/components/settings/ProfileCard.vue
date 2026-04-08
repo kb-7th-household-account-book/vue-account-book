@@ -23,7 +23,7 @@
         @change="handleFileUpload"
       />
 
-      <button class="camera-btn">
+      <button class="camera-btn" @click="triggerUpload">
         <svg
           width="20"
           height="20"
@@ -52,8 +52,12 @@
     <p class="email-text">{{ user.email }}</p>
     <button class="edit-profile-btn" @click="openEditModal">프로필 수정</button>
 
-    <div v-if="isModalOpen" class="modal-overlay" @click="closeEditModal">
-      <div class="modal-content" @click.stop>
+    <div
+      v-if="isModalOpen"
+      class="modal-overlay"
+      @mousedown.self="closeEditModal"
+    >
+      <div class="modal-content">
         <div class="modal-header">
           <h3>프로필 수정</h3>
           <button class="close-icon-btn" @click="closeEditModal">✕</button>
@@ -86,7 +90,7 @@
 
 <script setup>
 // import { defineProps } from 'vue';
-import { ref, reactive } from 'vue';
+import { ref, reactive, onUnmounted } from 'vue';
 
 const props = defineProps({
   user: {
@@ -118,15 +122,25 @@ const handleFileUpload = (event) => {
 const isModalOpen = ref(false);
 const editForm = reactive({ nickname: '', email: '' });
 
+// ESC 키를 감지하는 전용 함수
+const handleKeydown = (event) => {
+  // 모달이 열려있고 && 누른 키가 'Escape'라면
+  if (isModalOpen.value && event.key === 'Escape') {
+    closeEditModal(); // 모달 닫기
+  }
+};
+
 const openEditModal = () => {
   // 모달을 열 때, 기존 데이터를 폼에 채워줍니다.
   editForm.nickname = props.user.nickname;
   editForm.email = props.user.email;
   isModalOpen.value = true;
+  window.addEventListener('keydown', handleKeydown);
 };
 
 const closeEditModal = () => {
   isModalOpen.value = false;
+  window.removeEventListener('keydown', handleKeydown);
 };
 
 const saveProfile = () => {
@@ -138,6 +152,9 @@ const saveProfile = () => {
   });
   closeEditModal();
 };
+onUnmounted(() => {
+  window.removeEventListener('keydown', handleKeydown);
+});
 </script>
 
 <style scoped>
