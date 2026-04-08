@@ -206,7 +206,8 @@ const categoryMeta = {
 }
 
 .choose-month button.active {
-    background-color: #FFB347;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #FFB900 0%, #FE9A00 100%);
     color: #0A0A0B;
 }
 
