@@ -72,7 +72,7 @@ import SettingMenuList from '@/components/settings/SettingMenuList.vue';
 // 🌟 db.json 구조를 참고한 Mock Data 상태 관리
 const userData = reactive({
   email: 'jisu@email.com',
-  imgUrl: 'awdawd',
+  imgUrl: '',
   nickname: '박지수',
 });
 
