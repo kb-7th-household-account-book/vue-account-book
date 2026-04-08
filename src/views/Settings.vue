@@ -65,7 +65,7 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue';
+import { onMounted } from 'vue';
 import ProfileCard from '@/components/settings/ProfileCard.vue';
 import SettingMenuList from '@/components/settings/SettingMenuList.vue';
 import { useUserStore } from '@/store/user.js'; // Pinia 스토어 불러오기
