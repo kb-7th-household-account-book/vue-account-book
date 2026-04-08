@@ -97,7 +97,7 @@ const props = defineProps({
 
 const emit = defineEmits(['update-profile']);
 
-/ 사진 업로드 기능
+// 사진 업로드 기능
 const fileInput = ref(null);
 
 const triggerUpload = () => {
