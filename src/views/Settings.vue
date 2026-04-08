@@ -2,7 +2,10 @@
   <div class="settings-page">
     <h2 class="page-title">설정</h2>
 
-    <ProfileCard :user="userData" @update-profile="handleProfileUpdate" />
+    <ProfileCard
+      :user="userStore.userData"
+      @update-profile="handleProfileUpdate"
+    />
 
     <SettingMenuList />
 
@@ -10,16 +13,16 @@
       <div class="stat-box">
         <p class="stat-label">총 거래 건수</p>
         <p class="stat-value">
-          {{ userStats.total_transaction_count.toLocaleString() }}건
+          {{ userStore.userStats.total_transaction_count.toLocaleString() }}건
         </p>
       </div>
       <div class="stat-box">
         <p class="stat-label">사용 기간</p>
-        <p class="stat-value">{{ userStats.usage_days }}일</p>
+        <p class="stat-value">{{ userStore.userStats.usage_days }}일</p>
       </div>
       <div class="stat-box">
         <p class="stat-label">카테고리</p>
-        <p class="stat-value">{{ userStats.category_count }}개</p>
+        <p class="stat-value">{{ userStore.userStats.category_count }}개</p>
       </div>
     </div>
 
