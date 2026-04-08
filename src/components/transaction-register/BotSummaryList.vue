@@ -14,7 +14,7 @@ const formattedAmount = computed(() => {
     return Number(props.amount).toLocaleString();
 });
 
-// 💡 2. 카테고리 ID를 한국어/아이콘으로 변환하기 위한 맵
+//  2. 카테고리 ID를 한국어/아이콘으로 변환하기 위한 맵
 const categoryMap = {
     'FOOD': { label: '식비', icon: '🍜' },
     'COFFEE': { label: '커피', icon: '☕' },

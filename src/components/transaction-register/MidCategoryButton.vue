@@ -23,7 +23,8 @@ const categories = [
     { id: 'MEDICAL', label: '의료', icon: '💊', bg: 'linear-gradient(135deg, #FF5C6A, #FF3344)' },
     { id: 'EDUCATION', label: '교육', icon: '📚', bg: 'linear-gradient(135deg, #6699FF, #3366FF)' },
     { id: 'HOUSING', label: '주거', icon: '🏠', bg: 'linear-gradient(135deg, #33E68C, #00CC66)' },
-    { id: 'FINANCE', label: '금융', icon: '💳', bg: 'linear-gradient(135deg, #B366FF, #8C33FF)' }
+    { id: 'FINANCE', label: '금융', icon: '💳', bg: 'linear-gradient(135deg, #B366FF, #8C33FF)' },
+    { id: 'OTHERS', label: '기타', icon: '🏷️', bg: 'linear-gradient(135deg, #6c6c70, #48484a)' }
 ];
 </script>
 
@@ -41,10 +42,6 @@ const categories = [
             >
                 <span class="icon">{{ cat.icon }}</span>
                 <span class="label">{{ cat.label }}</span>
-            </button>
-
-            <button class="category-item add-btn">
-                <span class="icon plus-icon">+</span>
             </button>
         </div>
     </section>
@@ -65,7 +62,7 @@ const categories = [
     margin-bottom: 16px;
 }
 
-/* 💡 CSS Grid를 사용하여 5열(columns) 배치 */
+/*  CSS Grid를 사용하여 5열(columns) 배치 */
 .category-grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -81,7 +78,7 @@ const categories = [
     aspect-ratio: 1 / 1; /* 정사각형 비율 유지 */
 
     width: 100%;
-    max-width: 250px; /* 원하는 크기로 숫자를 줄이거나 늘려보세요! (예: 56px, 64px) */
+    max-width: 250px; 
     margin: 0 auto;  /* 칸 안에서 버튼을 가운데로 정렬 */
 
     border-radius: 16px;
@@ -105,21 +102,5 @@ const categories = [
     color: #ffffff;
     font-size: 12px;
     font-weight: 600;
-}
-
-/* UI 전용 더보기(+) 버튼 스타일 */
-.add-btn {
-    background: #1c1c1e;
-    border: 2px dashed #48484a; /* 점선 테두리 */
-    cursor: default; /* 클릭 기능 없음을 시각적으로 표현 */
-}
-.add-btn:active {
-    transform: none; /* 클릭 모션 제거 */
-}
-
-.plus-icon {
-    color: #8e8e93;
-    font-size: 24px;
-    margin-bottom: 0;
 }
 </style>

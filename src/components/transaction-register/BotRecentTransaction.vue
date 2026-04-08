@@ -12,7 +12,7 @@ const categoryMap = {
     'EDUCATION': { label: '교육', icon: '📚' },
     'HOUSING': { label: '주거', icon: '🏠' },
     'FINANCE': { label: '금융', icon: '💳' },
-    'OTHERS': { label: '기타', icon: '🎲' }
+    'OTHERS': { label: '기타', icon: '🏷️' }
 }
 
 const getCategoryInfo = (categoryId) => {
