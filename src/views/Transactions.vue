@@ -1,14 +1,20 @@
 <script setup>
+import { onMounted, toRaw, watch } from 'vue';
+import { useTransactionStore } from '@/store/transactions';
 import LoadMoreButton from '@/components/Transactions/LoadMoreButton.vue';
 import MonthlySummary from '@/components/Transactions/MonthlySummary.vue';
 import TransactionFilter from '@/components/Transactions/TransactionFilter.vue';
 import TransactionList from '@/components/Transactions/TransactionList.vue';
-import { useTransactionStore } from '@/store/transactions';
-import { toRaw } from 'vue';
 
 const store = useTransactionStore();
-console.log('필터링 가능한 거래 내역 데이터:', toRaw(store.list));
 
+onMounted(() => {
+  store.fetchList(true);
+});
+
+watch(() => store.list, (newList) => {
+  console.log('데이터 로드 완료:', toRaw(newList));
+}, { deep: true });
 </script>
 
 <template>
@@ -18,9 +24,14 @@ console.log('필터링 가능한 거래 내역 데이터:', toRaw(store.list));
     </aside>
 
     <main class="content-section">
-        <MonthlySummary/>
-        <TransactionList/>
-        <LoadMoreButton/>
+      <MonthlySummary />
+      
+      <TransactionList />
+      
+      <LoadMoreButton 
+        v-if="!store.isLastPage" 
+        @click="store.loadNextPage" 
+      />
     </main>
   </div>
 </template>

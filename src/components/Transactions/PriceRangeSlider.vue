@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import Slider from '@vueform/slider'
 import '@vueform/slider/themes/default.css'
 
-const priceRange = ref([0, 1000000])
+const priceRange = ref([0, 2000000])
 
 const formatPrice = (val) => '₩' + val.toLocaleString()
 </script>
@@ -18,7 +18,7 @@ const formatPrice = (val) => '₩' + val.toLocaleString()
     <Slider
       v-model="priceRange"
       :min="0"
-      :max="1000000"
+      :max="2000000"
       :step="10000"
       :tooltips="false"
       class="custom-slider"
