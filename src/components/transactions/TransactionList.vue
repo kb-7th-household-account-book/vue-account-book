@@ -31,6 +31,17 @@ const groupedTransactions = computed(() => {
   return Object.values(groups).sort((a, b) => new Date(b.date) - new Date(a.date));
 });
 
+const renderedCount = computed(() => {
+  return groupedTransactions.value.reduce((acc, group) => acc + group.data.length, 0);
+});
+
+const remainingCount = computed(() => {
+  // filters.type에 따라 전체 개수(all, income, expense)를 동적으로 가져오면 더 정확해요!
+  const total = store.counts[store.filters.type] || store.counts.all;
+  const diff = total - renderedCount.value;
+  return diff > 0 ? diff : 0;
+});
+
 const formatDate = (dateStr) => {
   const date = new Date(dateStr);
   const days = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'];
@@ -42,9 +53,7 @@ const formatDate = (dateStr) => {
 </script>
 <template>
   <div class="list-container">
-    <LoadingSpinner v-if="store.loading && store.list.length === 0" />
-
-    <template v-else-if="groupedTransactions.length > 0">
+    <template v-if="groupedTransactions.length > 0">
       <div 
         v-for="group in groupedTransactions" 
         :key="group.date" 
@@ -70,6 +79,13 @@ const formatDate = (dateStr) => {
         </div>
       </div>
     </template>
+    <button 
+      v-if="!store.isLastPage && remainingCount > 0"
+      class="button-layout" 
+      @click="store.loadNextPage"
+    >
+      더보기 ({{ remainingCount }}건 더 있음)
+    </button>
   </div>
 </template>
 
@@ -121,5 +137,25 @@ const formatDate = (dateStr) => {
   display: flex;
   flex-direction: column;
   gap: 30px;
+}
+
+.button-layout {
+    display: flex;
+    padding: 13.5px 22.625px 12.5px 23px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    background: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.70);
+    text-align: center;
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px; /* 142.857% */
+    letter-spacing: -0.15px;
+    align-self: center;
+    cursor: pointer;
 }
 </style>

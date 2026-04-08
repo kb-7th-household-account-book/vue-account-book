@@ -1,7 +1,6 @@
 <script setup>
-import { onMounted, toRaw, watch } from 'vue';
+import { onMounted } from 'vue';
 import { useTransactionStore } from '@/store/transactions';
-import LoadMoreButton from '@/components/transactions/LoadMoreButton.vue';
 import MonthlySummary from '@/components/transactions/MonthlySummary.vue';
 import TransactionFilter from '@/components/transactions/TransactionFilter.vue';
 import TransactionList from '@/components/transactions/TransactionList.vue';
@@ -22,10 +21,6 @@ onMounted(() => {
     <main class="content-section">
       <MonthlySummary />
       <TransactionList />
-      <LoadMoreButton 
-        v-if="!store.isLastPage && !store.loading"
-        @click="store.loadNextPage" 
-      />
     </main>
   </div>
 </template>
