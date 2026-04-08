@@ -4,6 +4,7 @@ import FilterItem from './FilterItem.vue';
 import { storeToRefs } from 'pinia';
 import { useTransactionStore } from '@/store/transactions';
 import { getDefaultDates } from '@/store/transactions';
+import { ref, computed } from 'vue';
 
 const store = useTransactionStore();
 const { filters, counts } = storeToRefs(store);
@@ -30,6 +31,19 @@ const toggleCategory = (categoryName) => {
   const nextValue = filters.value.categories[0] === categoryName ? [] : [categoryName];
 
   store.setFilter('categories', nextValue);
+};
+
+const isExpanded = ref(false);
+
+const displayCategories = computed(() => {
+  if (isExpanded.value) {
+    return counts.value.categories;
+  }
+  return counts.value.categories.slice(0, 3);
+});
+
+const toggleExpand = () => {
+  isExpanded.value = !isExpanded.value;
 };
 
 const categoryMeta = {
@@ -97,10 +111,13 @@ const categoryMeta = {
             />
         </section>
 
-        <section class="filter-group">
-            <h3 class="type">카테고리</h3> 
+        <section class="filter-group category-section">
+            <div class="category-header">
+                <h3 class="type">카테고리</h3> 
+            </div>
+
             <FilterItem
-                v-for="item in counts.categories"
+                v-for="item in displayCategories"
                 :key="item.category" 
                 :color="categoryMeta[item.category]?.color || '#888'"
                 :label="categoryMeta[item.category]?.label || item.category" 
@@ -108,6 +125,21 @@ const categoryMeta = {
                 :active="filters.categories[0] === item.category"
                 @click="toggleCategory(item.category)"
             />
+
+            <button 
+                v-if="counts.categories.length > 3" 
+                class="expand-icon-btn" 
+                @click="toggleExpand"
+                :title="isExpanded ? '접기' : '더보기'"
+            >
+                <svg 
+                    :class="{ 'rotate-180': isExpanded }" 
+                    width="24" height="24" viewBox="0 0 24 24" fill="none" 
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <path d="M18 9L12 15L6 9" stroke="#BDBEBD" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
         </section>
 
         <section class="filter-group">
@@ -189,5 +221,35 @@ const categoryMeta = {
 
 .date-display span:nth-child(2) {
     margin: 0 8px;
+}
+
+.category-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.expand-icon-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 2px 0;
+    margin-top: 4px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.expand-icon-btn:hover {
+    opacity: 0.7;
+}
+
+.expand-icon-btn svg {
+    transition: transform 0.3s ease;
+}
+
+.expand-icon-btn svg.rotate-180 {
+    transform: rotate(180deg);
 }
 </style>
