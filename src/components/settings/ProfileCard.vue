@@ -2,11 +2,27 @@
   <div class="profile-card">
     <div class="avatar-section">
       <div class="avatar-circle">
-        <span class="placeholder-text">{{
-          // 이미지 파일 없을 경우, 맨 앞 글자
-          user.nickname ? user.nickname[0] : '👤'
-        }}</span>
+        <div
+          v-if="user.imgUrl"
+          class="profile-image"
+          :style="{ backgroundImage: `url(${user.imgUrl})` }"
+        ></div>
+
+        <span v-else class="placeholder-text">
+          <span class="placeholder-text-content">
+            {{ user.nickname ? user.nickname[0] : '👤' }}
+          </span>
+        </span>
       </div>
+
+      <input
+        type="file"
+        ref="fileInput"
+        accept="image/*"
+        style="display: none"
+        @change="handleFileUpload"
+      />
+
       <button class="camera-btn">
         <svg
           width="20"
@@ -34,26 +50,94 @@
     </div>
 
     <p class="email-text">{{ user.email }}</p>
+    <button class="edit-profile-btn" @click="openEditModal">프로필 수정</button>
 
-    <button class="edit-profile-btn">프로필 수정</button>
+    <div v-if="isModalOpen" class="modal-overlay" @click="closeEditModal">
+      <div class="modal-content" @click.stop>
+        <div class="modal-header">
+          <h3>프로필 수정</h3>
+          <button class="close-icon-btn" @click="closeEditModal">✕</button>
+        </div>
+        <div class="modal-body">
+          <div class="input-group">
+            <label>이름 (닉네임)</label>
+            <input
+              type="text"
+              v-model="editForm.nickname"
+              placeholder="이름을 입력하세요"
+              @keyup.enter="saveProfile"
+            />
+          </div>
+          <div class="input-group">
+            <label>이메일</label>
+            <input
+              type="email"
+              v-model="editForm.email"
+              placeholder="이메일을 입력하세요"
+              @keyup.enter="saveProfile"
+            />
+          </div>
+          <button class="save-btn" @click="saveProfile">저장하기</button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup>
 // import { defineProps } from 'vue';
+import { ref, reactive } from 'vue';
 
-defineProps({
+const props = defineProps({
   user: {
     type: Object,
     required: true,
-    default: () => ({
-      // 부모가 데이터 안 줬을 때, 에러나지 않도록 임시로 채워줌
-      email: 'example@email.com',
-      imgUrl: '',
-      nickname: '유저',
-    }),
   },
 });
+
+const emit = defineEmits(['update-profile']);
+
+/ 사진 업로드 기능
+const fileInput = ref(null);
+
+const triggerUpload = () => {
+  fileInput.value.click(); // 숨겨진 input을 강제 클릭!
+};
+
+const handleFileUpload = (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    // 임시 URL을 만들어서 이미지를 미리보기 할 수 있게 해줍니다.
+    const tempUrl = URL.createObjectURL(file);
+    // 사진만 바뀐 새 데이터를 부모에게 전송
+    emit('update-profile', { ...props.user, imgUrl: tempUrl });
+  }
+};
+
+// 2. 프로필 수정 모달 기능
+const isModalOpen = ref(false);
+const editForm = reactive({ nickname: '', email: '' });
+
+const openEditModal = () => {
+  // 모달을 열 때, 기존 데이터를 폼에 채워줍니다.
+  editForm.nickname = props.user.nickname;
+  editForm.email = props.user.email;
+  isModalOpen.value = true;
+};
+
+const closeEditModal = () => {
+  isModalOpen.value = false;
+};
+
+const saveProfile = () => {
+  // 이름과 이메일이 바뀐 새 데이터를 부모에게 전송
+  emit('update-profile', {
+    ...props.user,
+    nickname: editForm.nickname,
+    email: editForm.email,
+  });
+  closeEditModal();
+};
 </script>
 
 <style scoped>
@@ -80,6 +164,8 @@ defineProps({
   align-items: center;
   font-size: 32px;
   color: #fff;
+  overflow: hidden;
+  position: relative; /* 자식 요소 배치를 위해 */
 }
 .camera-btn {
   position: absolute;
@@ -105,5 +191,114 @@ defineProps({
   border-radius: 8px;
   padding: 10px 24px;
   cursor: pointer;
+}
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px); /* 뒷배경을 살짝 흐리게 해서 고급스럽게 */
+}
+.modal-content {
+  background-color: #1a1a1b; /* 기존 카드보다 살짝 밝은 다크그레이 */
+  width: 90%;
+  max-width: 360px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+
+.modal-header {
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #333;
+}
+.modal-header h3 {
+  margin: 0;
+  color: #fff;
+  font-size: 18px;
+}
+.close-icon-btn {
+  background: none;
+  border: none;
+  color: #888;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.modal-body {
+  padding: 24px 20px;
+}
+.input-group {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: left;
+}
+.input-group label {
+  color: #aaa;
+  font-size: 13px;
+}
+.input-group input {
+  background-color: #0a0a0b;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 14px;
+  color: #fff;
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.input-group input:focus {
+  border-color: #ffb800;
+} /* 입력창 클릭 시 노란색 테두리 */
+
+.save-btn {
+  width: 100%;
+  padding: 16px;
+  margin-top: 10px;
+  background-color: #ffb800;
+  color: #000;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+}
+.profile-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.profile-image {
+  width: 100%;
+  height: 100%;
+  background-size: cover; /* 🌟 비율을 유지하며 원형을 꽉 채웁니다 */
+  background-position: center; /* 🌟 이미지를 중앙에 배치합니다 */
+  border-radius: 50%; /* 안전장치 */
+}
+.placeholder-text {
+  /* 이미지 위에 겹쳐 보이지 않도록 절대 위치로 중앙 배치 */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.placeholder-text-content {
+  /* 닉네임 첫 글자가 이미지 뒤에 가려져도 이상하지 않게 투명도 조정 */
+  opacity: 0.8;
 }
 </style>
