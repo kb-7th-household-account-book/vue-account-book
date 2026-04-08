@@ -5,12 +5,22 @@ import { getTransactions, getTransactionsCount } from '@/api/transactions';
 // YYYY-MM-DD 형식의 현재 달 시작/종료일 반환
 export const getDefaultDates = () => {
   const now = new Date();
-  const start = new Date(now.getFullYear(), now.getMonth(), 1);
-  const end = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+  const year = now.getFullYear();
+  const month = now.getMonth();
+
+  const start = new Date(year, month, 1);
+  const end = new Date(year, month + 1, 0);
   
+  const offset = now.getTimezoneOffset() * 60000;
+  
+  const formatDate = (date) => {
+    const localDate = new Date(date.getTime() - offset);
+    return localDate.toISOString().split('T')[0];
+  };
+
   return {
-    startDate: start.toISOString().split('T')[0],
-    endDate: end.toISOString().split('T')[0]
+    startDate: formatDate(start),
+    endDate: formatDate(end)
   };
 };
 
