@@ -15,9 +15,11 @@ watch(priceRange, (newRange) => {
   if (debounceTimer) clearTimeout(debounceTimer);
 
   debounceTimer = setTimeout(() => {
-    store.setFilter('minAmount', newRange[0]);
-    store.setFilter('maxAmount', newRange[1]);
-  }, 300); 
+    store.setFilters({
+      minAmount: newRange[0],
+      maxAmount: newRange[1]
+    });
+  }, 100); 
 });
 </script>
 

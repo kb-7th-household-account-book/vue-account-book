@@ -100,12 +100,12 @@ export const useTransactionStore = defineStore('transactions', () => {
       _isLastPage.value = true;
     }
 
-  } catch (error) {
-    console.error("거래 내역 로드 실패:", error);
-  } finally {
-    _loading.value = false;
-  }
-};
+    } catch (error) {
+      console.error("거래 내역 로드 실패:", error);
+    } finally {
+      _loading.value = false;
+    }
+  };
 
   // 필터 업데이트 함수
   const setFilter = (key, value) => {
@@ -114,6 +114,18 @@ export const useTransactionStore = defineStore('transactions', () => {
     // 날짜 변경 시 거래 유형 개수도 다시 계산
     if (key === 'startDate' || key === 'endDate') {
       updateCounts(); 
+    }
+
+    fetchList(true);
+  };
+
+  const setFilters = (filters) => {
+    Object.entries(filters).forEach(([key, value]) => {
+      _filters[key] = value;
+    });
+
+    if ('startDate' in filters || 'endDate' in filters) {
+      updateCounts();
     }
 
     fetchList(true);
@@ -139,6 +151,7 @@ export const useTransactionStore = defineStore('transactions', () => {
     loading,
     fetchList,
     setFilter,
+    setFilters,
     loadNextPage,
     init
   };
