@@ -9,6 +9,7 @@ import MidSaveButton from '@/components/transaction-register/MidSaveButton.vue';
 
 import BotSummaryList from '@/components/transaction-register/BotSummaryList.vue';
 import BotRecentTransaction from '@/components/transaction-register/BotRecentTransaction.vue';
+import BotQuickTip from '@/components/transaction-register/BotQuickTip.vue';
 
 import { ref } from 'vue';
 
@@ -104,8 +105,8 @@ const handleSave = () => {
             :date="transactionDate"
             :category="transactionCategory"
         />
-        
         <BotRecentTransaction />
+        <BotQuickTip />
     </div>
     </div>
 
