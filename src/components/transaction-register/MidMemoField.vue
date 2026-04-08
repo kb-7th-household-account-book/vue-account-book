@@ -37,7 +37,7 @@ defineEmits(['update:modelValue'])
     margin-bottom: 16px;
 }
 
-/* 💡 멀티라인 텍스트 입력창 스타일 */
+/* 멀티라인 텍스트 입력창 스타일 */
 .memo-input {
     width: 100%;
     background-color: #1c1c1e;

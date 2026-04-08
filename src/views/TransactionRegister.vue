@@ -5,6 +5,7 @@ import MidDateField from '@/components/transaction-register/MidDateField.vue';
 import MidTimeField from '@/components/transaction-register/MidTimeField.vue';
 import MidCategoryButton from '@/components/transaction-register/MidCategoryButton.vue';
 import MidMemoField from '@/components/transaction-register/MidMemoField.vue';
+import MidSaveButton from '@/components/transaction-register/MidSaveButton.vue';
 
 import { ref } from 'vue';
 
@@ -16,6 +17,25 @@ const transactionTime = ref({ period: 'AM', hour: '', minute: ''});
 
 const transactionCategory = ref('');
 const transactionMemo = ref('');
+
+const handleCancle = () => {
+    console.log('취소 버튼 클릭됨');
+    // Todo: 라우터 뒤로가기나 모달 닫기 로직 추가
+};
+
+// 저장 버튼 클릭 시 실행될 함수
+const handleSave = () => {
+    console.log('저장 버튼 클릭됨');
+    console.log('입력된 데이터', {
+        amount: transactionAmount.value,
+        date: transactionDate.value,
+        time: transactionTime.value,
+        category: transactionCategory.value,
+        memo: transactionMemo.value,
+        type: selectedType.value
+    })
+    // Todo: json-server로 POST 요청을 보내는 로직을 작성
+}
 
 </script>
 <template>
@@ -66,7 +86,12 @@ const transactionMemo = ref('');
             <div> 
                 <MidMemoField v-model="transactionMemo"/>
             </div>
-            <div> 저장 버튼 컨테이너 </div>
+            <div> 
+                <MidSaveButton
+                    @cancle="handleCancel"
+                    @save="handleSave"
+                />
+            </div>
         </div>
     
         <div class="RegisterBotView">
