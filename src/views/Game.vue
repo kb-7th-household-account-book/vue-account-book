@@ -21,7 +21,6 @@ const handleGameOver = () => {
 
 <template>
   <div class="top-container">
-    <!-- <button @click="handleGameOver">게임끝내기</button> --> -->
     <div class="game-page-container">
       <GameSetup 
         v-if="currentPhase === 'READY'" 

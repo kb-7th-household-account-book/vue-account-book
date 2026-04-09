@@ -137,7 +137,7 @@ onUnmounted(() => {
         class="icon-badge"
         :style="{ fontSize: `${item.size}rem` }"
       >
-        {{ categoryMeta[item.category]?.icon || '💸' }}
+        {{ item.icon }}
       </div>
     </div>
 

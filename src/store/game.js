@@ -2,7 +2,7 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import { getTransactions } from '@/api/game';
-import { GAME_CONFIG } from '@/constants/game';
+import { GAME_CONFIG, RANDOM_ICONS } from '@/constants/game';
 
 export const useGameStore = defineStore('game', () => {
   const selectedYear = ref(2026);
@@ -37,6 +37,8 @@ export const useGameStore = defineStore('game', () => {
         const calculatedSize = GAME_CONFIG.ITEM_SIZE_MIN + (GAME_CONFIG.ITEM_SIZE_MAX - GAME_CONFIG.ITEM_SIZE_MIN) * (item.amount / maxAmount);
         // 각 아이템별 무작위 낙하 속도 할당
         const randomSpeed = GAME_CONFIG.ITEM_SPEED_MIN + Math.random() * (GAME_CONFIG.ITEM_SPEED_MAX - GAME_CONFIG.ITEM_SPEED_MIN);
+        // 랜덤 아이콘 선택
+        const randomIcon = RANDOM_ICONS[Math.floor(Math.random() * RANDOM_ICONS.length)];
 
         return {
           ...item,
@@ -44,7 +46,8 @@ export const useGameStore = defineStore('game', () => {
           y: -100 - (index * 200), 
           isCaught: false,
           size: calculatedSize,
-          speed: randomSpeed // 👈 각 아이템의 개별 낙하 속도
+          speed: randomSpeed, // 👈 각 아이템의 개별 낙하 속도
+          icon: randomIcon // 👈 랜덤 아이콘
         };
       });
       
