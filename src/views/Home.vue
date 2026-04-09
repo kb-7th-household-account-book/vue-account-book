@@ -1,49 +1,84 @@
 <script setup>
 import Home3DImage from '@/components/Home3DImage.vue';
+import SummaryCard from '@/components/home/SummaryCard.vue';
+import QuickExpenseAdd from '@/components/home/QuickExpenseAdd.vue';
+import RecentTransactionList from '@/components/home/RecentTransactionList.vue';
+import MonthlySummary from '@/components/home/MonthlySummary.vue';
+import FixedExpenseSummary from '@/components/home/FixedExpenseSummary.vue';
+import CategoryTop3 from '@/components/home/CategoryTop3.vue';
 </script>
 
 <template>
   <div class="home-container">
-    <!-- 추후 헤더 등 상단 네비게이션이 들어갈 공간 -->
-    <!-- <header class="home-header">Header</header> -->
-    
     <main class="home-content">
-      <div class="home-left-box">
+      <!-- 🔹 상단 3D 영역 -->
+      <section class="home-top-box">
         <Home3DImage />
-      </div>
+      </section>
 
-      <div class="home-right-box">
-        <!-- 이번달 지출 / 이번달 통계 / 최근거래 목록 / 빠른추가 버튼 들어갈 자리 -->
-      </div>
+      <!-- 🔹 하단 (피그마 기준 영역) -->
+      <section class="home-bottom-box">
+        <!-- 왼쪽 -->
+        <div class="home-bottom-left">
+          <SummaryCard />
+          <QuickExpenseAdd />
+          <RecentTransactionList />
+        </div>
+
+        <!-- 오른쪽 -->
+        <div class="home-bottom-right">
+          <MonthlySummary />
+          <FixedExpenseSummary />
+          <CategoryTop3 />
+        </div>
+      </section>
     </main>
   </div>
 </template>
 
+<!-- 🔹 Home 전용 레이아웃 -->
 <style scoped>
 .home-container {
-  /* 글로벌 영역(body)에 있던 배경색과 높이를 홈 화면에 적용하여 캡슐화 */
-  background: #222;
-  min-height: 100vh;
+  padding: 48px 32px 48px 32px;
+  width: 100%;
+}
+
+/* 전체 구조 */
+.home-content {
   display: flex;
   flex-direction: column;
+  gap: 24px;
+  box-sizing: border-box;
+  margin: 120px 32px;
 }
 
-.home-content {
-  flex: 1;
+/* 🔹 상단 (3D 영역) */
+.home-top-box {
+  padding: 120px 116.5px;
+  min-height: 460px;
+  box-sizing: border-box;
+}
+
+/* 🔹 하단 2컬럼 */
+.home-bottom-box {
   display: grid;
-  grid-template-columns: 1.2fr 1fr; /* 왼쪽이 더 큼 */
-  align-items: center;
-  padding: 0 5vw;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 32px;
 }
 
-@media (max-width: 768px) {
-  .home-content {
+/* 왼쪽 / 오른쪽 공통 */
+.home-bottom-left,
+.home-bottom-right {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 0;
+}
+
+/* 🔹 반응형 */
+@media (max-width: 1100px) {
+  .home-bottom-box {
     grid-template-columns: 1fr;
   }
-
-  .home-right-box {
-    display: block;
-  }
 }
-
 </style>
