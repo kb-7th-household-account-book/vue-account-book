@@ -138,7 +138,11 @@ const saveExpense = () => {
           <div class="field-block">
             <label class="field-label">메모 제목</label>
 
-            <textarea v-model="form.memo" class="memo-input" placeholder="메모 제목을 입력하세요" />
+            <textarea
+              v-model="form.memo"
+              class="memo-input"
+              placeholder="메모 제목을 입력하세요(예: 스타벅스)"
+            />
           </div>
 
           <button class="save-button" @click="saveExpense" type="button">저장 ✓</button>
@@ -185,7 +189,7 @@ const saveExpense = () => {
   border-radius: 24px;
   overflow: hidden;
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
-  transform: scale(0.8);
+  transform: scale(0.9);
   transform-origin: center;
 }
 

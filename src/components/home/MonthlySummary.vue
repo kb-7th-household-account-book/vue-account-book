@@ -54,7 +54,7 @@ const formatProfit = (value) => {
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
-            d="M2 2L10 10L18 2"
+            :d="currentPage === 0 ? 'M2 2L10 10L18 2' : 'M2 10L10 2L18 10'"
             stroke="currentColor"
             stroke-width="2.2"
             stroke-linecap="round"
