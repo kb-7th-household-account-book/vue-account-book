@@ -1,5 +1,4 @@
 <script setup>
-// 정적인 팁이므로 특별한 상태나 props가 필요 없습니다.
 </script>
 
 <template>
@@ -27,9 +26,11 @@
     animation: fadeIn 0.5s ease-out forwards;
     opacity: 0;
     animation-delay: 0.6s;
+    min-width: 0; /* Prevents overflow */
 }
 
 .tip-icon-box {
+    flex-shrink: 0;
     width: 44px;
     height: 44px;
     background: rgba(255, 179, 64, 0.1);
@@ -47,6 +48,7 @@
     display: flex;
     flex-direction: column;
     gap: 4px;
+    min-width: 0;
 }
 
 .tip-title {
@@ -62,6 +64,7 @@
     color: rgba(255, 255, 255, 0.6);
     line-height: 1.5;
     word-break: keep-all;
+    overflow: hidden;
 }
 
 @keyframes fadeIn {

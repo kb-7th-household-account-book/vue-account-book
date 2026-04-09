@@ -95,9 +95,23 @@ defineEmits([
   flex: 1;
 }
 
+@media (max-width: 768px) {
+  .details-section {
+    padding: 24px;
+    border-radius: 24px;
+  }
+}
+
 @media (max-width: 640px) {
   .date-time-row {
     flex-direction: column;
+    gap: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .details-section {
+    padding: 20px;
   }
 }
 
@@ -114,3 +128,4 @@ defineEmits([
   to { opacity: 1; transform: translateY(0); }
 }
 </style>
+

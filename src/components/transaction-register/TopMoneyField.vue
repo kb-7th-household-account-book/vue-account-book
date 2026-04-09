@@ -111,6 +111,7 @@ const addAmount = (valueToAdd) => {
     font-size: 32px;
     font-weight: 700;
     width: 100%;
+    min-width: 0;
 }
 
 .amount-input::placeholder {
@@ -135,6 +136,7 @@ const addAmount = (valueToAdd) => {
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
+  min-width: 0;
 }
 
 .quick-btn:hover {
@@ -145,6 +147,30 @@ const addAmount = (valueToAdd) => {
 
 .quick-btn:active {
   transform: scale(0.96);
+}
+
+@media (max-width: 768px) {
+  .money-input-card {
+    padding: 24px;
+    border-radius: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .money-input-card {
+    padding: 20px;
+  }
+  .quick-add-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .amount-input-wrapper {
+    padding: 16px;
+  }
+  .amount-input {
+    font-size: 24px;
+  }
 }
 
 /* Animations */
@@ -158,13 +184,5 @@ input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
-}
-
-@media (max-width: 480px) {
-  .quick-add-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-  }
 }
 </style>

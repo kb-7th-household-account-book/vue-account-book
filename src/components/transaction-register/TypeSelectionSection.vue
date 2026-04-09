@@ -70,9 +70,20 @@ defineEmits(['update:selectedType']);
   gap: 20px;
 }
 
+@media (max-width: 768px) {
+  .type-selection-section {
+    padding: 24px;
+    border-radius: 24px;
+  }
+}
+
 @media (max-width: 480px) {
   .button-row {
     flex-direction: column;
+    gap: 12px;
+  }
+  .type-selection-section {
+    padding: 20px;
   }
 }
 
@@ -81,3 +92,4 @@ defineEmits(['update:selectedType']);
   to { opacity: 1; transform: translateY(0); }
 }
 </style>
+

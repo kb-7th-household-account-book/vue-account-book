@@ -128,24 +128,31 @@ const handleSave = async () => {
 </template>
 
 <style scoped>
+/* Global Box Sizing for this page */
+* {
+  box-sizing: border-box;
+}
+
 /* Responsive Layout Grid */
 .register-page {
   background-color: #0A0A0B;
   min-height: 100vh;
   color: #FFFFFF;
-  max-width: 1200px;
   width: 100%;
   margin: 0 auto;
-  padding: 40px 20px;
+  padding: 40px 0; /* Vertical padding only, horizontal handled by container */
   box-sizing: border-box;
+  overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
 .register-container {
-  max-width: 1100px;
+  max-width: 1000px; /* Reduced from 1200px for a more 'inset' look */
+  width: 100%;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   gap: 32px;
+  padding: 0 40px; /* Increased padding for the inward feel */
 }
 
 /* Header Styling */
@@ -183,6 +190,7 @@ const handleSave = async () => {
   align-items: center;
   cursor: pointer;
   transition: all 0.2s ease;
+  flex-shrink: 0;
 }
 
 .close-btn:hover {
@@ -193,7 +201,7 @@ const handleSave = async () => {
 /* Main Layout Grid */
 .register-layout {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr); /* Allow shrinking to prevent overflow */
   gap: 32px;
   align-items: start;
 }
@@ -201,7 +209,21 @@ const handleSave = async () => {
 /* Desktop Dual Column */
 @media (min-width: 1024px) {
   .register-layout {
-    grid-template-columns: 1fr 360px;
+    grid-template-columns: minmax(0, 1fr) 340px;
+  }
+}
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+  .register-page {
+    padding: 20px 0;
+  }
+  .register-container {
+    padding: 0 20px; /* Bring it closer to edges on mobile but still not touching */
+    gap: 24px;
+  }
+  .header-title h1 {
+    font-size: 24px;
   }
 }
 
@@ -210,6 +232,7 @@ const handleSave = async () => {
   display: flex;
   flex-direction: column;
   gap: 24px;
+  min-width: 0;
 }
 
 /* Sidebar Info Layout */
@@ -217,11 +240,12 @@ const handleSave = async () => {
   display: flex;
   flex-direction: column;
   gap: 24px;
+  min-width: 0;
 }
 
 .info-sticky {
   position: sticky;
-  top: 100px;
+  top: 40px;
   display: flex;
   flex-direction: column;
   gap: 24px;
