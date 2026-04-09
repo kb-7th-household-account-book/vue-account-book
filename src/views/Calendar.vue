@@ -8,16 +8,11 @@
           :account="account"
         />
       </div>
-      <div class="calendar">
-        <FullCalendar
-          :monthlyData="monthlyData"
-          @dateSelect="handleDateSelect"
-        />
-      </div>
+      <FullCalendar :monthlyData="monthlyData" @dateSelect="handleDateSelect" />
       <div class="button-row">
         <Button v-for="add in adds" :key="add.id" :add="add" />
       </div>
-      <div>
+      <div class="transaction">
         <TransactionDetail
           :selectedDate="selectedDate"
           :selectedData="selectedData"
@@ -52,7 +47,7 @@ const handleDateSelect = (date) => {
 };
 const monthlyData = [
   {
-    date: '2026-04-07',
+    date: '2026-04-06',
     income: 200000,
     expense: 45000,
     items: [
@@ -91,26 +86,40 @@ const adds = [
 <style scoped>
 .body {
   background-color: #000;
+  display: flex;
+  justify-content: center; /* 가로 중앙 정렬 */
 }
 
 .wrapper {
-  max-width: 1350px;
-  min-width: 1350px;
-  margin: 0 auto;
+  width: 100%;
+  max-width: 1000px;
+  display: flex;
+  flex-direction: column; /* 세로로 쌓기 */
   padding-bottom: 80px;
 }
 
 .account-row {
-  display: flex;
-  gap: 15px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 0 10px;
+  width: 100%;
+  justify-items: center; /* 내부 아이템 중앙 정렬 */
 }
 
-.calendar {
-  padding: 20px 0;
-}
-
+/* 2. 하단 버튼 영역 (그리드로 수정) */
 .button-row {
-  display: flex;
-  gap: 15px;
+  display: grid;
+  /* 버튼은 박스보다 조금 더 작아도 예쁘니 280px 정도로 설정해 볼게요 */
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 0 10px;
+  width: 100%;
+  justify-items: center;
+}
+
+.account-row > *,
+.button-row > * {
+  width: 100%;
+  /* 창이 아주 넓어질 때 혼자 너무 길어지지 않도록 피그마 느낌의 너비 제한 */
+  max-width: 300px;
 }
 </style>
