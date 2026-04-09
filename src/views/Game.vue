@@ -61,9 +61,9 @@ const handleGameOver = () => {
   margin: 0;
   padding: 0;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
-  background-image: url('/public/images/game-start.jpg');
+  background-image: url('/public/images/game-start-2.gif');
   overflow: hidden;
 }
 
