@@ -15,33 +15,42 @@ const prevSlide = () => {
 </script>
 
 <template>
-  <div class="box" ref="box">
-    <div class="item"><img src="/images/1.jpg"></div>
-    <div class="item"><img src="/images/2.jpg"></div>
-    <div class="item"><img src="/images/3.jpg"></div>
-    <div class="item"><img src="/images/4.jpg"></div>
-    <div class="item"><img src="/images/5.jpg"></div>
-    <div class="item"><img src="/images/6.jpg"></div>
-    <div class="item"><img src="/images/7.jpg"></div>
-    <div class="item"><img src="/images/8.jpg"></div>
-    <div class="item"><img src="/images/9.jpg"></div>
-    <div class="item"><img src="/images/10.jpg"></div>
-    <div class="item"><img src="/images/11.jpg"></div>
-    <div class="item"><img src="/images/12.jpg"></div>
-  </div>
-  <div class="buttons">
-    <span class="prev" @click="prevSlide"></span>
-    <span class="next" @click="nextSlide"></span>
+  <div class="carousel-wrapper">
+    <div class="box" ref="box">
+      <div class="item"><img src="/images/1.jpg"></div>
+      <div class="item"><img src="/images/2.jpg"></div>
+      <div class="item"><img src="/images/3.jpg"></div>
+      <div class="item"><img src="/images/4.jpg"></div>
+      <div class="item"><img src="/images/5.jpg"></div>
+      <div class="item"><img src="/images/6.jpg"></div>
+      <div class="item"><img src="/images/7.jpg"></div>
+      <div class="item"><img src="/images/8.jpg"></div>
+      <div class="item"><img src="/images/9.jpg"></div>
+      <div class="item"><img src="/images/10.jpg"></div>
+      <div class="item"><img src="/images/11.jpg"></div>
+      <div class="item"><img src="/images/12.jpg"></div>
+    </div>
+    <div class="buttons">
+      <span class="prev" @click="prevSlide"></span>
+      <span class="next" @click="nextSlide"></span>
+    </div>
   </div>
 </template>
 
 <style scoped>
-/* App.vue / box.css에서 3D 전용 컴포넌트 동작을 위한 요소들만 이관 */
+.carousel-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
 .box {
   position: relative;
   display: flex;
   transform-style: preserve-3d;
   perspective: 500px;
+  width: 100%;
+  height: 400px;
 }
 
 .box .item {
@@ -106,12 +115,9 @@ const prevSlide = () => {
 }
 
 .buttons {
-  position: absolute;
-  bottom: 75px;
-  left: 50%;
-  transform: translateX(-50%);
   display: flex;
-  gap: 20px;
+  gap: 30px; /* 버튼 사이 간격 */
+  margin-top: 20px; /* 3D 박스와의 간격 */
 }
 
 .buttons span {
