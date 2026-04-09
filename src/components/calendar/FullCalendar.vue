@@ -12,6 +12,7 @@ import { onMounted } from 'vue';
 // [{ date, income, expense, items: [] }]
 const props = defineProps({
   monthlyData: Array,
+  currentDate: String,
 });
 
 // 부모로 이벤트 전달 (날짜 선택)
@@ -43,11 +44,11 @@ const handleEventClick = (info) => {
 // 🔥 컴포넌트 마운트 후 오늘 날짜 자동 선택 스타일 적용
 onMounted(() => {
   setTimeout(() => {
-    const todayEl = document.querySelector('.fc-day-today');
+    const todayEl = document.querySelector(`.fc-day-today[data-date="${props.currentDate}"]`);
     if (todayEl) {
       todayEl.classList.add('selected-day');
     }
-  }, 0);
+  }, 50);
 });
 
 // 🔥 FullCalendar에 넣을 이벤트 데이터 생성
@@ -77,6 +78,7 @@ const renderEvent = (arg) => {
 const calendarOptions = {
   plugins: [dayGridPlugin, interactionPlugin],
   initialView: 'dayGridMonth',
+  initialDate: props.currentDate, // 초기 달력 세팅 날짜 지정
 
   // 상단 헤더 (이전 / 제목 / 다음)
   headerToolbar: {
