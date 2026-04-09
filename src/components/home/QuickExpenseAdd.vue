@@ -1,6 +1,9 @@
 <script setup>
 import { ref } from 'vue';
+import { useHomeStore } from '@/store/home';
 import ExpenseDateInput from '@/components/home/ExpenseDataInput.vue';
+
+const store = useHomeStore();
 
 const isModalOpen = ref(false);
 
@@ -13,30 +16,10 @@ const form = ref({
 });
 
 const categories = [
-  {
-    id: 'FOOD',
-    label: '식비',
-    icon: '🍜',
-    bg: 'linear-gradient(135deg, #FF7657, #FF5252)',
-  },
-  {
-    id: 'COFFEE',
-    label: '커피',
-    icon: '☕',
-    bg: 'linear-gradient(135deg, #FFB03A, #FF9800)',
-  },
-  {
-    id: 'TRANSPORT',
-    label: '교통',
-    icon: '🚗',
-    bg: 'linear-gradient(135deg, #42C2FF, #00A6FF)',
-  },
-  {
-    id: 'OTHERS',
-    label: '기타',
-    icon: '🏷️',
-    bg: 'linear-gradient(135deg, #6c6c70, #48484a)',
-  },
+  { id: 'FOOD', label: '식비', icon: '🍜', bg: 'linear-gradient(135deg, #FF7657, #FF5252)' },
+  { id: 'COFFEE', label: '커피', icon: '☕', bg: 'linear-gradient(135deg, #FFB03A, #FF9800)' },
+  { id: 'TRANSPORT', label: '교통', icon: '🚗', bg: 'linear-gradient(135deg, #42C2FF, #00A6FF)' },
+  { id: 'OTHERS', label: '기타', icon: '🏷️', bg: 'linear-gradient(135deg, #6c6c70, #48484a)' },
 ];
 
 const openModal = () => {
@@ -55,11 +38,24 @@ const selectCategory = (categoryId) => {
   form.value.category = categoryId;
 };
 
-const saveExpense = () => {
-  console.log('저장 데이터:', form.value);
+const saveExpense = async () => {
+  const newTransaction = {
+    type: form.value.type,
+    title: form.value.memo || '새로운 거래',
+    amount: Number(form.value.amount),
+    date: form.value.date || new Date().toISOString().split('T')[0],
+    time: '12:00',
+    category: form.value.category,
+    memo: '',
+  };
 
+  // 1. 스토어의 Action 호출 (API 저장 및 리스트 갱신)
+  await store.createTransaction(newTransaction);
+
+  // 2. 모달 닫기
   closeModal();
 
+  // 3. 폼 초기화
   form.value = {
     type: 'expense',
     date: '',
@@ -78,7 +74,6 @@ const saveExpense = () => {
       <div class="quick-modal" @click.stop>
         <div class="modal-header">
           <div class="modal-title">빠른 등록</div>
-
           <button class="close-button" @click="closeModal" aria-label="닫기" type="button">
             ✕
           </button>
@@ -94,7 +89,6 @@ const saveExpense = () => {
             >
               수입
             </button>
-
             <button
               class="type-button"
               :class="{ active: form.type === 'expense' }"
@@ -109,7 +103,6 @@ const saveExpense = () => {
 
           <div class="field-block">
             <label class="field-label">금액</label>
-
             <div class="amount-input-wrap">
               <span class="currency">₩</span>
               <input v-model="form.amount" type="number" class="amount-input" placeholder="0" />
@@ -118,7 +111,6 @@ const saveExpense = () => {
 
           <div class="field-block">
             <label class="field-label">카테고리</label>
-
             <div class="category-grid">
               <button
                 v-for="category in categories"
@@ -137,7 +129,6 @@ const saveExpense = () => {
 
           <div class="field-block">
             <label class="field-label">메모 제목</label>
-
             <textarea
               v-model="form.memo"
               class="memo-input"
@@ -153,10 +144,10 @@ const saveExpense = () => {
 </template>
 
 <style scoped>
+/* 기존 스타일 그대로 유지 */
 .quick-expense-add {
   width: 100%;
 }
-
 .quick-add-button {
   width: 100%;
   height: 56px;
@@ -169,7 +160,6 @@ const saveExpense = () => {
   cursor: pointer;
   font-family: inherit;
 }
-
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -180,7 +170,6 @@ const saveExpense = () => {
   padding: 24px;
   z-index: 9999;
 }
-
 .quick-modal {
   width: 100%;
   max-width: 512px;
@@ -192,7 +181,6 @@ const saveExpense = () => {
   transform: scale(0.9);
   transform-origin: center;
 }
-
 .modal-header {
   height: 76px;
   display: flex;
@@ -201,7 +189,6 @@ const saveExpense = () => {
   padding: 0 24px 0 32px;
   background: linear-gradient(90deg, #ffb900 0%, #fe9a00 100%);
 }
-
 .modal-title {
   font-size: 20px;
   line-height: 28px;
@@ -209,7 +196,6 @@ const saveExpense = () => {
   font-weight: 500;
   color: #000000;
 }
-
 .close-button {
   width: 36px;
   height: 36px;
@@ -221,20 +207,17 @@ const saveExpense = () => {
   cursor: pointer;
   font-family: inherit;
 }
-
 .modal-body {
   display: flex;
   flex-direction: column;
   gap: 24px;
   padding: 32px;
 }
-
 .type-toggle {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
 }
-
 .type-button {
   height: 56px;
   border: none;
@@ -247,7 +230,6 @@ const saveExpense = () => {
   font-family: inherit;
   transition: all 0.2s ease;
 }
-
 .type-button.active {
   background: linear-gradient(117deg, #ffb900 0%, #fe9a00 100%);
   color: #000000;
@@ -255,13 +237,11 @@ const saveExpense = () => {
     0 4px 6px -4px rgba(254, 154, 0, 0.2),
     0 10px 15px -3px rgba(254, 154, 0, 0.2);
 }
-
 .field-block {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
-
 .field-label {
   font-size: 14px;
   font-weight: 500;
@@ -269,11 +249,9 @@ const saveExpense = () => {
   letter-spacing: -0.15px;
   color: rgba(255, 255, 255, 0.6);
 }
-
 .amount-input-wrap {
   position: relative;
 }
-
 .currency {
   position: absolute;
   left: 16px;
@@ -284,7 +262,6 @@ const saveExpense = () => {
   color: rgba(255, 255, 255, 0.4);
   pointer-events: none;
 }
-
 .amount-input {
   width: 100%;
   height: 50px;
@@ -298,28 +275,23 @@ const saveExpense = () => {
   letter-spacing: -0.15px;
   font-family: inherit;
 }
-
 .amount-input::placeholder {
   color: rgba(255, 255, 255, 0.5);
 }
-
 .amount-input::-webkit-outer-spin-button,
 .amount-input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-
 .amount-input[type='number'] {
   appearance: textfield;
   -moz-appearance: textfield;
 }
-
 .category-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 12px;
 }
-
 .category-button {
   height: 102px;
   border: 1px solid transparent;
@@ -335,11 +307,9 @@ const saveExpense = () => {
   font-family: inherit;
   transition: all 0.2s ease;
 }
-
 .category-button:hover {
   transform: translateY(-2px);
 }
-
 .category-button.selected {
   border: 1.5px solid rgba(255, 255, 255, 0.5);
   box-shadow:
@@ -347,24 +317,20 @@ const saveExpense = () => {
     0 8px 20px rgba(0, 0, 0, 0.28),
     0 0 18px rgba(255, 255, 255, 0.14);
 }
-
 .category-button.selected .category-emoji,
 .category-button.selected .category-label {
   color: #ffffff;
 }
-
 .category-emoji {
   font-size: 24px;
   line-height: 32px;
 }
-
 .category-label {
   font-size: 12px;
   font-weight: 500;
   line-height: 16px;
   color: rgba(255, 255, 255, 0.8);
 }
-
 .memo-input {
   width: 100%;
   height: 90px;
@@ -380,11 +346,9 @@ const saveExpense = () => {
   letter-spacing: -0.15px;
   font-family: inherit;
 }
-
 .memo-input::placeholder {
   color: rgba(255, 255, 255, 0.5);
 }
-
 .save-button {
   width: 100%;
   height: 56px;
