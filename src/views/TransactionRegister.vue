@@ -71,142 +71,274 @@ const handleSave = async () => {
 
 </script>
 <template>
-    <div class="register-page">
-        
-        <header class="register-header">
-            <h1>새 거래 등록</h1>
-            <button class="close-btn" @click="handleCancle"> X </button>
-        </header>
-
-        <div class="RegisterTopView">
-            <div class="type-toggle-container">
-                <p class="type-toggle-label">거래 유형을 선택하세요</p>
-                <div class="button-row">
-                    <TopTypeButton 
-                        label="수입"
-                        sub-label="급여, 보너스 등"
-                        icon="💰"
-                        active-color="#2c6bed"
-                        bg-gradient="linear-gradient(135deg, #51A2FF 0%, #2B7FFF 100%)"
-                        :is-active="selectedType === 'income'"
-                        @click="selectedType = 'income'"
-                    />
-                    <TopTypeButton
-                        label="지출"
-                        sub-label="식비, 쇼핑 등"
-                        icon="💸"
-                        active-color="#FF637E"
-                        bg-gradient="linear-gradient(135deg, #FF637E 0%, #FF2056 100%)"
-                        :is-active="selectedType === 'expense'"
-                        @click="selectedType = 'expense'"
-                    >
-                    </TopTypeButton>
-                </div>
-            </div>
+  <div class="register-page">
+    <div class="register-container">
+      <header class="register-header">
+        <div class="header-title">
+          <h1>새 거래 등록</h1>
+          <p class="header-subtitle">가계부를 꼼꼼하게 관리해보세요</p>
         </div>
-        <div class="money-field-wrapper">
+        <button class="close-btn" @click="handleCancle" aria-label="닫기">
+          <span class="icon">✕</span>
+        </button>
+      </header>
+
+      <div class="register-layout">
+        <!-- Main Form Section -->
+        <main class="registration-form">
+          <section class="form-card type-selection-card">
+            <h2 class="section-title">거래 유형</h2>
+            <div class="button-row">
+              <TopTypeButton 
+                label="수입"
+                sub-label="급여, 보너스 등"
+                icon="💰"
+                active-color="#2c6bed"
+                bg-gradient="linear-gradient(135deg, #51A2FF 0%, #2B7FFF 100%)"
+                :is-active="selectedType === 'income'"
+                @click="selectedType = 'income'"
+              />
+              <TopTypeButton
+                label="지출"
+                sub-label="식비, 쇼핑 등"
+                icon="💸"
+                active-color="#FF637E"
+                bg-gradient="linear-gradient(135deg, #FF637E 0%, #FF2056 100%)"
+                :is-active="selectedType === 'expense'"
+                @click="selectedType = 'expense'"
+              />
+            </div>
+          </section>
+
+          <section class="form-card amount-card">
+            <h2 class="section-title">금액 입력</h2>
             <TopMoneyField v-model="transactionAmount"/>
-        </div>
-        <div class="RegisterMidView"> 
-            <div class="date-time-row">
-                <MidDateField v-model="transactionDate"/>
-                <MidTimeField v-model="transactionTime"/>
-            </div>
-            <div> 
-                <MidCategoryButton v-model="transactionCategory"/>
-            </div>
-            <div> 
-                <MidTransactionTitle v-model="transactionTitle"/>
-                <MidMemoField v-model="transactionMemo"/>
-            </div>
-            <div> 
-                <MidSaveButton
-                    @save="handleSave"
-                />
-            </div>
-        </div>
-    
-        <div class="RegisterBotView">
-        <BotSummaryList 
-            :type="selectedType"
-            :amount="transactionAmount"
-            :date="transactionDate"
-            :category="transactionCategory"
-        />
-        <BotRecentTransaction />
-        <BotQuickTip />
-    </div>
-    </div>
+          </section>
 
+          <section class="form-card details-card">
+            <h2 class="section-title">상세 정보</h2>
+            <div class="date-time-row">
+              <MidDateField v-model="transactionDate"/>
+              <MidTimeField v-model="transactionTime"/>
+            </div>
+            <div class="field-group">
+              <MidCategoryButton v-model="transactionCategory"/>
+            </div>
+            <div class="field-group">
+              <MidTransactionTitle v-model="transactionTitle"/>
+              <MidMemoField v-model="transactionMemo"/>
+            </div>
+          </section>
+
+          <div class="actions-row">
+            <MidSaveButton @save="handleSave" />
+          </div>
+        </main>
+
+        <!-- Sidebar / Info Section -->
+        <aside class="registration-info">
+          <div class="info-sticky">
+            <section class="info-card summary-card">
+              <h2 class="section-title">등록 요약</h2>
+              <BotSummaryList 
+                :type="selectedType"
+                :amount="transactionAmount"
+                :date="transactionDate"
+                :category="transactionCategory"
+              />
+            </section>
+            
+            <section class="info-card recent-card">
+              <h2 class="section-title">최근 거래</h2>
+              <BotRecentTransaction />
+            </section>
+
+            <section class="info-card tip-card">
+              <BotQuickTip />
+            </section>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
 </template>
 
 <style scoped>
-/* 페이지 전체 뼈대 */
+/* Grid & Layout */
 .register-page {
-  background-color: #000000;
+  background-color: #0A0A0B;
   min-height: 100vh;
-  padding: 16px;
+  color: #FFFFFF;
+  padding: 40px 20px;
+  overflow-x: hidden;
 }
 
-/* 헤더 영역 */
+.register-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* Header Styling */
 .register-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 4px;
-  margin-bottom: 20px;
-  color: white;
+  padding: 0 8px;
 }
 
-.register-header h1 {
-  font-size: 22px;
-  font-weight: 700;
+.header-title h1 {
+  font-size: 28px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #FFFFFF 0%, #8E8E93 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 4px;
+}
+
+.header-subtitle {
+  font-size: 15px;
+  color: #8E8E93;
 }
 
 .close-btn {
-  background: none;
-  border: none;
-  color: #8e8e93;
-  font-size: 24px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #FFFFFF;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-/* Top, 유형 선택 카드 (어두운 배경) */
-.RegisterTopView {
-  background-color: #111111;
-  border-radius: 24px;
-  padding: 20px;
+.close-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: rotate(90deg);
 }
 
-.type-toggle-label {
-  font-size: 14px;
-  color: #8e8e93;
-  margin-bottom: 16px;
+/* Main Layout Grid */
+.register-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  align-items: start;
 }
 
-/* 가로 배치 */
+/* Desktop Dual Column */
+@media (min-width: 1024px) {
+  .register-layout {
+    grid-template-columns: 1fr 360px;
+  }
+}
+
+/* Form Sections */
+.registration-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.form-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 28px;
+  padding: 32px;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.form-card:hover {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.section-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #8E8E93;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Type Buttons */
 .button-row {
   display: flex;
-  gap: 50px; /* 두 버튼 사이의 간격 */
-  width: 100%;
-  max-width: 500px;
-  margin: 0 auto;
+  gap: 20px;
 }
 
-/* Top, 금액 입력 필드 */
-.money-field-wrapper {
-  margin-top: 24px;
+@media (max-width: 480px) {
+  .button-row {
+    flex-direction: column;
+  }
 }
 
-/* Mid, 날짜 시간 반반씩 가로 배치 */
+/* Details Section */
 .date-time-row {
-    display: flex;
-    gap: 12px;
-    margin-bottom: 20px;
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
 }
 
-/* 자식 컴포넌트가 동일한 너비를 가지도록 설정 */
 .date-time-row > * {
-    flex: 1;
+  flex: 1;
 }
+
+@media (max-width: 640px) {
+  .date-time-row {
+    flex-direction: column;
+  }
+}
+
+.field-group {
+  margin-bottom: 24px;
+}
+
+.field-group:last-child {
+  margin-bottom: 0;
+}
+
+/* Sidebar Info Section */
+.registration-info {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.info-sticky {
+  position: sticky;
+  top: 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.info-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 24px;
+  padding: 24px;
+  backdrop-filter: blur(8px);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.form-card, .info-card {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.type-selection-card { animation-delay: 0.1s; }
+.amount-card { animation-delay: 0.2s; }
+.details-card { animation-delay: 0.3s; }
+.summary-card { animation-delay: 0.4s; }
 </style>

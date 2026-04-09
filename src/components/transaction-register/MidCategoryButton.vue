@@ -64,7 +64,8 @@ const categories = [
 
 /*  1행 배치 */
 .category-grid {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
     gap: 16px;
 }
 
