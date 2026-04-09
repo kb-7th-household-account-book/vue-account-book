@@ -1,68 +1,74 @@
 <template>
   <div class="modal-overlay" @click.self="$emit('close')">
     <div class="modal-content">
-      <div class="receipt">
-        <div class="receipt-header">
-          <h2>NOIR VAULT</h2>
-          <p>RECEIPT OF TRANSACTION</p>
-        </div>
-
-        <div class="divider"></div>
-
-        <div class="receipt-section">
-          <div class="row">
-            <span class="label">DATE:</span>
-            <span class="value">{{ transaction.date }}</span>
-          </div>
-          <div class="row">
-            <span class="label">TIME:</span>
-            <span class="value">{{ transaction.time }}</span>
-          </div>
-        </div>
-
-        <div class="divider"></div>
-
-        <div class="receipt-section">
-          <div class="row">
-            <span class="label">CATEGORY:</span>
-            <span class="value">
-              {{ transaction.categoryIcon }}{{ transaction.category }}
-            </span>
+      <div class="receipt-container" :class="{ tearing: isDeleting }">
+        <div
+          v-for="part in ['top-piece', 'bottom-piece']"
+          :key="part"
+          :class="['receipt', part]"
+        >
+          <div class="receipt-header">
+            <h2>NOIR VAULT</h2>
+            <p>RECEIPT OF TRANSACTION</p>
           </div>
 
-          <div class="memo-container">
-            <span class="label">ITEM (Memo):</span>
-            <div class="memo-box">
-              {{ transaction.memo || '내용 없음' }}
+          <div class="divider"></div>
+
+          <div class="receipt-section">
+            <div class="row">
+              <span class="label">DATE:</span>
+              <span class="value">{{ transaction.date }}</span>
+            </div>
+            <div class="row">
+              <span class="label">TIME:</span>
+              <span class="value">{{ transaction.time }}</span>
             </div>
           </div>
-        </div>
 
-        <div class="divider"></div>
+          <div class="divider"></div>
 
-        <div class="receipt-total">
-          <span class="label">TOTAL</span>
-          <div
-            class="amount"
-            :class="{
-              expense: transaction.type === 'expense',
-              income: transaction.type === 'income',
-            }"
-          >
-            {{ transaction.type === 'expense' ? '-' : '+' }}₩{{
-              transaction.amount.toLocaleString()
-            }}
+          <div class="receipt-section">
+            <div class="row">
+              <span class="label">CATEGORY:</span>
+              <span class="value">
+                {{ transaction.categoryIcon }}{{ transaction.category }}
+              </span>
+            </div>
+
+            <div class="memo-container">
+              <span class="label">ITEM (Memo):</span>
+              <div class="memo-box">
+                {{ transaction.memo || '내용 없음' }}
+              </div>
+            </div>
           </div>
-        </div>
 
-        <div class="receipt-footer">
-          <img :src="receiptSvg" alt="영수증 바코드" class="barcode-img" />
-          <p class="thank-you">THANK YOU</p>
+          <div class="divider"></div>
+
+          <div class="receipt-total">
+            <span class="label">TOTAL</span>
+            <div
+              class="amount"
+              :class="{
+                expense: transaction.type === 'expense',
+                income: transaction.type === 'income',
+              }"
+            >
+              {{ transaction.type === 'expense' ? '-' : '+' }}₩{{
+                transaction.amount.toLocaleString()
+              }}
+            </div>
+          </div>
+
+          <div class="receipt-footer">
+            <img :src="receiptSvg" alt="영수증 바코드" class="barcode-img" />
+            <p class="thank-you">THANK YOU</p>
+          </div>
         </div>
       </div>
 
       <div class="action-buttons">
-        <button class="btn-icon btn-delete" @click="$emit('delete')">
+        <button class="btn-icon btn-delete" @click="startDelete">
           <svg
             width="24"
             height="24"
@@ -83,7 +89,7 @@
             height="18"
             viewBox="0 0 24 24"
             fill="none"
-            xmlns="http://www.w3.org/2000/svg"
+            xmlns="http://www.w3.org/2000/vue"
           >
             <path
               d="M3 17.25V21H6.75L17.81 9.94L14.06 6.19L3 17.25ZM20.71 7.04C21.1 6.65 21.1 6.02 20.71 5.63L18.37 3.29C17.98 2.9 17.35 2.9 16.96 3.29L15.13 5.12L18.88 8.87L20.71 7.04Z"
@@ -113,13 +119,12 @@
 </template>
 
 <script setup>
-import { onMounted, onUnmounted } from 'vue'; // 🌟 1. 생명주기 함수 가져오기
+import { onMounted, onUnmounted, ref } from 'vue';
 import receiptSvg from '@/assets/icons/receipt.svg';
-// 부모 컴포넌트(팀원 리스트)에서 이 데이터를 넘겨줄 겁니다!
+
 const props = defineProps({
   transaction: {
     type: Object,
-    // 데이터가 안 넘어왔을 때 보여줄 임시 가짜 데이터 (작업용)
     default: () => ({
       id: 1,
       date: '2026.04.08',
@@ -128,34 +133,32 @@ const props = defineProps({
       categoryIcon: '🍜',
       memo: '가족 외식',
       amount: 215000,
-      type: 'expense', // 'expense' | 'income'
+      type: 'expense',
     }),
   },
 });
 
-// 부모에게 보낼 이벤트들
 const emit = defineEmits(['close', 'edit', 'delete']);
+const isDeleting = ref(false);
 
-// ESC 키 눌렀을 때 실행될 함수
-const handleEsc = (e) => {
-  if (e.key === 'Escape') {
-    emit('close'); // 부모한테 닫으라고 신호 보내기!
-  }
+const startDelete = () => {
+  isDeleting.value = true;
+  setTimeout(() => {
+    emit('delete', props.transaction.id);
+    emit('close');
+  }, 1000); // 애니메이션 시간 확보
 };
 
-// 컴포넌트가 화면에 나타날 때(Mounted) 리스너 등록
-onMounted(() => {
-  window.addEventListener('keydown', handleEsc);
-});
+const handleEsc = (e) => {
+  if (e.key === 'Escape') emit('close');
+};
 
-// 컴포넌트가 사라질 때(Unmounted) 리스너 제거 (중요!)
-onUnmounted(() => {
-  window.removeEventListener('keydown', handleEsc);
-});
+onMounted(() => window.addEventListener('keydown', handleEsc));
+onUnmounted(() => window.removeEventListener('keydown', handleEsc));
 </script>
 
 <style scoped>
-/* 전체 화면 덮는 어두운 배경 */
+/* 배경 및 기본 정렬 */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -168,8 +171,6 @@ onUnmounted(() => {
   align-items: center;
   z-index: 1000;
 }
-
-/* 모달 전체 컨테이너 */
 .modal-content {
   display: flex;
   flex-direction: column;
@@ -177,21 +178,30 @@ onUnmounted(() => {
   gap: 20px;
 }
 
-/* 🧾 영수증 디자인 */
+/* 🌟 영수증 컨테이너: 그리드를 사용하여 자식들이 정확히 겹치게 설정 */
+.receipt-container {
+  display: grid;
+  grid-template-areas: 'overlap';
+  width: 320px;
+  min-height: 500px;
+}
+
+/* 🧾 영수증 스타일 (인호 님 원본 스타일 보존) */
 .receipt {
-  background-color: #111113; /* 다크모드 영수증 배경 */
+  grid-area: overlap; /* 🌟 정확하게 한 자리에 겹침 */
+  background-color: #111113;
   width: 320px;
   padding: 30px 24px;
   border-radius: 8px;
   color: #d1d1d1;
-  font-family: 'Courier Prime', monospace; /* 영수증 특유의 폰트 */
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-  min-height: 500px;
   display: flex;
   flex-direction: column;
   font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
+  /* 찢어지기 전에는 하나의 영수증처럼 보이게 설정 */
 }
 
+/* 영수증 내부 디테일 */
 .receipt-header {
   text-align: center;
   margin-bottom: 20px;
@@ -208,13 +218,10 @@ onUnmounted(() => {
   margin: 0;
   letter-spacing: 1px;
 }
-
-/* 점선 구분선 */
 .divider {
   border-top: 1px dashed #444;
   margin: 15px 0;
 }
-
 .receipt-section {
   display: flex;
   flex-direction: column;
@@ -223,10 +230,9 @@ onUnmounted(() => {
 .row {
   display: flex;
   justify-content: space-between;
-  align-items: center; /*삭제 가능함*/
+  align-items: center;
   font-size: 14px;
 }
-
 .label {
   color: #888;
   font-size: 14px;
@@ -236,96 +242,146 @@ onUnmounted(() => {
   font-weight: bold;
   text-align: right;
 }
-.memo-container {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 10px;
-}
 .memo-box {
   padding: 16px;
   border-radius: 6px;
   color: #fff;
   font-size: 14px;
-  min-height: 65px; /* 여기서 메모 박스의 높이를 조절할 수 있습니다! */
+  min-height: 65px;
   line-height: 1.5;
-  word-break: break-all; /* 글자가 길어지면 자동으로 줄바꿈 */
+  word-break: break-all;
 }
-.memo-row {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-top: 10px;
-}
-.memo-text {
-  margin: 0;
-  color: #fff;
-  font-size: 14px;
-}
-
-/* 합계 영역 */
 .receipt-total {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin: 20px 0;
   font-weight: bold;
-  color: #ff3b30;
 }
 .receipt-total .label {
+  color: #fff;
+  font-size: 20px;
   font-weight: bold;
-  font-size: 16px;
 }
-.receipt-total .amount {
+.amount {
   font-size: 23px !important;
   font-weight: bold;
 }
 .amount.expense {
-  font-size: 20px;
   color: #ff4d4d;
-} /* 지출은 빨간색 */
-.amount.income {
-  font-size: 20px;
-  color: #ffffff;
-} /* 수입은 파란색 */
-
-/* 하단 바코드 & 인사말 */
-.receipt-footer {
-  text-align: center;
-  margin-top: 30px;
 }
-.barcode {
-  height: 30px;
+.amount.income {
+  color: #4da6ff;
+}
+.barcode-img {
   width: 100%;
-  /* 바코드 무늬를 그라데이션으로 구현 */
-  background: repeating-linear-gradient(
-    90deg,
-    #fff,
-    #fff 2px,
-    transparent 2px,
-    transparent 4px,
-    #fff 4px,
-    #fff 5px,
-    transparent 5px,
-    transparent 8px
-  );
-  opacity: 0.3;
+  height: auto;
+  max-height: 40px;
   margin-bottom: 10px;
 }
 .thank-you {
   font-size: 12px;
   color: #666;
   letter-spacing: 2px;
-  margin: 0;
+  text-align: center;
 }
 
-/* 🔘 하단 플로팅 버튼들 */
+/* 🎬 찢어지는 비행 애니메이션 로직 */
+
+/* 상단 조각: 지그재그 윗부분 + 위로 날아감 */
+.tearing .top-piece {
+  pointer-events: none;
+  z-index: 2;
+  clip-path: polygon(
+    0% 0%,
+    100% 0%,
+    100% 50%,
+    95% 46%,
+    90% 52%,
+    85% 47%,
+    80% 51%,
+    75% 46%,
+    70% 53%,
+    65% 47%,
+    60% 52%,
+    55% 46%,
+    50% 54%,
+    45% 47%,
+    40% 52%,
+    35% 46%,
+    30% 53%,
+    25% 47%,
+    20% 52%,
+    15% 46%,
+    10% 53%,
+    5% 47%,
+    0% 52%
+  );
+  animation: fly-away-up 0.8s forwards ease-in 0.2s;
+}
+
+/* 하단 조각: 지그재그 아랫부분 + 아래로 날아감 */
+.tearing .bottom-piece {
+  pointer-events: none;
+  z-index: 1;
+  clip-path: polygon(
+    0% 52%,
+    5% 47%,
+    10% 53%,
+    15% 46%,
+    20% 52%,
+    25% 47%,
+    30% 53%,
+    35% 46%,
+    40% 52%,
+    45% 47%,
+    50% 54%,
+    55% 46%,
+    60% 52%,
+    65% 47%,
+    70% 53%,
+    75% 46%,
+    80% 52%,
+    85% 47%,
+    90% 53%,
+    95% 46%,
+    100% 50%,
+    100% 100%,
+    0% 100%
+  );
+  animation: fly-away-down 0.8s forwards ease-in 0.2s;
+}
+
+/* 상단 비상 키프레임 */
+@keyframes fly-away-up {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-600px) rotate(-15deg);
+    opacity: 0;
+  }
+}
+
+/* 하단 추락 키프레임 */
+@keyframes fly-away-down {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(600px) rotate(15deg);
+    opacity: 0;
+  }
+}
+
+/* 버튼 스타일 (인호 님 원본) */
 .action-buttons {
   display: flex;
   gap: 12px;
-  align-items: center;
+  margin-top: 10px;
 }
-
 .btn-icon {
   width: 48px;
   height: 48px;
@@ -336,54 +392,21 @@ onUnmounted(() => {
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  transition: all 0.2s;
 }
-.btn-icon:hover {
-  background-color: #3a3a3b;
-}
-
 .btn-delete {
   background-color: #3d1c24;
-} /* 삭제 버튼은 약간 붉은 배경 */
-.btn-delete:hover {
-  background-color: #4d232d;
 }
-
 .btn-text {
   display: flex;
   align-items: center;
   gap: 8px;
   background-color: #fff;
   color: #000;
-  border: none;
+  border-radius: 24px;
   padding: 0 24px;
   height: 48px;
-  border-radius: 24px;
   font-weight: bold;
-  font-size: 16px;
+  border: none;
   cursor: pointer;
-  transition: all 0.2s;
-}
-.btn-text:hover {
-  background-color: #e0e0e0;
-}
-.barcode-img {
-  width: 100%; /* 영수증 가로폭에 꽉 차게 */
-  height: auto; /* 높이는 비율에 맞춰서 자동 조절 */
-  max-height: 40px; /* 너무 뚱뚱해지지 않게 최대 높이만 제한 */
-  margin-bottom: 10px;
-}
-.field-box {
-  padding: 6px 12px; /* 박스 안쪽 여백 */
-  border-radius: 4px; /* 모서리 둥글게 */
-  color: #fff; /* 글씨 색상을 하얀색으로 */
-  font-size: 14px; /* 글씨 크기 */
-  min-width: 140px; /* 박스의 가로 최소 길이를 고정해서 삐뚤빼뚤해지지 않게 함 */
-  text-align: right;
-}
-.receipt-total .label {
-  color: #fff; /* 👈 TOTAL 글씨는 다시 하얀색으로! */
-  font-size: 20px; /* 👈 16px에서 20px 정도로 키우면 시원시원합니다! */
-  font-weight: bold; /* 👈 더 굵게 강조 */
 }
 </style>
