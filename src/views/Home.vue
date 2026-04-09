@@ -49,14 +49,15 @@ import CategoryTop3 from '@/components/home/CategoryTop3.vue';
   flex-direction: column;
   gap: 24px;
   box-sizing: border-box;
-  margin: 120px 32px;
 }
 
 /* 🔹 상단 (3D 영역) */
 .home-top-box {
-  padding: 120px 116.5px;
+  padding: 20px 20px;
   min-height: 460px;
   box-sizing: border-box;
+  display: flex;
+  justify-content: center;
 }
 
 /* 🔹 하단 2컬럼 */
