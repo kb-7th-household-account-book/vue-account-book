@@ -13,7 +13,7 @@
       <div class="stat-box">
         <p class="stat-label">총 거래 건수</p>
         <p class="stat-value">
-          {{ userStore.userStats.total_transaction_count.toLocaleString() }}건
+          {{ userStore.totalTransactionCount.toLocaleString() }}건
         </p>
       </div>
       <div class="stat-box">
@@ -22,7 +22,7 @@
       </div>
       <div class="stat-box">
         <p class="stat-label">카테고리</p>
-        <p class="stat-value">{{ userStore.userStats.category_count }}개</p>
+        <p class="stat-value">{{ userStore.usedCategoryCount }}개</p>
       </div>
     </div>
 
