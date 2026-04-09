@@ -36,7 +36,7 @@
           </div>
 
           <div class="amount" :class="item.amount > 0 ? 'income' : 'expense'">
-            {{ item.amount > 0 ? '+' : '' }}₩{{ item.amount.toLocaleString() }}
+            ₩ {{ item.amount > 0 ? '+' : '' }}{{ item.amount.toLocaleString() }}
           </div>
         </div>
       </div>

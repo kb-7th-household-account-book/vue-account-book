@@ -1,36 +1,65 @@
 <template>
-  <button class="button" @click="addTransaction" :class="add.type">
+  <button class="button" @click="handleButtonClick" :class="add.type">
     {{ add.name }}
   </button>
 </template>
+
 <script setup>
-defineProps({
+const props = defineProps({
   add: {
     type: Object,
     required: true,
   },
 });
-const addTransaction = () => {
-  // 거래 추가 로직
+
+const emit = defineEmits(['action']);
+
+const handleButtonClick = () => {
+  console.log('버튼 클릭:', props.add.type);
+  // 타입별 분기 처리
+  switch (props.add.type) {
+    case 'transaction':
+      // 일반 거래 추가 로직
+      break;
+    case 'todayTransaction':
+      // 선택된 날짜에 추가하는 로직
+      break;
+    case 'fixedExpenses':
+      // 고정 지출 추가 로직
+      break;
+  }
+
+  // 부모 컴포넌트(Calendar.vue)로 타입 전달
+  emit('action', props.add.type);
 };
 </script>
+
 <style scoped>
 .button {
   width: 100%;
-  background-color: #fe9a00;
-  height: 70px;
-  border-radius: 24px;
-  padding: 20px;
-  margin: 20px;
+  height: 55px; /* Grid 레이아웃에 맞춰 높이 조정 */
+  border-radius: 18px; /* 피그마의 라운드 값 반영 (image_310579.jpg) */
   border: none;
-  font-size: 21px;
+  font-size: 16px; /* 21px은 너무 커서 살짝 줄였습니다 */
+  font-weight: bold;
+  cursor: pointer;
+  background-color: #fe9a00; /* 기본: + 거래 추가 색상 */
+  color: #000;
+  transition: opacity 0.2s;
 }
+
+.button:hover {
+  opacity: 0.8;
+}
+
+/* 피그마와 동일한 버튼 색상 적용 */
 .todayTransaction {
-  background-color: #ccc;
-  border: none;
+  background-color: #e7e6c8; /* + 이 날에게 거래 추가 색상 (연한 베이지) */
+  color: #333;
 }
+
 .fixedExpenses {
-  border: none;
-  background-color: #ad46ff;
+  background-color: #ad46ff; /* + 고정지출 추가 색상 (보라) */
+  color: white;
 }
 </style>

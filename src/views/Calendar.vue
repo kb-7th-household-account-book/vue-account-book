@@ -8,17 +8,25 @@
           :account="account"
         />
       </div>
-      <div class="calendar">
-        <FullCalendar
-          :monthlyData="monthlyData"
-          @dateSelect="handleDateSelect"
-          :currentDate="selectedDate"
+      <FullCalendar 
+        :monthlyData="monthlyData"
+        @dateSelect="handleDateSelect"
+        :currentDate="selectedDate"
+      />
+      <div class="button-row">
+        <Button
+          v-for="add in adds"
+          :key="add.id"
+          :add="add"
+          @action="handleButtonAction"
         />
       </div>
-      <div class="button-row">
-        <Button v-for="add in adds" :key="add.id" :add="add" />
-      </div>
-      <div>
+      <FixedExpenseModal
+        :show="isModalOpen"
+        @close="isModalOpen = false"
+        @save="saveFixedExpense"
+      />
+      <div class="transaction">
         <TransactionDetail
           :selectedDate="selectedDate"
           :selectedData="selectedData"
@@ -35,8 +43,28 @@ import Button from '@/components/calendar/Button.vue';
 import TransactionDetail from '@/components/calendar/TransactionDetail.vue';
 import { ref, computed } from 'vue';
 import { useRoute } from 'vue-router';
+import FixedExpenseModal from '@/components/calendar/FixedExpenseModal.vue';
 
 const route = useRoute();
+
+// ⭐ 모달 오픈 상태 관리 변수
+const isModalOpen = ref(false);
+
+const handleButtonAction = (type) => {
+  if (type === 'fixedExpenses') {
+    // 💡 "+ 고정지출 추가" 버튼 클릭 시 모달 오픈
+    isModalOpen.value = true;
+    console.log(type);
+  }
+  // ... 다른 버튼 로직 생략 ...
+};
+
+// ⭐ 모달에서 '저장' 버튼을 눌렀을 때 실행될 함수
+const saveFixedExpense = (newExpense) => {
+  // 💡 여기서 실제 DB 저장 API를 호출하거나, monthlyData를 업데이트하는 로직을 넣으세요.
+  console.log('부모에서 받은 저장 데이터:', newExpense);
+  alert(`"${newExpense.title}" 고정지출이 저장되었습니다.`);
+};
 
 /* 🔥 오늘 날짜 */
 const getToday = () => {
@@ -56,7 +84,7 @@ const handleDateSelect = (date) => {
 };
 const monthlyData = [
   {
-    date: '2026-04-07',
+    date: '2026-04-06',
     income: 200000,
     expense: 45000,
     items: [
@@ -95,26 +123,40 @@ const adds = [
 <style scoped>
 .body {
   background-color: #000;
+  display: flex;
+  justify-content: center; /* 가로 중앙 정렬 */
 }
 
 .wrapper {
-  max-width: 1350px;
-  min-width: 1350px;
-  margin: 0 auto;
+  width: 100%;
+  max-width: 1000px;
+  display: flex;
+  flex-direction: column; /* 세로로 쌓기 */
   padding-bottom: 80px;
 }
 
 .account-row {
-  display: flex;
-  gap: 15px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 0 10px;
+  width: 100%;
+  justify-items: center; /* 내부 아이템 중앙 정렬 */
 }
 
-.calendar {
-  padding: 20px 0;
-}
-
+/* 2. 하단 버튼 영역 (그리드로 수정) */
 .button-row {
-  display: flex;
-  gap: 15px;
+  display: grid;
+  /* 버튼은 박스보다 조금 더 작아도 예쁘니 280px 정도로 설정해 볼게요 */
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 0 10px;
+  width: 100%;
+  justify-items: center;
+}
+
+.account-row > *,
+.button-row > * {
+  width: 100%;
+  /* 창이 아주 넓어질 때 혼자 너무 길어지지 않도록 피그마 느낌의 너비 제한 */
+  max-width: 300px;
 }
 </style>

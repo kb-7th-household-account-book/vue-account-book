@@ -75,7 +75,8 @@ const goToCalendar = (month) => {
   transform-style: preserve-3d;
   transform-origin: bottom;
   user-select: none;
-  -webkit-box-reflect: below 1px linear-gradient(transparent, transparent, #0002)
+  -webkit-box-reflect: below 1px linear-gradient(transparent, transparent, #0002);
+  cursor: pointer;
 }
 
 .box .item:nth-child(1) {

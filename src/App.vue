@@ -4,7 +4,9 @@ import Header from './components/Header.vue'
 
 <template>
   <Header />
-  <router-view /> 
+  <div class="main-content">
+    <router-view /> 
+  </div>
 
 </template>
 
@@ -14,5 +16,9 @@ import Header from './components/Header.vue'
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+.main-content {
+  margin-top: 60px;
 }
 </style>
