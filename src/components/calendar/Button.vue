@@ -17,9 +17,10 @@ const addTransaction = () => {
 <style scoped>
 .button {
   width: 100%;
-  background-color: #fe9a00;
+  background: linear-gradient(90deg, #ffb900 0%, #fe9a00 100%);
+
   height: 70px;
-  border-radius: 24px;
+  border-radius: 16px;
   padding: 20px;
   margin: 20px;
   border: none;
@@ -31,6 +32,7 @@ const addTransaction = () => {
 }
 .fixedExpenses {
   border: none;
-  background-color: #ad46ff;
+  color: white;
+  background: linear-gradient(90deg, #c27aff 0%, #ad46ff 100%);
 }
 </style>

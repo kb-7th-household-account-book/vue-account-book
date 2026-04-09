@@ -1,5 +1,9 @@
 <template>
-  <FullCalendar :options="calendarOptions" />
+  <div class="calendar-center-wrapper">
+    <div class="calendar-fixed-box">
+      <FullCalendar :options="calendarOptions" />
+    </div>
+  </div>
 </template>
 
 <script setup>
@@ -103,8 +107,22 @@ const calendarOptions = {
 </script>
 
 <style scoped>
-:deep(.fc-scrollgrid),
-:deep(.fc-scrollgrid-section > td) {
+/* 모든 테이블 관련 요소의 보더와 아웃라인을 0으로 강제 */
+:deep(.fc-theme-standard .fc-scrollgrid),
+:deep(.fc-theme-standard td),
+:deep(.fc-theme-standard th),
+:deep(.fc-scrollgrid-section > *),
+:deep(.fc-scroller-harness),
+:deep(.fc-scroller) {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* 이벤트 내부의 기본 파란색 바(bg) 제거 */
+:deep(.fc-v-event),
+:deep(.fc-h-event) {
+  background-color: transparent !important;
   border: none !important;
 }
 
@@ -119,95 +137,87 @@ const calendarOptions = {
   gap: 8px;
 }
 
-:deep(.fc-header-toolbar) {
-  justify-content: flex-start; /* 왼쪽 정렬 */
-  gap: 10px;
+.calendar-center-wrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }
 
-:deep(.fc-button) {
-  background: none !important;
+/* 전체 달력 크기 조정 */
+.calendar-fixed-box {
+  width: 100%;
+  max-width: 1000px; /* 100px 셀 7개 + 간격 고려한 적정 수치 */
+  min-width: 1000px;
+}
+
+/* 테이블 레이아웃 고정 (간격 유지의 핵심) */
+:deep(.fc-scrollgrid),
+:deep(.fc-datagrid-body),
+:deep(.fc-col-header) {
+  border-collapse: separate !important; /* collapse면 margin이 안 먹습니다 */
+  border-spacing: 12px !important; /* 여기서 셀 사이 간격을 조절하세요 */
   border: none !important;
-  color: white;
-  font-size: 24px;
-  box-shadow: none !important;
 }
 
-/* hover 효과 */
-:deep(.fc-button:hover) {
-  color: #ffb300;
+/* 날짜 카드 크기 및 비율 고정 */
+:deep(.fc-daygrid-day-frame) {
+  width: 128px;
+  height: 128px;
+  aspect-ratio: 1 / 1;
+  color: black;
+  border-radius: 16px;
+  background-color: #e7e6c8;
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  margin: 8px;
+  box-sizing: border-box;
+  transition: all 0.2s;
 }
 
-:deep(.fc-toolbar-title) {
-  color: white;
-  font-size: 24px;
+/* 날짜 셀 자체의 보더와 배경 제거 (중첩 방지) */
+:deep(.fc-daygrid-day) {
+  background: transparent !important;
+}
+
+/* 이전/다음 달 스타일 */
+:deep(.fc-day-other .fc-daygrid-day-frame) {
+  background-color: #e7e6c8 !important;
+  opacity: 0.3;
+}
+
+/* 선택된 날짜 */
+:deep(.selected-day .fc-daygrid-day-frame) {
+  background-color: #ffb300 !important;
+}
+
+/* 요일 헤더 정렬 */
+:deep(.fc-col-header-cell-cushion) {
   font-weight: 600;
 }
 
-/* 날짜 사이 간격 만들기 */
-:deep(.fc-daygrid-day-frame) {
-  margin: 6px;
-}
-
-/* 📅 날짜 카드 스타일 */
-:deep(.fc-daygrid-day) {
-  border: none;
-  padding: 0;
-}
-
-/* 각 날짜 카드 */
-:deep(.fc-daygrid-day-frame) {
-  height: 90px;
-  border-radius: 16px;
-  border: none;
-  padding: 8px;
-  background: transparent;
-
-  /* 💡 핵심: 배경을 그림자로 채움 (끊김 방지) */
-  box-shadow: inset 0 0 0 9999px #e7e6c8;
-  transition: all 0.2s ease;
-}
-
-/* 🌗 이전/다음 달 날짜 */
-:deep(.fc-day-other .fc-daygrid-day-frame) {
-  box-shadow: inset 0 0 0 9999px #5c5c4d;
-  opacity: 0.6;
-}
-
-/* ⭐ 선택된 날짜 */
-:deep(.selected-day .fc-daygrid-day-frame) {
-  box-shadow: inset 0 0 0 9999px #ffb300;
-  color: #ccc !important;
-}
-
-/* 일요일 */
-:deep(.fc-col-header-cell:nth-child(1)) {
+/* 일요일/토요일 색상 */
+:deep(.fc-col-header-cell:nth-child(1) .fc-col-header-cell-cushion) {
   color: #ff6b6b;
 }
-
-/* 토요일 */
-:deep(.fc-col-header-cell:nth-child(7)) {
+:deep(.fc-col-header-cell:nth-child(7) .fc-col-header-cell-cushion) {
   color: #4dabf7;
 }
 
-/* 💰 이벤트 (금액 표시) */
-:deep(.fc-event) {
-  background: none !important;
-  border: none !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  font-size: 11px;
-  text-align: center;
+/* 툴바 및 기타 텍스트 스타일 */
+:deep(.fc-toolbar-title) {
+  color: white;
+  font-size: 22px;
+  font-weight: bold;
 }
 
-/* 각 요일 cell */
-:deep(.fc-col-header-cell) {
+:deep(.fc-button) {
   background: transparent !important;
   border: none !important;
-  box-shadow: none !important;
+  color: white !important;
 }
 
 :deep(th) {
   color: #364153;
-  background: none !important;
 }
 </style>
