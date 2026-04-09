@@ -1,10 +1,16 @@
 <script setup>
+import { ref } from 'vue';
 import { useGameStore } from '@/store/game';
 
 const gameStore = useGameStore();
+const showDetails = ref(false);
 
 const handleRetry = () => {
   window.location.reload(); 
+};
+
+const toggleDetails = () => {
+  showDetails.value = !showDetails.value;
 };
 </script>
 
@@ -21,7 +27,23 @@ const handleRetry = () => {
         <span class="price">{{ gameStore.score.toLocaleString() }}원</span>
       </div>
     </div>
-    <button>내역 상세보기</button>
+
+    <!-- 상세 내역 섹션 -->
+    <button @click="toggleDetails" class="detail-toggle-btn">
+      {{ showDetails ? '내역 접기' : '내역 상세보기' }}
+    </button>
+
+    <div v-if="showDetails" class="detail-section">
+      <div class="detail-list">
+        <div v-for="(item, index) in gameStore.fallingItems" :key="index" class="detail-item">
+          <div class="item-title">{{ item.title }}</div>
+          <span class="item-icon">{{ item.icon }}</span>
+          <div v-if="item.memo" class="item-memo">{{ item.memo }}</div>
+          <span class="item-amount">{{ item.amount.toLocaleString() }}원</span>
+        </div>
+      </div>
+    </div>
+
     <button class="retry-btn" @click="handleRetry">현실 부정하고 다시 하기</button>
   </div>
 </template>
@@ -61,6 +83,110 @@ const handleRetry = () => {
 
 .price {
   color: #e74c3c;
+}
+
+.detail-toggle-btn {
+  background: none;
+  border: none;
+  color: aqua;
+  font-family: 'Mona12', sans-serif;
+  text-decoration: underline;
+  margin-bottom: 15px;
+  cursor: pointer;
+  font-size: 1rem;
+  opacity: 0.8;
+  transition: all 0.2s;
+}
+
+.detail-toggle-btn:hover {
+  opacity: 1;
+  color: #fff;
+}
+
+.detail-section {
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 2px solid aqua;
+  border-radius: 0;
+  padding: 0;
+  margin: 20px 0;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+/* 픽셀 느낌의 스크롤바 */
+.detail-section::-webkit-scrollbar {
+  width: 16px;
+}
+
+.detail-section::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.7);
+  border-left: 2px solid aqua;
+}
+
+.detail-section::-webkit-scrollbar-thumb {
+  background: aqua;
+  border: 2px solid #000;
+  background-clip: padding-box;
+}
+
+.detail-section::-webkit-scrollbar-thumb:hover {
+  background: #00ffff;
+}
+
+.detail-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.detail-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 15px;
+  border-bottom: 2px solid rgba(0, 255, 255, 0.2);
+  font-size: 0.9rem;
+  background-color: rgba(0, 0, 0, 0.3);
+  transition: background-color 0.2s;
+  gap: 12px;
+}
+
+.detail-item:last-child {
+  border-bottom: none;
+}
+
+.detail-item:hover {
+  background-color: rgba(0, 255, 255, 0.1);
+}
+
+.item-title {
+  color: #fff;
+  font-weight: bold;
+  word-break: break-word;
+  flex: 1;
+  font-size: 0.95rem;
+}
+
+.item-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  min-width: 24px;
+  text-align: center;
+}
+
+.item-memo {
+  color: #bbb;
+  font-size: 0.75rem;
+  flex: 0.6;
+  text-align: left;
+  word-break: break-word;
+}
+
+.item-amount {
+  color: #e74c3c;
+  font-weight: bold;
+  min-width: 110px;
+  text-align: right;
+  flex-shrink: 0;
 }
 
 .retry-btn {
