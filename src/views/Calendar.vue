@@ -14,8 +14,18 @@
         :currentDate="selectedDate"
       />
       <div class="button-row">
-        <Button v-for="add in adds" :key="add.id" :add="add" />
+        <Button
+          v-for="add in adds"
+          :key="add.id"
+          :add="add"
+          @action="handleButtonAction"
+        />
       </div>
+      <FixedExpenseModal
+        :show="isModalOpen"
+        @close="isModalOpen = false"
+        @save="saveFixedExpense"
+      />
       <div class="transaction">
         <TransactionDetail
           :selectedDate="selectedDate"
@@ -33,8 +43,28 @@ import Button from '@/components/calendar/Button.vue';
 import TransactionDetail from '@/components/calendar/TransactionDetail.vue';
 import { ref, computed } from 'vue';
 import { useRoute } from 'vue-router';
+import FixedExpenseModal from '@/components/calendar/FixedExpenseModal.vue';
 
 const route = useRoute();
+
+// ⭐ 모달 오픈 상태 관리 변수
+const isModalOpen = ref(false);
+
+const handleButtonAction = (type) => {
+  if (type === 'fixedExpenses') {
+    // 💡 "+ 고정지출 추가" 버튼 클릭 시 모달 오픈
+    isModalOpen.value = true;
+    console.log(type);
+  }
+  // ... 다른 버튼 로직 생략 ...
+};
+
+// ⭐ 모달에서 '저장' 버튼을 눌렀을 때 실행될 함수
+const saveFixedExpense = (newExpense) => {
+  // 💡 여기서 실제 DB 저장 API를 호출하거나, monthlyData를 업데이트하는 로직을 넣으세요.
+  console.log('부모에서 받은 저장 데이터:', newExpense);
+  alert(`"${newExpense.title}" 고정지출이 저장되었습니다.`);
+};
 
 /* 🔥 오늘 날짜 */
 const getToday = () => {
