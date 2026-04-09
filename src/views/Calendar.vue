@@ -12,6 +12,7 @@
         <FullCalendar
           :monthlyData="monthlyData"
           @dateSelect="handleDateSelect"
+          :currentDate="selectedDate"
         />
       </div>
       <div class="button-row">
@@ -33,6 +34,9 @@ import FullCalendar from '@/components/calendar/FullCalendar.vue';
 import Button from '@/components/calendar/Button.vue';
 import TransactionDetail from '@/components/calendar/TransactionDetail.vue';
 import { ref, computed } from 'vue';
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
 
 /* 🔥 오늘 날짜 */
 const getToday = () => {
@@ -43,8 +47,8 @@ const getToday = () => {
   return `${year}-${month}-${day}`;
 };
 
-/* 🔥 선택된 날짜 */
-const selectedDate = ref(getToday());
+/* route.params.date 에 값이 있으면 그 값을 사용하고, 없으면 getToday() 실행 */
+const selectedDate = ref(route.query.date || getToday());
 
 /* 🔥 FullCalendar에서 날짜 받기 */
 const handleDateSelect = (date) => {
