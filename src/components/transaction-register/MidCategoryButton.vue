@@ -62,11 +62,10 @@ const categories = [
     margin-bottom: 16px;
 }
 
-/*  CSS Grid를 사용하여 5열(columns) 배치 */
+/*  1행 배치 */
 .category-grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 35px;
+    display: flex;
+    gap: 16px;
 }
 
 /* 개별 버튼 스타일 */
@@ -78,7 +77,7 @@ const categories = [
     aspect-ratio: 1 / 1; /* 정사각형 비율 유지 */
 
     width: 100%;
-    max-width: 250px; 
+    max-width: 200px; 
     margin: 0 auto;  /* 칸 안에서 버튼을 가운데로 정렬 */
 
     border-radius: 16px;
@@ -100,7 +99,7 @@ const categories = [
 
 .label {
     color: #ffffff;
-    font-size: 12px;
+    font-size: 15px;
     font-weight: 600;
 }
 </style>

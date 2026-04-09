@@ -187,8 +187,10 @@ const handleSave = async () => {
 /* 가로 배치 */
 .button-row {
   display: flex;
-  gap: 12px; /* 두 버튼 사이의 간격 */
+  gap: 50px; /* 두 버튼 사이의 간격 */
   width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
 }
 
 /* Top, 금액 입력 필드 */

@@ -32,8 +32,14 @@ defineEmits(['click']);
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    justify-content: center;
+    gap:12px;
+    height: 200%;
+
     padding: 20px;
     background-color: #1c1c1e; /* 비활성 상태 배경 */
+    border: 1px solid #2a2a2c;
     border-radius: 16px;
     cursor: pointer;
     transition: all 0.2s ease;
