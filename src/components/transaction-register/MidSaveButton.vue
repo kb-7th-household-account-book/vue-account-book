@@ -1,6 +1,6 @@
 <template>
     <div class="action-button-row">
-        <button class="btn btn-cancel" @click="$emit('cancel')">
+        <button class="btn btn-cancle" @click="$emit('cancle')">
             취소
         </button>
 
@@ -12,7 +12,7 @@
 
 <script setup>
 // 부모 컴포넌트로 전달할 이벤트 정의
-defineEmits(['cancel', 'save']);
+defineEmits(['cancle', 'save']);
 </script>
 
 <style scoped>
@@ -42,7 +42,7 @@ defineEmits(['cancel', 'save']);
 }
 
 /* 취소 버튼: 어두운 배경, 회색 글씨 */
-.btn-cancel {
+.btn-cancle {
     background-color: #1c1c1e;
     color: #8e8e93;
 }
