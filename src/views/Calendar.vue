@@ -8,7 +8,11 @@
           :account="account"
         />
       </div>
-      <FullCalendar :monthlyData="monthlyData" @dateSelect="handleDateSelect" />
+      <FullCalendar 
+        :monthlyData="monthlyData"
+        @dateSelect="handleDateSelect"
+        :currentDate="selectedDate"
+      />
       <div class="button-row">
         <Button v-for="add in adds" :key="add.id" :add="add" />
       </div>
