@@ -74,6 +74,11 @@
   padding: 10px 20px;
   background-color: #0a0a0b;
   border-bottom: 1px solid #0a0a0b;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
 }
 
 .nav-links {
