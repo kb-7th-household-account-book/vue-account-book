@@ -18,7 +18,8 @@ const handleStart = async () => {
 
 <template>
   <div class="setup-box">
-    <h2>💸 일단 다 담아! 💸</h2>
+    <h2>일단 다 담아!</h2>
+    <div>🪙💰💴💶💷💸💳🧾</div>
     <p>원하는 아이템을 다 담아볼까요?</p>
     <div class="inputs">
       <select v-model="inputYear">
@@ -47,6 +48,7 @@ const handleStart = async () => {
 }
 select, button {
   padding: 10px;
+  font-family: 'Mona12', sans-serif;
   font-size: 1.2rem;
 }
 button {
@@ -56,6 +58,7 @@ button {
   border-radius: 8px;
   cursor: pointer;
   font-weight: bold;
+  font-family: 'Mona12', sans-serif;
 }
 button:hover {
   background-color: #ff5252;

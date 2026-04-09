@@ -4,12 +4,13 @@ import Player from '@/components/game/Player.vue';
 import { useGameStore } from '@/store/game';
 import { categoryMeta } from '@/constants/category';
 
-const emit = defineEmits(['game-over']);
-const gameStore = useGameStore();
-const playerX = ref(window.innerWidth / 2);
-
 const PLAYER_SPEED = 7; 
 const ITEM_SPEED = 2;
+const BOARD_WIDTH = 720;
+
+const emit = defineEmits(['game-over']);
+const gameStore = useGameStore();
+const playerX = ref(BOARD_WIDTH / 2);
 
 const keys = {
   ArrowLeft: false,
@@ -25,8 +26,8 @@ const handleKeyUp = (event) => {
 };
 
 const keepPlayerInside = () => {
-  const minX = 30; 
-  const maxX = window.innerWidth - 30; 
+  const minX = 40; 
+  const maxX = BOARD_WIDTH - 40; 
   if (playerX.value < minX) playerX.value = minX;
   if (playerX.value > maxX) playerX.value = maxX;
 };
@@ -86,7 +87,8 @@ onUnmounted(() => {
 <template>
   <div class="board">
     <div class="score-board">
-      획득한 금액 💰 <span>{{ gameStore.score.toLocaleString() }}</span>원
+      SCORE
+    <p>{{ gameStore.score.toLocaleString() }}</p>
     </div>
 
     <div 
@@ -134,16 +136,14 @@ onUnmounted(() => {
   transform: translateX(-50%); 
   font-size: 2rem;
   font-weight: 900;
-  background-color: rgba(255, 255, 255, 0.9);
   padding: 15px 30px;
-  border-radius: 50px;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
   z-index: 100; 
   white-space: nowrap;
+  color: black;
 }
 
-.score-board span {
-  color: #ff4757; 
+.score-board p {
+  color: #fff700; 
   font-size: 2.5rem;
 }
 </style>
