@@ -1,13 +1,9 @@
 <script setup>
 // 페이지 내부 컴포넌트 import
-import TopTypeButton from '@/components/transaction-register/TopTypeButton.vue';
+import TypeSelectionSection from '@/components/transaction-register/TypeSelectionSection.vue';
 import TopMoneyField from '@/components/transaction-register/TopMoneyField.vue';
-import MidDateField from '@/components/transaction-register/MidDateField.vue';
-import MidTimeField from '@/components/transaction-register/MidTimeField.vue';
-import MidCategoryButton from '@/components/transaction-register/MidCategoryButton.vue';
-import MidMemoField from '@/components/transaction-register/MidMemoField.vue';
+import TransactionDetailSection from '@/components/transaction-register/TransactionDetailSection.vue';
 import MidSaveButton from '@/components/transaction-register/MidSaveButton.vue';
-import MidTransactionTitle from '@/components/transaction-register/MidTransactionTitle.vue';
 import BotSummaryList from '@/components/transaction-register/BotSummaryList.vue';
 import BotRecentTransaction from '@/components/transaction-register/BotRecentTransaction.vue';
 import BotQuickTip from '@/components/transaction-register/BotQuickTip.vue';
@@ -70,6 +66,7 @@ const handleSave = async () => {
 }  
 
 </script>
+
 <template>
   <div class="register-page">
     <div class="register-container">
@@ -86,49 +83,24 @@ const handleSave = async () => {
       <div class="register-layout">
         <!-- Main Form Section -->
         <main class="registration-form">
-          <section class="form-card type-selection-card">
-            <h2 class="section-title">거래 유형</h2>
-            <div class="button-row">
-              <TopTypeButton 
-                label="수입"
-                sub-label="급여, 보너스 등"
-                icon="💰"
-                active-color="#2c6bed"
-                bg-gradient="linear-gradient(135deg, #51A2FF 0%, #2B7FFF 100%)"
-                :is-active="selectedType === 'income'"
-                @click="selectedType = 'income'"
-              />
-              <TopTypeButton
-                label="지출"
-                sub-label="식비, 쇼핑 등"
-                icon="💸"
-                active-color="#FF637E"
-                bg-gradient="linear-gradient(135deg, #FF637E 0%, #FF2056 100%)"
-                :is-active="selectedType === 'expense'"
-                @click="selectedType = 'expense'"
-              />
-            </div>
-          </section>
+          <TypeSelectionSection 
+            v-model:selectedType="selectedType" 
+            animation-delay="0.1s"
+          />
 
-          <section class="form-card amount-card">
-            <h2 class="section-title">금액 입력</h2>
-            <TopMoneyField v-model="transactionAmount"/>
-          </section>
+          <TopMoneyField 
+            v-model="transactionAmount" 
+            animation-delay="0.2s"
+          />
 
-          <section class="form-card details-card">
-            <h2 class="section-title">상세 정보</h2>
-            <div class="date-time-row">
-              <MidDateField v-model="transactionDate"/>
-              <MidTimeField v-model="transactionTime"/>
-            </div>
-            <div class="field-group">
-              <MidCategoryButton v-model="transactionCategory"/>
-            </div>
-            <div class="field-group">
-              <MidTransactionTitle v-model="transactionTitle"/>
-              <MidMemoField v-model="transactionMemo"/>
-            </div>
-          </section>
+          <TransactionDetailSection 
+            v-model:transactionDate="transactionDate"
+            v-model:transactionTime="transactionTime"
+            v-model:transactionCategory="transactionCategory"
+            v-model:transactionTitle="transactionTitle"
+            v-model:transactionMemo="transactionMemo"
+            animation-delay="0.3s"
+          />
 
           <div class="actions-row">
             <MidSaveButton @save="handleSave" />
@@ -138,24 +110,16 @@ const handleSave = async () => {
         <!-- Sidebar / Info Section -->
         <aside class="registration-info">
           <div class="info-sticky">
-            <section class="info-card summary-card">
-              <h2 class="section-title">등록 요약</h2>
-              <BotSummaryList 
-                :type="selectedType"
-                :amount="transactionAmount"
-                :date="transactionDate"
-                :category="transactionCategory"
-              />
-            </section>
+            <BotSummaryList 
+              :type="selectedType"
+              :amount="transactionAmount"
+              :date="transactionDate"
+              :category="transactionCategory"
+            />
             
-            <section class="info-card recent-card">
-              <h2 class="section-title">최근 거래</h2>
-              <BotRecentTransaction />
-            </section>
+            <BotRecentTransaction />
 
-            <section class="info-card tip-card">
-              <BotQuickTip />
-            </section>
+            <BotQuickTip />
           </div>
         </aside>
       </div>
@@ -164,13 +128,16 @@ const handleSave = async () => {
 </template>
 
 <style scoped>
-/* Grid & Layout */
+/* Responsive Layout Grid */
 .register-page {
   background-color: #0A0A0B;
   min-height: 100vh;
   color: #FFFFFF;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
   padding: 40px 20px;
-  overflow-x: hidden;
+  box-sizing: border-box;
 }
 
 .register-container {
@@ -238,73 +205,14 @@ const handleSave = async () => {
   }
 }
 
-/* Form Sections */
+/* Form Layout */
 .registration-form {
   display: flex;
   flex-direction: column;
   gap: 24px;
 }
 
-.form-card {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 28px;
-  padding: 32px;
-  transition: transform 0.3s ease, border-color 0.3s ease;
-}
-
-.form-card:hover {
-  border-color: rgba(255, 255, 255, 0.12);
-}
-
-.section-title {
-  font-size: 16px;
-  font-weight: 600;
-  color: #8E8E93;
-  margin-bottom: 24px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-/* Type Buttons */
-.button-row {
-  display: flex;
-  gap: 20px;
-}
-
-@media (max-width: 480px) {
-  .button-row {
-    flex-direction: column;
-  }
-}
-
-/* Details Section */
-.date-time-row {
-  display: flex;
-  gap: 16px;
-  margin-bottom: 24px;
-}
-
-.date-time-row > * {
-  flex: 1;
-}
-
-@media (max-width: 640px) {
-  .date-time-row {
-    flex-direction: column;
-  }
-}
-
-.field-group {
-  margin-bottom: 24px;
-}
-
-.field-group:last-child {
-  margin-bottom: 0;
-}
-
-/* Sidebar Info Section */
+/* Sidebar Info Layout */
 .registration-info {
   display: flex;
   flex-direction: column;
@@ -319,26 +227,7 @@ const handleSave = async () => {
   gap: 24px;
 }
 
-.info-card {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 24px;
-  padding: 24px;
-  backdrop-filter: blur(8px);
+.actions-row {
+  margin-top: 8px;
 }
-
-/* Animations */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.form-card, .info-card {
-  animation: fadeIn 0.5s ease-out forwards;
-}
-
-.type-selection-card { animation-delay: 0.1s; }
-.amount-card { animation-delay: 0.2s; }
-.details-card { animation-delay: 0.3s; }
-.summary-card { animation-delay: 0.4s; }
 </style>
