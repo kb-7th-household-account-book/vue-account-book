@@ -15,7 +15,7 @@ export const getFixedDetails = (month) => {
   return apiClient.get(`/fixed_details?month=${month}`);
 };
 
-// 4. 카테고리별 통계 (여기 이름이 getStatistics 입니다!)
+// 4. 카테고리별 통계
 export const getStatistics = (month) => {
   return apiClient.get(`/statistics?month=${month}`);
 };
@@ -28,4 +28,9 @@ export const getRecentTransactions = () => {
 // 6. 거래 추가
 export const addTransaction = (data) => {
   return apiClient.post('/transactions', data);
+};
+
+// 카테고리 금액 직접 계산을 위해 전체 거래내역 가져오기
+export const getAllTransactions = () => {
+  return apiClient.get('/transactions');
 };

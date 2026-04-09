@@ -4,9 +4,9 @@ import {
   getMonthlyStats,
   getAllMonthlyStats,
   getFixedDetails,
-  getStatistics,
   getRecentTransactions,
   addTransaction,
+  getAllTransactions,
 } from '@/api/home';
 
 export const useHomeStore = defineStore('home', () => {
@@ -19,42 +19,83 @@ export const useHomeStore = defineStore('home', () => {
     recentTransactions: [],
   });
 
+  const categoryLabels = {
+    FOOD: '식비',
+    COFFEE: '카페/간식',
+    TRANSPORT: '교통',
+    SHOPPING: '쇼핑',
+    CULTURE: '문화/여가',
+    MEDICAL: '의료',
+    EDUCATION: '교육',
+    HOUSING: '주거/통신',
+    FINANCE: '금융',
+    OTHERS: '기타',
+  };
+
   const fetchHomeData = async () => {
+    const month = state.currentMonth;
+
+    // 1. 1년치 월별 데이터
     try {
-      const month = state.currentMonth;
+      const res = await getAllMonthlyStats();
+      state.monthlyList = res.data;
+    } catch (e) {
+      console.error('월별 통계 실패', e);
+    }
 
-      const [statsRes, allStatsRes, fixedRes, catRes, recentRes] = await Promise.all([
-        getMonthlyStats(month),
-        getAllMonthlyStats(),
-        getFixedDetails(month),
-        getStatistics(month),
-        getRecentTransactions(),
-      ]);
+    // 2. 이번 달 요약
+    try {
+      const res = await getMonthlyStats(month);
+      if (res.data.length > 0) state.summary = res.data[0];
+    } catch (e) {
+      console.error('이번 달 요약 실패', e);
+    }
 
-      if (statsRes.data.length > 0) {
-        const { income, expense, net_income } = statsRes.data[0];
-        state.summary = { income, expense, net_income };
-      }
-
-      state.monthlyList = allStatsRes.data;
-
-      if (fixedRes.data.length > 0) {
+    // 3. 고정 지출 요약
+    try {
+      const res = await getFixedDetails(month);
+      if (res.data.length > 0) {
         state.fixedExpense = {
-          total: fixedRes.data[0].total_fixed_expense,
-          items: fixedRes.data[0].items,
+          total: res.data[0].total_fixed_expense,
+          items: res.data[0].items,
         };
       }
+    } catch (e) {
+      console.error('고정 지출 실패', e);
+    }
 
-      if (catRes.data.length > 0) {
-        const sortedCategories = [...catRes.data[0].category_counts]
-          .sort((a, b) => b.count - a.count)
-          .slice(0, 3);
-        state.topCategories = sortedCategories;
-      }
+    // 4. 카테고리 TOP 3 (금액 계산 + 한글 라벨 적용!)
+    try {
+      const res = await getAllTransactions();
+      const allTransactions = res.data;
+      const categoryMap = {};
 
-      state.recentTransactions = recentRes.data;
-    } catch (error) {
-      console.error('홈 데이터 로딩 실패:', error);
+      allTransactions.forEach((tx) => {
+        if (tx.type === 'expense') {
+          if (!categoryMap[tx.category]) {
+            categoryMap[tx.category] = {
+              id: tx.category,
+              label: categoryLabels[tx.category] || tx.category,
+              amount: 0,
+            };
+          }
+          categoryMap[tx.category].amount += tx.amount;
+        }
+      });
+
+      state.topCategories = Object.values(categoryMap)
+        .sort((a, b) => b.amount - a.amount)
+        .slice(0, 3);
+    } catch (e) {
+      console.error('카테고리 통계 직접 계산 실패', e);
+    }
+
+    // 5. 최근 거래 내역
+    try {
+      const res = await getRecentTransactions();
+      state.recentTransactions = res.data;
+    } catch (e) {
+      console.error('최근 거래 실패', e);
     }
   };
 
