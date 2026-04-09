@@ -1,11 +1,16 @@
 <template>
   <header class="app-header">
-    <nav class="nav-links">
-      <router-link to="/" class="nav-item">Home</router-link>
-      <router-link to="/calendar" class="nav-item">캘린더</router-link>
-      <router-link to="/register" class="nav-item">가계 등록</router-link>
-      <router-link to="/transactions" class="nav-item">거래 내역</router-link>
-    </nav>
+    <div class="header-left">
+      <router-link to="/" class="logo">
+        <img src="/images/logo-gold.png" alt="로고" />
+      </router-link>
+      <nav class="nav-links">
+        <router-link to="/" class="nav-item">홈</router-link>
+        <router-link to="/calendar" class="nav-item">캘린더</router-link>
+        <router-link to="/register" class="nav-item">가계 등록</router-link>
+        <router-link to="/transactions" class="nav-item">거래 내역</router-link>
+      </nav>
+    </div>
 
     <div class="header-icons">
       <router-link to="/settings" class="user-icon-btn">
@@ -81,6 +86,20 @@
   z-index: 1000;
 }
 
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+.logo {
+  display: flex;
+  align-items: center;
+}
+.logo img {
+  height: 50px;
+  width: auto;
+  object-fit: contain;
+}
 .nav-links {
   display: flex;
   gap: 24px;

@@ -79,7 +79,7 @@ const calendarOptions = {
   plugins: [dayGridPlugin, interactionPlugin],
   initialView: 'dayGridMonth',
   initialDate: props.currentDate, // 초기 달력 세팅 날짜 지정
-
+  
   // 상단 헤더 (이전 / 제목 / 다음)
   headerToolbar: {
     left: 'prev title next',
