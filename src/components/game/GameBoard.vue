@@ -3,14 +3,11 @@ import { ref, onMounted, onUnmounted } from 'vue';
 import Player from '@/components/game/Player.vue';
 import { useGameStore } from '@/store/game';
 import { categoryMeta } from '@/constants/category';
-
-const PLAYER_SPEED = 7; 
-const ITEM_SPEED = 2;
-const BOARD_WIDTH = 720;
+import { GAME_CONFIG } from '@/constants/game';
 
 const emit = defineEmits(['game-over']);
 const gameStore = useGameStore();
-const playerX = ref(BOARD_WIDTH / 2);
+const playerX = ref(GAME_CONFIG.BOARD_WIDTH / 2);
 
 const keys = {
   ArrowLeft: false,
@@ -27,7 +24,7 @@ const handleKeyUp = (event) => {
 
 const keepPlayerInside = () => {
   const minX = 40; 
-  const maxX = BOARD_WIDTH - 40; 
+  const maxX = GAME_CONFIG.BOARD_WIDTH - 40; 
   if (playerX.value < minX) playerX.value = minX;
   if (playerX.value > maxX) playerX.value = maxX;
 };
@@ -35,15 +32,15 @@ const keepPlayerInside = () => {
 let animationFrameId;
 
 const gameLoop = () => {
-  if (keys.ArrowLeft) playerX.value -= PLAYER_SPEED;
-  if (keys.ArrowRight) playerX.value += PLAYER_SPEED;
+  if (keys.ArrowLeft) playerX.value -= GAME_CONFIG.PLAYER_SPEED;
+  if (keys.ArrowRight) playerX.value += GAME_CONFIG.PLAYER_SPEED;
   keepPlayerInside();
 
   const PLAYER_Y_ZONE = window.innerHeight - 100;
 
   gameStore.fallingItems.forEach(item => {
     if (!item.isCaught) {
-      item.y += ITEM_SPEED;
+      item.y += GAME_CONFIG.ITEM_SPEED;
       
       const isAtPlayerY = item.y >= PLAYER_Y_ZONE && item.y <= window.innerHeight;
       const itemHitRadius = (item.size * 16) / 2; 
@@ -145,5 +142,17 @@ onUnmounted(() => {
 .score-board p {
   color: #fff700; 
   font-size: 2.5rem;
+  
+  /* ⭐️ 마법의 한 줄: X축이동 Y축이동 번짐(0) 색상 */
+  text-shadow: 4px 4px 0px #000000; 
+  
+  /* (보너스) 글자 주변에 까만 테두리까지 넣으면 훨씬 게임판 점수 같습니다! */
+  /* 아래 코드를 쓰시려면 위의 text-shadow 대신 이거 하나만 쓰시면 됩니다. */
+  /* text-shadow: 
+    -2px -2px 0 #000, 
+     2px -2px 0 #000, 
+    -2px  2px 0 #000, 
+     2px  2px 0 #000,
+     6px  6px 0px #222; /* 이게 핵심 입체 그림자! */
 }
 </style>

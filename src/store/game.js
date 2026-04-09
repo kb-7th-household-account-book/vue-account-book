@@ -2,6 +2,7 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import { getTransactions } from '@/api/game';
+import { GAME_CONFIG } from '@/constants/game';
 
 export const useGameStore = defineStore('game', () => {
   const selectedYear = ref(2026);
@@ -34,13 +35,11 @@ export const useGameStore = defineStore('game', () => {
 
       fallingItems.value = top20.map((item, index) => {
         // ⭐️ 크기 계산: 최소 3rem ~ 최대 15rem (원하는 만큼 더 키워도 됩니다!)
-        const minSize = 3;
-        const maxSize = 15; 
-        const calculatedSize = minSize + (maxSize - minSize) * (item.amount / maxAmount);
+        const calculatedSize = GAME_CONFIG.ITEM_SIZE_MIN + (GAME_CONFIG.ITEM_SIZE_MAX - GAME_CONFIG.ITEM_SIZE_MIN) * (item.amount / maxAmount);
 
         return {
           ...item,
-          x: Math.random() * (window.innerWidth - 60) + 30, 
+          x: Math.random() * (GAME_CONFIG.BOARD_WIDTH - 60) + 30, 
           y: -100 - (index * 200), 
           isCaught: false,
           size: calculatedSize // 👈 계산된 크기를 객체에 쏙 넣어줍니다.

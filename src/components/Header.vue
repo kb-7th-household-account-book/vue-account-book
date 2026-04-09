@@ -34,7 +34,7 @@
           </svg>
         </span>
       </router-link>
-      <button class="location-btn">
+      <router-link to="/game" class="location-btn">
         <span class="icon">
           <svg
             width="16"
@@ -59,7 +59,7 @@
             />
           </svg>
         </span>
-      </button>
+      </router-link>
     </div>
   </header>
 </template>
@@ -140,5 +140,10 @@
 
 .location-btn:hover {
   color: #aaaaaa;
+}
+
+.location-btn.router-link-exact-active {
+  background-color: #2a1f00;
+  color: #ffb800;
 }
 </style>
