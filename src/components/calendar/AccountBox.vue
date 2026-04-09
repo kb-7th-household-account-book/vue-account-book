@@ -4,6 +4,7 @@
     <p>₩{{ account.balance }}</p>
   </div>
 </template>
+
 <script setup>
 defineProps({
   account: {

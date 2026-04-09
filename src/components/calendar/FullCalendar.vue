@@ -10,29 +10,33 @@
 import FullCalendar from '@fullcalendar/vue3';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import { onMounted } from 'vue';
+import { onMounted, computed } from 'vue';
 
-// 부모(App)에서 전달받은 월별 데이터
-// [{ date, income, expense, items: [] }]
 const props = defineProps({
-  monthlyData: Array,
+  dailyDataMap: Object, // 부모가 준 날짜별 요약 데이터
   currentDate: String,
 });
 
-// 부모로 이벤트 전달 (날짜 선택)
-const emit = defineEmits(['dateSelect']);
+const emit = defineEmits(['dateSelect', 'changeMonth']);
 
+/* --- 💡 날짜 선택 스타일 유지 (건드리지 않음) --- */
 const selectDay = (dateStr, dayEl) => {
-  // 기존 선택된 날짜 스타일 제거
   document
     .querySelectorAll('.fc-daygrid-day')
     .forEach((el) => el.classList.remove('selected-day'));
 
-  // 현재 클릭한 날짜에 클래스 추가
   if (dayEl) dayEl.classList.add('selected-day');
-
-  // 부모 컴포넌트로 선택된 날짜 전달
   emit('dateSelect', dateStr);
+};
+
+const handleDatesSet = (arg) => {
+  // arg.view.currentStart는 해당 월의 1일 날짜를 가리킵니다.
+  const year = arg.view.currentStart.getFullYear();
+  const month = String(arg.view.currentStart.getMonth() + 1).padStart(2, '0');
+  const yearMonth = `${year}-${month}`;
+
+  // 부모에게 현재 달력에 보이는 연-월을 보냄
+  emit('changeMonth', yearMonth);
 };
 
 const handleDateClick = (info) => {
@@ -40,70 +44,80 @@ const handleDateClick = (info) => {
 };
 
 const handleEventClick = (info) => {
-  // 이벤트가 속한 날짜 셀 찾기
   const dayEl = info.el.closest('.fc-daygrid-day');
   selectDay(info.event.startStr, dayEl);
 };
 
-// 🔥 컴포넌트 마운트 후 오늘 날짜 자동 선택 스타일 적용
 onMounted(() => {
   setTimeout(() => {
-    const todayEl = document.querySelector(`.fc-day-today[data-date="${props.currentDate}"]`);
+    const todayEl = document.querySelector(
+      `.fc-daygrid-day[data-date="${props.currentDate}"]`,
+    );
     if (todayEl) {
       todayEl.classList.add('selected-day');
     }
-  }, 50);
+  }, 100); // 데이터 로딩 시간을 고려해 약간의 딜레이
 });
 
-// 🔥 FullCalendar에 넣을 이벤트 데이터 생성
-// monthlyData → items → 이벤트로 변환
-const events = props.monthlyData.flatMap((day) =>
-  day.items.map((item) => ({
-    date: day.date, // 이벤트 날짜
-    extendedProps: item, // 추가 데이터 (amount, category 등)
-  })),
-);
+/* --- 📊 데이터 연동: 수입/지출 합계 요약 --- */
+const events = computed(() => {
+  if (!props.dailyDataMap) return [];
 
-// 🔥 이벤트(금액) 커스텀 렌더링
+  return Object.values(props.dailyDataMap).flatMap((day) => {
+    const dailyEvents = [];
+    if (day.income > 0) {
+      dailyEvents.push({
+        date: day.date,
+        order: 1, // 수입 위로
+        extendedProps: { amount: day.income, type: 'income' },
+      });
+    }
+    if (day.expense > 0) {
+      dailyEvents.push({
+        date: day.date,
+        order: 2, // 지출 아래로
+        extendedProps: { amount: day.expense, type: 'expense' },
+      });
+    }
+    return dailyEvents;
+  });
+});
+
 const renderEvent = (arg) => {
-  const { amount } = arg.event.extendedProps;
+  const { amount, type } = arg.event.extendedProps;
+  const color = type === 'income' ? '#4dabf7' : '#ff6b6b';
+  const prefix = type === 'income' ? '+' : '-';
+
   return {
     html: `
-      <div style="font-size:11px; text-align:center;">
-        <div style="color:${amount > 0 ? '#4dabf7' : '#ff6b6b'}">
-          ${amount > 0 ? '+' : ''}${amount.toLocaleString()}
-        </div>
+      <div style="font-size:12px; font-weight: 700; text-align: right; width: 100%; padding-right: 4px; color: ${color};">
+        ${prefix}${amount.toLocaleString()}
       </div>
     `,
   };
 };
 
-// 🔥 FullCalendar 전체 설정
-const calendarOptions = {
+/* --- ⚙️ 캘린더 설정 --- */
+const calendarOptions = computed(() => ({
   plugins: [dayGridPlugin, interactionPlugin],
   initialView: 'dayGridMonth',
-  initialDate: props.currentDate, // 초기 달력 세팅 날짜 지정
-  
-  // 상단 헤더 (이전 / 제목 / 다음)
+  initialDate: props.currentDate,
   headerToolbar: {
     left: 'prev title next',
     center: '',
     right: '',
   },
-
-  fixedWeekCount: false, // 달마다 주 수 맞춤 (빈 줄 제거)
-  dateClick: handleDateClick, // 날짜 클릭 이벤트
-  eventClick: handleEventClick, // 지출, 수입 클릭 이벤트
-  events: events, // 우리가 만든 이벤트 데이터
-  eventContent: renderEvent, // 이벤트 커스텀 렌더링
+  fixedWeekCount: false,
+  dateClick: handleDateClick,
+  eventClick: handleEventClick,
+  datesSet: handleDatesSet,
+  events: events.value,
+  eventOrder: 'order',
+  eventContent: renderEvent,
   locale: 'ko',
-
-  // 날짜 숫자만 표시 (1일 → 1)
-  dayCellContent: (arg) => {
-    return arg.date.getDate();
-  },
+  dayCellContent: (arg) => arg.date.getDate(),
   contentHeight: 'auto',
-};
+}));
 </script>
 
 <style scoped>

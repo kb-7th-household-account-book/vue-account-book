@@ -35,8 +35,12 @@
             <span class="category">{{ item.category }}</span>
           </div>
 
-          <div class="amount" :class="item.amount > 0 ? 'income' : 'expense'">
-            ₩ {{ item.amount > 0 ? '+' : '' }}{{ item.amount.toLocaleString() }}
+          <div
+            class="amount"
+            :class="item.type === 'income' ? 'income' : 'expense'"
+          >
+            ₩ {{ item.type === 'income' ? '+' : '-'
+            }}{{ Math.abs(item.amount).toLocaleString() }}
           </div>
         </div>
       </div>
