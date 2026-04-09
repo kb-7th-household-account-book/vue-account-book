@@ -67,7 +67,8 @@ const gameLoop = () => {
   // 3. 아이템 낙하 및 충돌 체크
   gameStore.fallingItems.forEach(item => {
     if (!item.isCaught) {
-      item.y += GAME_CONFIG.ITEM_SPEED;
+      // 각 아이템의 개별 속도 사용
+      item.y += item.speed;
       
       // 아이템 크기를 픽셀로 변환 (1rem = 16px)
       const itemSizePx = item.size * 16;

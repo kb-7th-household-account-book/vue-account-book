@@ -15,13 +15,13 @@ const handleGameOver = () => {
 
   setTimeout(() => {
     currentPhase.value = 'END'; 
-  }, 2000);
+  }, 1500);
 };
 </script>
 
 <template>
   <div class="top-container">
-    <!-- <button @click="handleGameOver">게임끝내기</button> -->
+    <!-- <button @click="handleGameOver">게임끝내기</button> --> -->
     <div class="game-page-container">
       <GameSetup 
         v-if="currentPhase === 'READY'" 
@@ -34,7 +34,7 @@ const handleGameOver = () => {
       />
 
       <div v-else-if="currentPhase === 'LOADING'" class="loading-screen">
-        <h1>팩트 폭격 준비 중... 🧾</h1>
+        <h1>🧾 팩트 폭격 준비 중... 🧾</h1>
       </div>
 
       <GameResult 
@@ -73,9 +73,8 @@ const handleGameOver = () => {
   align-items: center;
   width: 100%;
   height: 100%;
-  font-size: 2rem;
-  background-color: #fff;
-  color: black;
+  font-size: 1.25rem;
+  color: aqua;
   animation: blink 1s infinite alternate;
 }
 </style>

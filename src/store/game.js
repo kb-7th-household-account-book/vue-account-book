@@ -35,13 +35,16 @@ export const useGameStore = defineStore('game', () => {
 
       fallingItems.value = top20.map((item, index) => {
         const calculatedSize = GAME_CONFIG.ITEM_SIZE_MIN + (GAME_CONFIG.ITEM_SIZE_MAX - GAME_CONFIG.ITEM_SIZE_MIN) * (item.amount / maxAmount);
+        // 각 아이템별 무작위 낙하 속도 할당
+        const randomSpeed = GAME_CONFIG.ITEM_SPEED_MIN + Math.random() * (GAME_CONFIG.ITEM_SPEED_MAX - GAME_CONFIG.ITEM_SPEED_MIN);
 
         return {
           ...item,
           x: Math.random() * (GAME_CONFIG.BOARD_WIDTH - 60) + 30, 
           y: -100 - (index * 200), 
           isCaught: false,
-          size: calculatedSize // 👈 계산된 크기를 객체에 쏙 넣어줍니다.
+          size: calculatedSize,
+          speed: randomSpeed // 👈 각 아이템의 개별 낙하 속도
         };
       });
       
