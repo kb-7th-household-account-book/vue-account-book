@@ -1,8 +1,38 @@
 <script setup>
+const fixedDetail = {
+  month: 4,
+  total_fixed_expense: 1050000,
+  items: [
+    { id: 1, name: '월세', expense: 600000 },
+    { id: 2, name: '보험료', expense: 300000 },
+    { id: 3, name: '통신비', expense: 100000 },
+    { id: 4, name: 'OTT 구독료', expense: 50000 },
+  ],
+};
+
+const formatAmount = (amount) => `${amount.toLocaleString()}원`;
+
+const topTwoItems = [...fixedDetail.items].sort((a, b) => b.expense - a.expense).slice(0, 2);
+
 const fixedExpenses = [
-  { id: 1, label: '총 고정 지출', amount: '1,000,000원', color: 'yellow' },
-  { id: 2, label: '보험료', amount: '1,000,000원', color: 'purple' },
-  { id: 3, label: '유선본 비용', amount: '1,000,000원', color: 'pink' },
+  {
+    id: 'total',
+    label: '총 고정 지출',
+    amount: formatAmount(fixedDetail.total_fixed_expense),
+    color: 'yellow',
+  },
+  {
+    id: topTwoItems[0]?.id ?? 1,
+    label: topTwoItems[0]?.name ?? '-',
+    amount: formatAmount(topTwoItems[0]?.expense ?? 0),
+    color: 'purple',
+  },
+  {
+    id: topTwoItems[1]?.id ?? 2,
+    label: topTwoItems[1]?.name ?? '-',
+    amount: formatAmount(topTwoItems[1]?.expense ?? 0),
+    color: 'pink',
+  },
 ];
 </script>
 

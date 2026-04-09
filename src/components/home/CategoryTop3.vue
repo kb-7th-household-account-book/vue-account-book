@@ -1,9 +1,35 @@
 <script setup>
-const categoryItems = [
-  { id: 1, label: '식비', amount: '₩650,000', percent: 68, type: 'food' },
-  { id: 2, label: '쇼핑', amount: '₩320,000', percent: 45, type: 'shopping' },
-  { id: 3, label: '스포츠', amount: '₩280,000', percent: 40, type: 'sports' },
+import { computed } from 'vue';
+
+// db.json 구조에 맞춘 최소 카테고리 데이터
+const categories = [
+  { id: 1, name: 'FOOD', label: '식비', icon: '🍜', color: '#FF7F50' },
+  { id: 4, name: 'SHOPPING', label: '쇼핑', icon: '🛍️', color: '#FF69B4' },
+  { id: 5, name: 'CULTURE', label: '문화', icon: '🎬', color: '#DA70D6' },
 ];
+
+// 더미 데이터 유지
+const rawItems = [
+  { id: 1, name: 'FOOD', amount: '₩650,000', percent: 68 },
+  { id: 2, name: 'SHOPPING', amount: '₩320,000', percent: 45 },
+  { id: 3, name: 'CULTURE', amount: '₩280,000', percent: 40 },
+];
+
+const categoryItems = computed(() => {
+  return rawItems.map((item, index) => {
+    const category = categories.find((c) => c.name === item.name);
+
+    let fillClass = 'category-item__fill--culture';
+    if (index === 0) fillClass = 'category-item__fill--food';
+    if (index === 1) fillClass = 'category-item__fill--shopping';
+
+    return {
+      ...item,
+      label: category?.label ?? item.name,
+      fillClass,
+    };
+  });
+});
 </script>
 
 <template>
@@ -20,7 +46,7 @@ const categoryItems = [
         <div class="category-item__track">
           <div
             class="category-item__fill"
-            :class="`category-item__fill--${item.type}`"
+            :class="item.fillClass"
             :style="{ width: `${item.percent}%` }"
           ></div>
         </div>
@@ -103,7 +129,7 @@ const categoryItems = [
   background: linear-gradient(90deg, #fb64b6 0%, #f6339a 100%);
 }
 
-.category-item__fill--sports {
+.category-item__fill--culture {
   background: linear-gradient(90deg, #ffb900 0%, #fe9a00 100%);
 }
 </style>
