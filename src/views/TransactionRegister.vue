@@ -1,4 +1,5 @@
 <script setup>
+// 페이지 내부 컴포넌트 import
 import TopTypeButton from '@/components/transaction-register/TopTypeButton.vue';
 import TopMoneyField from '@/components/transaction-register/TopMoneyField.vue';
 import MidDateField from '@/components/transaction-register/MidDateField.vue';
@@ -10,8 +11,11 @@ import MidTransactionTitle from '@/components/transaction-register/MidTransactio
 import BotSummaryList from '@/components/transaction-register/BotSummaryList.vue';
 import BotRecentTransaction from '@/components/transaction-register/BotRecentTransaction.vue';
 import BotQuickTip from '@/components/transaction-register/BotQuickTip.vue';
+// API 파일 import
+import { addTransaction } from '@/api/transactionsRegister';
 
 import { ref } from 'vue';
+import { L } from 'vue-router/dist/index-BzEKChPW';
 
 const selectedType = ref('income'); // 현재 선택된 지출 타입 관리 (income or expense)
 const transactionAmount = ref(''); // 입력된 금액을 저장할 반응형 변수
@@ -29,18 +33,39 @@ const handleCancle = () => {
 };
 
 // 저장 버튼 클릭 시 실행될 함수
-const handleSave = () => {
-    console.log('저장 버튼 클릭됨');
-    console.log('입력된 데이터', {
-        amount: transactionAmount.value,
+const handleSave = async () => {
+    if (!transactionAmount.value || !transactionTitle.value || !transactionDate.value) {
+        alert('금액, 제목, 날짜는 필수 입력 항목입니다.');
+        return; 
+    }
+    
+    // Payload 
+    let formattedHour = transactionTime.value.hour;
+    if (transactionTime.value.period === '오후' && formattedHour < 12) formattedHour += 12;
+    if (transactionTime.value.period === '오전' && formattedHour === 12) formattedHour = 0;
+    
+    const timeString = `${String(formattedHour).padStart(2, '0')}:${String(transactionTime.value.minute).padStart(2, '0')}`;
+
+    const payload = {
+        type: selectedType.value,
+        title: transactionTitme.value,
+        amount: Number(transactionAmount.value),
         date: transactionDate.value,
-        time: transactionTime.value,
+        time: timeString,
         category: transactionCategory.value,
-        memo: transactionMemo.value,
-        type: selectedType.value
-    })
-    // Todo: json-server로 POST 요청을 보내는 로직을 작성
-}
+        memo: transactionMemo.value
+    }
+    
+    try {
+        console.log('서버로 전송할 데이터:', payload)
+        await addTransaction(payload);
+
+        alert('성공적으로 등록되었습니다!');
+    } catch (error) {
+        console.error('등록 실패:', error);
+        alert('저장 중 오류가 발생했습니다. 다시 시도해주세요')
+    }
+}  
 
 </script>
 <template>
