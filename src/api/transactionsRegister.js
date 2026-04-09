@@ -1,4 +1,3 @@
-import { P } from "vue-router/dist/index-BzEKChPW";
 import apiClient from "./index";
 
 // 거래 내역 추가 (POST)
