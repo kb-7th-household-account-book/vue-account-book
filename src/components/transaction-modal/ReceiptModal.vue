@@ -113,6 +113,7 @@
 </template>
 
 <script setup>
+import { onMounted, onUnmounted } from 'vue'; // 🌟 1. 생명주기 함수 가져오기
 import receiptSvg from '@/assets/icons/receipt.svg';
 // 부모 컴포넌트(팀원 리스트)에서 이 데이터를 넘겨줄 겁니다!
 const props = defineProps({
@@ -133,7 +134,24 @@ const props = defineProps({
 });
 
 // 부모에게 보낼 이벤트들
-defineEmits(['close', 'edit', 'delete']);
+const emit = defineEmits(['close', 'edit', 'delete']);
+
+// ESC 키 눌렀을 때 실행될 함수
+const handleEsc = (e) => {
+  if (e.key === 'Escape') {
+    emit('close'); // 부모한테 닫으라고 신호 보내기!
+  }
+};
+
+// 컴포넌트가 화면에 나타날 때(Mounted) 리스너 등록
+onMounted(() => {
+  window.addEventListener('keydown', handleEsc);
+});
+
+// 컴포넌트가 사라질 때(Unmounted) 리스너 제거 (중요!)
+onUnmounted(() => {
+  window.removeEventListener('keydown', handleEsc);
+});
 </script>
 
 <style scoped>
