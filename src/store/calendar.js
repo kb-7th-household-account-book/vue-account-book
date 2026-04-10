@@ -30,10 +30,6 @@ export const useCalendarStore = defineStore('calendar', () => {
     _loading.value = true;
     try {
       const res = await getFixedDetails();
-      console.log(
-        '고정 지출 데이터:',
-        res.data.find((f) => f.month === 4) || res,
-      ); // 디버깅용 로그
       _fixedList.value = res.data || res;
     } finally {
       _loading.value = false;
