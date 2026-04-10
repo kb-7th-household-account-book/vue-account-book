@@ -16,7 +16,12 @@ const handleAnalyze = async () => {
 
   isLoading.value = true;
   try {
-    const result = await analyzeTransaction(userInput.value);
+    // 최근 거래 내역을 함께 전달하여 수정/삭제 대상 식별 정확도를 높입니다.
+    const result = await analyzeTransaction(
+      userInput.value, 
+      homeStore.state.recentTransactions
+    );
+    
     analyzedData.value = result;
     showPreview.value = true;
   } catch (error) {
@@ -26,23 +31,42 @@ const handleAnalyze = async () => {
   }
 };
 
-// 가계부 등록 확정
+// 가계부 작업 확정 (등록 / 수정 / 삭제)
 const handleConfirm = async () => {
+  if (!analyzedData.value) return;
+
+  const { intent, targetId, data } = analyzedData.value;
+
   try {
-    // homeStore를 통해 등록 (내부적으로 순차 ID 생성 및 홈 데이터 갱신 포함)
-    await homeStore.createTransaction(analyzedData.value);
-    
-    alert('가계부에 성공적으로 등록되었습니다!');
+    if (intent === 'UPDATE') {
+      if (!targetId) throw new Error('수정할 대상을 찾지 못했습니다.');
+      await homeStore.updateTransaction(targetId, data);
+      alert('성공적으로 수정되었습니다!');
+    } else if (intent === 'DELETE') {
+      if (!targetId) throw new Error('삭제할 대상을 찾지 못했습니다.');
+      const targetTx = homeStore.state.recentTransactions.find(t => Number(t.id) === Number(targetId));
+      if (confirm(`[${targetTx?.title}] 내역을 정말 삭제할까요?`)) {
+        await homeStore.deleteTransaction(targetId);
+        alert('삭제되었습니다.');
+      } else {
+        return;
+      }
+    } else {
+      // 기본값은 CREATE (등록)
+      await homeStore.createTransaction(data);
+      alert('가계부에 성공적으로 등록되었습니다!');
+    }
     
     // 상태 초기화
     userInput.value = '';
     showPreview.value = false;
     analyzedData.value = null;
   } catch (error) {
-    console.error('등록 실패:', error);
-    alert('저장 중 오류가 발생했습니다.');
+    console.error('작업 수행 실패:', error);
+    alert('요청 처리에 실패했습니다.');
   }
 };
+
 
 
 const handleCancel = () => {
@@ -96,37 +120,46 @@ const categoryLabels = {
 
     <!-- AI 분석 결과 미리보기 (확인 단계) -->
     <Transition name="fade-slide">
-      <div v-if="showPreview && analyzedData" class="preview-card">
+      <div v-if="showPreview && analyzedData" class="preview-card" :class="analyzedData.intent.toLowerCase()">
         <div class="preview-content">
           <div class="preview-header">
-            <span class="badge" :class="analyzedData.type">
-              {{ analyzedData.type === 'income' ? '수입' : '지출' }}
+            <span class="intent-badge">
+              {{ analyzedData.intent === 'CREATE' ? '새 내역' : (analyzedData.intent === 'UPDATE' ? '내역 수정' : '내역 삭제') }}
             </span>
-            <span class="preview-date">{{ analyzedData.date }}</span>
+            <span class="preview-date">{{ analyzedData.data.date }}</span>
           </div>
           
           <div class="preview-main">
+            <div v-if="analyzedData.intent === 'DELETE'" class="delete-msg">
+              이 거래 내역을 삭제할까요?
+            </div>
             <div class="info-item">
               <span class="label">내용</span>
-              <span class="value">{{ analyzedData.title }}</span>
+              <span class="value">{{ analyzedData.data.title }}</span>
             </div>
             <div class="info-item">
               <span class="label">금액</span>
-              <span class="value amount">{{ analyzedData.amount.toLocaleString() }}원</span>
+              <span class="value amount" :class="analyzedData.data.type">
+                {{ analyzedData.data.type === 'income' ? '+' : '-' }}
+                {{ analyzedData.data.amount.toLocaleString() }}원
+              </span>
             </div>
             <div class="info-item">
               <span class="label">태그</span>
-              <span class="value category">{{ categoryLabels[analyzedData.category] || '기타' }}</span>
+              <span class="value category">{{ categoryLabels[analyzedData.data.category] || '기타' }}</span>
             </div>
           </div>
         </div>
 
         <div class="preview-actions">
           <button @click="handleCancel" class="cancel-btn">취소</button>
-          <button @click="handleConfirm" class="confirm-btn">이대로 등록</button>
+          <button @click="handleConfirm" class="confirm-btn">
+            {{ analyzedData.intent === 'CREATE' ? '이대로 등록' : (analyzedData.intent === 'UPDATE' ? '수정 확정' : '삭제 확정') }}
+          </button>
         </div>
       </div>
     </Transition>
+
   </div>
 </template>
 
@@ -228,7 +261,11 @@ input::placeholder {
   border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   overflow: hidden;
+  transition: all 0.3s ease;
 }
+
+.preview-card.update { border-left: 4px solid #4facfe; }
+.preview-card.delete { border-left: 4px solid #FF3B30; }
 
 .preview-content {
   padding: 20px;
@@ -241,21 +278,30 @@ input::placeholder {
   margin-bottom: 20px;
 }
 
-.badge {
+.intent-badge {
   padding: 4px 10px;
   border-radius: 8px;
   font-size: 12px;
   font-weight: 700;
+  background: rgba(255, 255, 255, 0.1);
+  color: #FFFFFF;
 }
 
-.badge.income {
-  background: rgba(52, 199, 89, 0.2);
-  color: #34C759;
+.update .intent-badge {
+  background: rgba(79, 172, 254, 0.2);
+  color: #4facfe;
 }
 
-.badge.expense {
+.delete .intent-badge {
   background: rgba(255, 59, 48, 0.2);
   color: #FF3B30;
+}
+
+.delete-msg {
+  color: #FF3B30;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 12px;
 }
 
 .preview-date {

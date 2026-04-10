@@ -6,7 +6,12 @@ import {
   getFixedDetails,
   getAllTransactions,
 } from '@/api/home';
-import { addTransaction } from '@/api/transactionsRegister';
+import {
+  addTransaction,
+  updateTransaction as apiUpdateTransaction,
+  deleteTransaction as apiDeleteTransaction,
+} from '@/api/transactionsRegister';
+
 
 
 export const useHomeStore = defineStore('home', () => {
@@ -111,9 +116,29 @@ export const useHomeStore = defineStore('home', () => {
     }
   };
 
+  const updateTransaction = async (id, transactionData) => {
+    try {
+      await apiUpdateTransaction(id, transactionData);
+      await fetchHomeData();
+    } catch (error) {
+      console.error('거래 수정 실패:', error);
+    }
+  };
+
+  const deleteTransaction = async (id) => {
+    try {
+      await apiDeleteTransaction(id);
+      await fetchHomeData();
+    } catch (error) {
+      console.error('거래 삭제 실패:', error);
+    }
+  };
+
   return {
     state: readonly(state),
     fetchHomeData,
     createTransaction,
+    updateTransaction,
+    deleteTransaction,
   };
 });

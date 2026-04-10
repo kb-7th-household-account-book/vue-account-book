@@ -511,44 +511,12 @@
       "memo": ""
     },
     {
-      "type": "expense",
-      "title": "점심 순대국",
-      "amount": 10000,
-      "date": "2026-04-10",
-      "time": "11:50",
-      "category": "FOOD",
-      "memo": "",
-      "id": "NbDmdTUbevc"
+      "id": "tzzTOSB5IMM",
+      "title": "test_number_id"
     },
     {
-      "type": "expense",
-      "title": "편의점 점심",
-      "amount": 5000,
-      "date": "2026-04-10",
-      "time": "13:02",
-      "category": "FOOD",
-      "memo": "",
-      "id": "n3KlCAQD8WQ"
-    },
-    {
-      "type": "expense",
-      "title": "점심 국밥",
-      "amount": 10000,
-      "date": "2026-04-10",
-      "time": "13:06",
-      "category": "FOOD",
-      "memo": "",
-      "id": "onjanDOZjcs"
-    },
-    {
-      "type": "expense",
-      "title": "순대국",
-      "amount": 8000,
-      "date": "2026-04-10",
-      "time": "13:07",
-      "category": "FOOD",
-      "memo": "",
-      "id": "ZWy8p0TYyaI"
+      "id": "NJS3vzqnAkw",
+      "title": "test_string_id"
     }
   ],
   "monthly_stats": [
