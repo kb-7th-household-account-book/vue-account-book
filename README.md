@@ -105,8 +105,76 @@
  ┣ 📜 .env.local                  # 환경변수 (Git 제외)
  ┗ 📜 package.json
 ```
-
 <br/>
+---
+
+## 🎬 시연 영상
+
+<table>
+
+<tr>
+<td align="center">
+
+### 🏠 홈  
+https://github.com/user-attachments/assets/dff5b341-1842-4e3d-b986-981359d7718d
+
+</td>
+
+<td align="center">
+
+### 📅 캘린더  
+https://github.com/user-attachments/assets/efc7ad0a-ec12-46f5-a882-d2078a7a3d69
+
+</td>
+</tr>
+
+<tr>
+<td align="center">
+
+### 📝 거래 등록  
+https://github.com/user-attachments/assets/4cf96b92-0bd6-4caf-96a3-67f156387521
+
+</td>
+
+<td align="center">
+
+### 📊 거래 내역  
+https://github.com/user-attachments/assets/276c31a9-a7b5-48bd-a8fe-4eb774caec10
+
+</td>
+</tr>
+
+<tr>
+<td align="center">
+
+### 👤 마이페이지  
+https://github.com/user-attachments/assets/274aff02-b629-4acd-843d-57ddd28334c3
+
+</td>
+
+<td align="center">
+
+### 🎮 게임  
+
+https://github.com/user-attachments/assets/90d60f56-0a73-4dbf-b445-c89004db8404
+
+
+
+</td>
+</tr>
+
+<tr>
+<td align="center" colspan="2">
+
+### 🤖 AI 거래 CRUD  ( 가계부 거래 등록 / 가계부 거래 수정 / 가계부 거래 삭제)
+https://github.com/user-attachments/assets/86e76a93-d32b-4925-865a-c81a4ef05072
+
+</td>
+</tr>
+
+</table>
+
+---
 
 ## ⚡ 시작하기
 
