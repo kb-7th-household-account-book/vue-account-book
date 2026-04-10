@@ -1,5 +1,5 @@
 <template>
-  <div class="modal-overlay" @click.self="$emit('close')">
+  <div class="modal-overlay" @click.self="handleClose">
     <div class="modal-content">
       <div class="receipt-container" :class="{ tearing: isDeleting }">
         <div
@@ -14,7 +14,6 @@
 
           <div class="divider"></div>
 
-          <
           <div class="receipt-section">
             <div class="row">
               <span class="label">DATE:</span>
@@ -43,23 +42,24 @@
           <div class="receipt-section">
             <div class="row">
               <span class="label">CATEGORY:</span>
+
               <span v-if="!isEditing" class="value">
-                {{ editForm.categoryIcon }}{{ editForm.category }}
+                {{ displayCategory.icon }} {{ displayCategory.label }}
               </span>
-              <div v-else class="edit-flex">
-                <input
-                  v-model="editForm.categoryIcon"
-                  type="text"
-                  class="edit-input short"
-                  placeholder="이모지"
-                />
-                <input
-                  v-model="editForm.category"
-                  type="text"
-                  class="edit-input"
-                  placeholder="카테고리명"
-                />
-              </div>
+
+              <select
+                v-else
+                v-model="editForm.category"
+                class="edit-input select-bg"
+              >
+                <option
+                  v-for="cat in store.categoriesList"
+                  :key="cat.id"
+                  :value="cat.name"
+                >
+                  {{ cat.icon }} {{ cat.label }}
+                </option>
+              </select>
             </div>
 
             <div class="memo-container">
@@ -78,7 +78,7 @@
 
           <div class="divider"></div>
 
-          <div class="receipt-total">
+          <div class="receipt-total" :class="{ 'editing-total': isEditing }">
             <span class="label">TOTAL</span>
 
             <div v-if="!isEditing" class="amount" :class="editForm.type">
@@ -86,20 +86,32 @@
                 editForm.amount.toLocaleString()
               }}
             </div>
+            <div v-else class="edit-total-wrapper">
+              <div class="type-toggle">
+                <button
+                  type="button"
+                  :class="['type-btn', { active: editForm.type === 'income' }]"
+                  @click="editForm.type = 'income'"
+                >
+                  수입
+                </button>
+                <button
+                  type="button"
+                  :class="['type-btn', { active: editForm.type === 'expense' }]"
+                  @click="editForm.type = 'expense'"
+                >
+                  지출
+                </button>
+              </div>
 
-            <div v-else class="edit-flex right">
-              <select
-                v-model="editForm.type"
-                class="edit-input short select-bg"
-              >
-                <option value="expense">지출(-)</option>
-                <option value="income">수입(+)</option>
-              </select>
-              <input
-                v-model.number="editForm.amount"
-                type="number"
-                class="edit-input amount-input"
-              />
+              <div class="amount-wrapper">
+                <span class="currency">₩</span>
+                <input
+                  v-model.number="editForm.amount"
+                  type="number"
+                  class="amount-input"
+                />
+              </div>
             </div>
           </div>
 
@@ -111,27 +123,22 @@
       </div>
 
       <div class="action-buttons">
-        <button
-          v-if="!isEditing"
-          class="btn-icon btn-delete"
-          @click="startDelete"
-        >
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M6 19C6 20.1 6.9 21 8 21H16C17.1 21 18 20.1 18 19V7H6V19ZM19 4H15.5L14.5 3H9.5L8.5 4H5V6H19V4Z"
-              fill="#ff4d4d"
-            />
-          </svg>
-        </button>
-
-        <button class="btn-text btn-edit" @click="toggleEdit">
-          <template v-if="!isEditing">
+        <template v-if="!isEditing">
+          <button class="btn-icon btn-delete" @click="startDelete">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M6 19C6 20.1 6.9 21 8 21H16C17.1 21 18 20.1 18 19V7H6V19ZM19 4H15.5L14.5 3H9.5L8.5 4H5V6H19V4Z"
+                fill="#ff4d4d"
+              />
+            </svg>
+          </button>
+          <button class="btn-text btn-edit" @click="toggleEdit">
             <svg
               width="18"
               height="18"
@@ -145,31 +152,62 @@
               />
             </svg>
             수정하기
-          </template>
-          <template v-else> 저장하기 </template>
-        </button>
+          </button>
+          <button class="btn-icon btn-close" @click="handleClose">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z"
+                fill="#999"
+              />
+            </svg>
+          </button>
+        </template>
 
-        <button class="btn-icon btn-close" @click="handleClose">
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z"
-              fill="#999"
-            />
-          </svg>
-        </button>
+        <template v-else>
+          <button class="btn-icon btn-cancel-edit" @click="handleClose">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="white"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+          <button class="btn-save-edit" @click="toggleEdit">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="white"
+              stroke-width="3"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            저장
+          </button>
+        </template>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { onMounted, onUnmounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref, computed } from 'vue';
 import { useTransactionStore } from '@/store/transactions';
 import receiptSvg from '@/assets/icons/receipt.svg';
 
@@ -188,6 +226,34 @@ const isEditing = ref(false);
 
 // 원본 데이터 보호 위해 복사본 만듦
 const editForm = ref({ ...props.transaction });
+
+// 카테고리 변환 로직
+const displayCategory = computed(() => {
+  const rawCategory = editForm.value.category; // 예: "FOOD", "COFFEE"
+
+  // 1. 만약 스토어에 카테고리 데이터가 아직 안 불러와졌다면? (방어 코드)
+  if (!store.categoriesList || store.categoriesList.length === 0) {
+    return { icon: editForm.value.categoryIcon || '📌', label: rawCategory };
+  }
+
+  // 2. 스토어 목록에서 db.json의 name이나 id와 일치하는 것을 찾음
+  const found = store.categoriesList.find((c) => {
+    const target = String(rawCategory).trim().toUpperCase();
+    return (
+      String(c.name).toUpperCase() === target || // "FOOD" 매칭
+      String(c.id).toUpperCase() === target || // "1" 매칭
+      String(c.label).toUpperCase() === target // "식비" 매칭
+    );
+  });
+
+  // 3. 찾았다면 db.json에 있는 아이콘(🍜)과 한글 라벨(식비) 반환!
+  if (found) {
+    return { icon: found.icon, label: found.label };
+  }
+
+  // 그래도 못 찾으면 원본 반환
+  return { icon: editForm.value.categoryIcon || '📌', label: rawCategory };
+});
 
 const startDelete = () => {
   isDeleting.value = true;
@@ -246,6 +312,14 @@ onUnmounted(() => window.removeEventListener('keydown', handleEsc));
   flex-direction: column;
   align-items: center;
   gap: 20px;
+}
+.memo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* 👈 내용을 왼쪽 끝으로 밀착 */
+  gap: 8px; /* 라벨과 메모 사이 간격 살짝 조정 */
+  margin-top: 10px;
+  width: 100%; /* 부모 너비 꽉 채우기 */
 }
 
 /* 영수증 컨테이너: 그리드를 사용하여 자식들이 정확히 겹치게 설정 */
@@ -309,18 +383,61 @@ onUnmounted(() => window.removeEventListener('keydown', handleEsc));
 }
 .value {
   color: #fff;
-  font-weight: bold;
   text-align: right;
+  font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
+  /*font-weight: bold !important; 
+  font-size: 16px !important;*/
 }
 .memo-box {
-  padding: 16px;
+  width: 100%; /* 너비 확보 */
+  padding: 4px 0; /* 좌우 여백을 없애서 라벨과 시작선을 일치시킴 */
   border-radius: 6px;
   color: #fff;
   font-size: 14px;
-  min-height: 65px;
-  line-height: 1.5;
+  min-height: 40px; /* 너무 길지 않게 적당히 조절 */
+  line-height: 1.6;
   word-break: break-all;
+  text-align: left; /* 텍스트 왼쪽 정렬 명시 */
+  font-size: 13px; /* 원하는 크기로 숫자를 바꿔주세요 (예: 16px) */
+  font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
+.edit-textarea {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
+  padding: 12px;
+  border-radius: 6px;
+  width: 100%;
+  min-height: 80px;
+  resize: vertical;
+  outline: none;
+  text-align: left; /* 👈 입력창도 왼쪽 정렬 */
+}
+.edit-input {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 6px;
+  text-align: right;
+  outline: none;
+  font-size: 14px;
+  font-weight: normal;
+  font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
+  color-scheme: dark;
+}
+select.select-bg {
+  width: auto;
+  text-align: right;
+  cursor: pointer;
+}
+select.select-bg option {
+  background-color: #111113;
+  color: #fff;
+  font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
 .receipt-total {
   display: flex;
   justify-content: space-between;
@@ -328,6 +445,9 @@ onUnmounted(() => window.removeEventListener('keydown', handleEsc));
   margin: 20px 0;
   font-weight: bold;
 }
+.receipt-total.editing-total {
+  align-items: flex-start;
+} /* 수정 시 토글버튼 공간 확보 */
 .receipt-total .label {
   color: #fff;
   font-size: 20px;
@@ -342,6 +462,68 @@ onUnmounted(() => window.removeEventListener('keydown', handleEsc));
 }
 .amount.income {
   color: #4da6ff;
+}
+/* 🌟 수입/지출 토글 및 금액 입력 래퍼 */
+.edit-total-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+.type-toggle {
+  display: flex;
+  background: #222;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.type-btn {
+  background: transparent;
+  border: none;
+  color: #888;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.type-btn.active:first-child {
+  background: #4da6ff;
+  color: #fff;
+} /* 수입: 파란색 */
+.type-btn.active:last-child {
+  background: #ff4d4d;
+  color: #fff;
+} /* 지출: 빨간색 */
+
+.amount-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 6px 12px;
+  border-radius: 6px;
+}
+.amount-wrapper .currency {
+  color: #fff;
+  font-weight: bold;
+  font-size: 18px;
+}
+.amount-input {
+  background: transparent;
+  border: none;
+  width: 110px;
+  font-size: 20px;
+  color: #fff;
+  text-align: right;
+  outline: none;
+  font-weight: bold;
+  font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
+  -moz-appearance: textfield;
+}
+.amount-input::-webkit-outer-spin-button,
+.amount-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0; /* 크롬, 사파리, 엣지 화살표 숨기기 */
 }
 .barcode-img {
   width: 100%;
@@ -451,6 +633,7 @@ onUnmounted(() => window.removeEventListener('keydown', handleEsc));
   display: flex;
   gap: 12px;
   margin-top: 10px;
+  align-items: center;
 }
 .btn-icon {
   width: 48px;
@@ -478,5 +661,39 @@ onUnmounted(() => window.removeEventListener('keydown', handleEsc));
   font-weight: bold;
   border: none;
   cursor: pointer;
+}
+.btn-cancel-edit {
+  background-color: #2a2a2b;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.btn-save-edit {
+  background-color: #00d26a;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 20px;
+  height: 48px;
+  border-radius: 24px;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s;
+  box-shadow: 0 4px 15px rgba(0, 210, 106, 0.3);
+}
+.btn-save-edit:hover {
+  transform: scale(1.05);
+}
+.btn-cancel-edit:hover {
+  background-color: #444;
 }
 </style>

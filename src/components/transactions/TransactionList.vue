@@ -1,11 +1,14 @@
 <script setup>
 import TransactionItem from './TransactionItem.vue';
-import { useTransactionStore } from '@/store/transactions';
-import { computed, ref } from 'vue';
-
 import ReceiptModal from '@/components/transaction-modal/ReceiptModal.vue';
+import { useTransactionStore } from '@/store/transactions';
+import { computed, ref, onMounted } from 'vue';
 
 const store = useTransactionStore();
+
+onMounted(() => {
+  store.init(); // 앱 켜지자마자 스토어한테 "카테고리랑 리스트 다 가져와!" 하고 명령
+});
 
 const groupedTransactions = computed(() => {
   const groups = {};
