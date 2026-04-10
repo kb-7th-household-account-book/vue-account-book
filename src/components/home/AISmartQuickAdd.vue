@@ -1,10 +1,9 @@
 <script setup>
 import { ref } from 'vue';
 import { analyzeTransaction } from '@/services/aiService';
-import { addTransaction } from '@/api/transactionsRegister';
-import { useTransactionStore } from '@/store/transactions';
+import { useHomeStore } from '@/store/home';
 
-const transactionStore = useTransactionStore();
+const homeStore = useHomeStore();
 
 const userInput = ref('');
 const isLoading = ref(false);
@@ -30,11 +29,10 @@ const handleAnalyze = async () => {
 // 가계부 등록 확정
 const handleConfirm = async () => {
   try {
-    await addTransaction(analyzedData.value);
-    alert('가계부에 성공적으로 등록되었습니다!');
+    // homeStore를 통해 등록 (내부적으로 순차 ID 생성 및 홈 데이터 갱신 포함)
+    await homeStore.createTransaction(analyzedData.value);
     
-    // 데이터 갱신 (홈 화면 목록 등에 즉시 반영)
-    await transactionStore.init();
+    alert('가계부에 성공적으로 등록되었습니다!');
     
     // 상태 초기화
     userInput.value = '';
@@ -45,6 +43,7 @@ const handleConfirm = async () => {
     alert('저장 중 오류가 발생했습니다.');
   }
 };
+
 
 const handleCancel = () => {
   showPreview.value = false;

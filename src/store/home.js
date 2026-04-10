@@ -4,9 +4,10 @@ import {
   getMonthlyStats,
   getAllMonthlyStats,
   getFixedDetails,
-  addTransaction,
   getAllTransactions,
 } from '@/api/home';
+import { addTransaction } from '@/api/transactionsRegister';
+
 
 export const useHomeStore = defineStore('home', () => {
   const state = reactive({
