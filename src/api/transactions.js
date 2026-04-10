@@ -25,6 +25,11 @@ export const updateTransactionAPI = (id, data) => {
   return apiClient.put(`/transactions/${id}`, data);
 };
 
+// 카테고리 목록 조회
+export const getCategoriesAPI = () => {
+  return apiClient.get('/categories');
+};
+
 export const getTransactions = (filters) => {
   const params = new URLSearchParams();
 
