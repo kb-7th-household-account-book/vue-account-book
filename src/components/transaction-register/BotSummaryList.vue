@@ -33,8 +33,8 @@ const categoryInfo = computed(() => {
 </script>
 
 <template>
-    <section class="summary-card">
-        <p class="section-label">입력된 요약</p>
+    <section class="summary-info-card">
+        <h2 class="section-title">입력 데이터 요약</h2>
         
         <ul class="summary-list">
             <li class="summary-item">
@@ -66,56 +66,71 @@ const categoryInfo = computed(() => {
 </template>
 
 <style scoped>
-/* 공통 카드 스타일 */
-.summary-card {
-    background-color: #111111;
-    border-radius: 20px;
-    padding: 20px 24px;
-    margin-bottom: 20px;
+.summary-info-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 24px;
+    padding: 24px;
+    backdrop-filter: blur(12px);
+    animation: fadeIn 0.5s ease-out forwards;
+    opacity: 0;
+    animation-delay: 0.4s;
 }
 
-.section-label {
-    font-size: 14px;
-    color: #8e8e93;
-    margin-bottom: 20px;
+.section-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #8E8E93;
+  margin-bottom: 24px;
 }
 
-/* 리스트 스타일 제거 및 간격 설정 */
 .summary-list {
     list-style: none;
     padding: 0;
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 24px; /* 각 항목 간의 넉넉한 세로 간격 */
+    gap: 16px;
 }
 
-/* 개별 항목 가로 배치 (양끝 정렬) */
 .summary-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.summary-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
 }
 
 .label {
     font-size: 14px;
-    color: #8e8e93;
+    color: #8E8E93;
 }
 
 .value {
-    font-size: 16px;
-    color: #ffffff; /* 기본값은 흰색 */
+    font-size: 15px;
+    color: #ffffff;
     font-weight: 500;
 }
 
-/* 수입/지출 색상 포인트 */
 .text-income {
-    color: #2c6bed; /* 파란색 (이미지 참고) */
+    color: #51A2FF;
 }
+
 .text-expense {
-    color: #FF637E; /* 빨간색 */
+    color: #FF637E;
 }
+
 .text-muted {
-    color: #48484a;
+    color: rgba(255, 255, 255, 0.1);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 </style>
