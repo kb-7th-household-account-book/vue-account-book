@@ -14,14 +14,27 @@
 
           <div class="divider"></div>
 
+          <
           <div class="receipt-section">
             <div class="row">
               <span class="label">DATE:</span>
-              <span class="value">{{ transaction.date }}</span>
+              <span v-if="!isEditing" class="value">{{ editForm.date }}</span>
+              <input
+                v-else
+                v-model="editForm.date"
+                type="date"
+                class="edit-input"
+              />
             </div>
             <div class="row">
               <span class="label">TIME:</span>
-              <span class="value">{{ transaction.time }}</span>
+              <span v-if="!isEditing" class="value">{{ editForm.time }}</span>
+              <input
+                v-else
+                v-model="editForm.time"
+                type="time"
+                class="edit-input"
+              />
             </div>
           </div>
 
@@ -30,16 +43,36 @@
           <div class="receipt-section">
             <div class="row">
               <span class="label">CATEGORY:</span>
-              <span class="value">
-                {{ transaction.categoryIcon }}{{ transaction.category }}
+              <span v-if="!isEditing" class="value">
+                {{ editForm.categoryIcon }}{{ editForm.category }}
               </span>
+              <div v-else class="edit-flex">
+                <input
+                  v-model="editForm.categoryIcon"
+                  type="text"
+                  class="edit-input short"
+                  placeholder="이모지"
+                />
+                <input
+                  v-model="editForm.category"
+                  type="text"
+                  class="edit-input"
+                  placeholder="카테고리명"
+                />
+              </div>
             </div>
 
             <div class="memo-container">
               <span class="label">ITEM (Memo):</span>
-              <div class="memo-box">
-                {{ transaction.memo || '내용 없음' }}
+              <div v-if="!isEditing" class="memo-box">
+                {{ editForm.memo || '내용 없음' }}
               </div>
+              <textarea
+                v-else
+                v-model="editForm.memo"
+                class="edit-textarea"
+                placeholder="메모를 입력하세요"
+              ></textarea>
             </div>
           </div>
 
@@ -47,16 +80,26 @@
 
           <div class="receipt-total">
             <span class="label">TOTAL</span>
-            <div
-              class="amount"
-              :class="{
-                expense: transaction.type === 'expense',
-                income: transaction.type === 'income',
-              }"
-            >
-              {{ transaction.type === 'expense' ? '-' : '+' }}₩{{
-                transaction.amount.toLocaleString()
+
+            <div v-if="!isEditing" class="amount" :class="editForm.type">
+              {{ editForm.type === 'expense' ? '-' : '+' }}₩{{
+                editForm.amount.toLocaleString()
               }}
+            </div>
+
+            <div v-else class="edit-flex right">
+              <select
+                v-model="editForm.type"
+                class="edit-input short select-bg"
+              >
+                <option value="expense">지출(-)</option>
+                <option value="income">수입(+)</option>
+              </select>
+              <input
+                v-model.number="editForm.amount"
+                type="number"
+                class="edit-input amount-input"
+              />
             </div>
           </div>
 
@@ -68,7 +111,11 @@
       </div>
 
       <div class="action-buttons">
-        <button class="btn-icon btn-delete" @click="startDelete">
+        <button
+          v-if="!isEditing"
+          class="btn-icon btn-delete"
+          @click="startDelete"
+        >
           <svg
             width="24"
             height="24"
@@ -83,23 +130,26 @@
           </svg>
         </button>
 
-        <button class="btn-text btn-edit" @click="$emit('edit')">
-          <svg
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/vue"
-          >
-            <path
-              d="M3 17.25V21H6.75L17.81 9.94L14.06 6.19L3 17.25ZM20.71 7.04C21.1 6.65 21.1 6.02 20.71 5.63L18.37 3.29C17.98 2.9 17.35 2.9 16.96 3.29L15.13 5.12L18.88 8.87L20.71 7.04Z"
-              fill="black"
-            />
-          </svg>
-          수정하기
+        <button class="btn-text btn-edit" @click="toggleEdit">
+          <template v-if="!isEditing">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/vue"
+            >
+              <path
+                d="M3 17.25V21H6.75L17.81 9.94L14.06 6.19L3 17.25ZM20.71 7.04C21.1 6.65 21.1 6.02 20.71 5.63L18.37 3.29C17.98 2.9 17.35 2.9 16.96 3.29L15.13 5.12L18.88 8.87L20.71 7.04Z"
+                fill="black"
+              />
+            </svg>
+            수정하기
+          </template>
+          <template v-else> 저장하기 </template>
         </button>
 
-        <button class="btn-icon btn-close" @click="$emit('close')">
+        <button class="btn-icon btn-close" @click="handleClose">
           <svg
             width="24"
             height="24"
@@ -120,37 +170,57 @@
 
 <script setup>
 import { onMounted, onUnmounted, ref } from 'vue';
+import { useTransactionStore } from '@/store/transactions';
 import receiptSvg from '@/assets/icons/receipt.svg';
 
 const props = defineProps({
   transaction: {
     type: Object,
-    default: () => ({
-      id: 1,
-      date: '2026.04.08',
-      time: '19:00',
-      category: '식비',
-      categoryIcon: '🍜',
-      memo: '가족 외식',
-      amount: 215000,
-      type: 'expense',
-    }),
+    required: true,
   },
 });
 
-const emit = defineEmits(['close', 'edit', 'delete']);
+const emit = defineEmits(['close']);
+const store = useTransactionStore();
+
 const isDeleting = ref(false);
+const isEditing = ref(false);
+
+// 원본 데이터 보호 위해 복사본 만듦
+const editForm = ref({ ...props.transaction });
 
 const startDelete = () => {
   isDeleting.value = true;
-  setTimeout(() => {
-    emit('delete', props.transaction.id);
+  setTimeout(async () => {
+    await store.deleteTransaction(props.transaction.id);
     emit('close');
   }, 1000); // 애니메이션 시간 확보
 };
 
+// 수정/저장 토글 로직
+const toggleEdit = async () => {
+  if (isEditing.value) {
+    // 저장하기를 눌렀을 때: 스토어 업데이트 API 호출!
+    await store.updateTransaction(props.transaction.id, editForm.value);
+    isEditing.value = false; // 폼 닫기
+  } else {
+    // 수정하기를 눌렀을 때
+    isEditing.value = true;
+  }
+};
+
+// 닫기 로직 (수정 중에 닫으면 원상복구)
+const handleClose = () => {
+  if (isEditing.value) {
+    editForm.value = { ...props.transaction }; // 수정한 거 초기화
+    isEditing.value = false;
+  } else {
+    emit('close');
+  }
+};
+
 const handleEsc = (e) => {
-  if (e.key === 'Escape') emit('close');
+  if (e.key === 'Escape') handleClose();
 };
 
 onMounted(() => window.addEventListener('keydown', handleEsc));
@@ -178,7 +248,7 @@ onUnmounted(() => window.removeEventListener('keydown', handleEsc));
   gap: 20px;
 }
 
-/* 🌟 영수증 컨테이너: 그리드를 사용하여 자식들이 정확히 겹치게 설정 */
+/* 영수증 컨테이너: 그리드를 사용하여 자식들이 정확히 겹치게 설정 */
 .receipt-container {
   display: grid;
   grid-template-areas: 'overlap';
