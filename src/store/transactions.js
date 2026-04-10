@@ -5,6 +5,7 @@ import {
   getTransactionsCount,
   deleteTransactionAPI,
   updateTransactionAPI,
+  getCategoriesAPI,
 } from '@/api/transactions';
 
 // YYYY-MM-DD 형식의 현재 달 시작/종료일 반환
@@ -153,7 +154,21 @@ export const useTransactionStore = defineStore('transactions', () => {
     }
   };
 
+  // 카테고리 목록을 담을 상태 추가
+  const _categoriesList = ref([]);
+  const categoriesList = readonly(_categoriesList);
+
+  const fetchCategories = async () => {
+    try {
+      const res = await getCategoriesAPI();
+      _categoriesList.value = res.data || res;
+    } catch (error) {
+      console.error('카테고리 로드 실패:', error);
+    }
+  };
+
   const init = async () => {
+    await fetchCategories();
     await updateCounts();
     await fetchList(true);
   };
@@ -194,6 +209,7 @@ export const useTransactionStore = defineStore('transactions', () => {
       console.error('거래 내역 수정 실패:', error);
     }
   };
+
   return {
     list,
     filters,
@@ -207,5 +223,6 @@ export const useTransactionStore = defineStore('transactions', () => {
     init,
     deleteTransaction,
     updateTransaction,
+    categoriesList,
   };
 });

@@ -42,23 +42,25 @@
           <div class="receipt-section">
             <div class="row">
               <span class="label">CATEGORY:</span>
+
               <span v-if="!isEditing" class="value">
-                {{ editForm.categoryIcon }}{{ editForm.category }}
+                {{ displayCategory.icon }} {{ displayCategory.label }}
               </span>
-              <div v-else class="edit-flex">
-                <input
-                  v-model="editForm.categoryIcon"
-                  type="text"
-                  class="edit-input short"
-                  placeholder="이모지"
-                />
-                <input
-                  v-model="editForm.category"
-                  type="text"
-                  class="edit-input"
-                  placeholder="카테고리명"
-                />
-              </div>
+
+              <select
+                v-else
+                v-model="editForm.category"
+                class="edit-input select-bg"
+                style="width: 140px"
+              >
+                <option
+                  v-for="cat in store.categoriesList"
+                  :key="cat.id"
+                  :value="cat.name"
+                >
+                  {{ cat.icon }} {{ cat.label }}
+                </option>
+              </select>
             </div>
 
             <div class="memo-container">
@@ -168,7 +170,7 @@
 </template>
 
 <script setup>
-import { onMounted, onUnmounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref, computed } from 'vue';
 import { useTransactionStore } from '@/store/transactions';
 import receiptSvg from '@/assets/icons/receipt.svg';
 
@@ -187,6 +189,34 @@ const isEditing = ref(false);
 
 // 원본 데이터 보호 위해 복사본 만듦
 const editForm = ref({ ...props.transaction });
+
+// 카테고리 변환 로직
+const displayCategory = computed(() => {
+  const rawCategory = editForm.value.category; // 예: "FOOD", "COFFEE"
+
+  // 1. 만약 스토어에 카테고리 데이터가 아직 안 불러와졌다면? (방어 코드)
+  if (!store.categoriesList || store.categoriesList.length === 0) {
+    return { icon: editForm.value.categoryIcon || '📌', label: rawCategory };
+  }
+
+  // 2. 스토어 목록에서 db.json의 name이나 id와 일치하는 것을 찾음
+  const found = store.categoriesList.find((c) => {
+    const target = String(rawCategory).trim().toUpperCase();
+    return (
+      String(c.name).toUpperCase() === target || // "FOOD" 매칭
+      String(c.id).toUpperCase() === target || // "1" 매칭
+      String(c.label).toUpperCase() === target // "식비" 매칭
+    );
+  });
+
+  // 3. 찾았다면 db.json에 있는 아이콘(🍜)과 한글 라벨(식비) 반환!
+  if (found) {
+    return { icon: found.icon, label: found.label };
+  }
+
+  // 그래도 못 찾으면 원본 반환
+  return { icon: editForm.value.categoryIcon || '📌', label: rawCategory };
+});
 
 const startDelete = () => {
   isDeleting.value = true;
@@ -316,8 +346,8 @@ onUnmounted(() => window.removeEventListener('keydown', handleEsc));
 }
 .value {
   color: #fff;
-  font-weight: normal;
   text-align: right;
+  font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 .memo-box {
   width: 100%; /* 너비 확보 */
@@ -344,6 +374,18 @@ onUnmounted(() => window.removeEventListener('keydown', handleEsc));
   resize: vertical;
   outline: none;
   text-align: left; /* 👈 입력창도 왼쪽 정렬 */
+}
+.edit-input {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  text-align: right;
+  outline: none;
+  font-size: 14px;
+  font-weight: bold;
+  font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 .receipt-total {
   display: flex;
