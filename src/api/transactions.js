@@ -33,16 +33,16 @@ export const getCategoriesAPI = () => {
 export const getTransactions = (filters) => {
   const params = new URLSearchParams();
 
-  // 정렬
-  params.append('_sort', '-date');
-  params.append('_sort', '-time');
+  // 정렬 (json-server v0.17.x 문법)
+  params.append('_sort', 'date,time');
+  params.append('_order', 'desc,desc');
 
   // 페이지네이션
   const page = filters.page || 1;
   const limit = 10;
 
   params.append('_page', page.toString());
-  params.append('_per_page', limit.toString());
+  params.append('_limit', limit.toString());
 
   // 날짜 필터
   if (filters.startDate) params.append('date_gte', filters.startDate);

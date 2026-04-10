@@ -9,6 +9,7 @@ import RecentTransactionList from '@/components/home/RecentTransactionList.vue';
 import MonthlySummary from '@/components/home/MonthlySummary.vue';
 import FixedExpenseSummary from '@/components/home/FixedExpenseSummary.vue';
 import CategoryTop3 from '@/components/home/CategoryTop3.vue';
+import AISmartQuickAdd from '@/components/home/AISmartQuickAdd.vue';
 
 const homeStore = useHomeStore();
 
@@ -26,6 +27,7 @@ onMounted(() => {
 
       <section class="home-bottom-box">
         <div class="home-bottom-left">
+          <AISmartQuickAdd />
           <SummaryCard />
           <QuickExpenseAdd />
           <RecentTransactionList />
