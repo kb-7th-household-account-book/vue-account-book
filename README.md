@@ -1,63 +1,187 @@
-# 가계부 프로젝트 (Household Account Book)
+<div align="center">
 
-## 📌 프로젝트 개요 
-* **주제:** 가계부 서비스 앱
-* **기능:** 수입/지출 내역 기록 (날짜, 금액, 카테고리, 메모), 거래 내역 조회, 월별 데이터 요약
-* **주요 요건:** 유려한 디자인, 반응형 구조 적용, Composition API
-* **개발 인원 및 기간:** 4인, 1주일 진행
+<img width="120" height="120" alt="noir-vault-logo" src="https://github.com/user-attachments/assets/684191d2-c983-40ff-a644-3e3151f44f21" />
 
-## 🛠 사용 기술 (Tech Stack)
-* **프론트엔드:** Vue 3 (Composition API 방식)
-* **빌드 툴:** Vite (Proxy 및 빌드 역할)
-* **라우팅:** Vue Router (SPA 화면 이동)
-* **상태 관리:** Pinia (월별, 전체 상태 데이터 전용 보관)
-* **API 비동기 통신:** Axios
-* **백엔드(Mock DB):** json-server
+# 느와르 볼트 — NOIR VAULT
+
+> **어둠 속에서 빛나는 자산 관리 시스템**
+
+[![Vue 3](https://img.shields.io/badge/Vue-3.x-4FC08D?style=for-the-badge&logo=vue.js&logoColor=white)](https://vuejs.org/)
+[![Vite](https://img.shields.io/badge/Vite-5.x-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![Pinia](https://img.shields.io/badge/Pinia-Store-F7D336?style=for-the-badge&logo=pinia&logoColor=black)](https://pinia.vuejs.org/)
+[![OpenAI](https://img.shields.io/badge/OpenAI-GPT--4o--mini-412991?style=for-the-badge&logo=openai&logoColor=white)](https://openai.com/)
+[![License](https://img.shields.io/badge/License-MIT-gold?style=for-the-badge)](LICENSE)
+
+<br/>
+
+*NOIR(느와르) — 블랙 베이스 다크 UI의 묵직한 감성*  
+*VAULT(볼트) — 골드 포인트, 금고 속 자산처럼 단단하게*
+
+</div>
 
 ---
 
-## 📁 4인 협업 최적화 디렉토리 구조 (Architecture)
+## ✨ 개요
 
-일주일이라는 짧은 기간 내 충돌(Merge Conflict) 없이 4명의 팀원이 완벽하게 협업할 수 있도록 **역할(Concern)을 명확히 나눈 구조**입니다.
+**느와르 볼트**는 `Vue 3 + Pinia + OpenAI`를 기반으로 한 **지능형 가계부 관리 시스템**입니다.  
+"어제 점심 9000원 김치찌개"처럼 **자연어 한 줄**만으로 지출을 등록하고,  
+직관적인 대시보드로 나의 소비 패턴을 한눈에 파악할 수 있습니다.
 
-```text
-📦 project-root
- ┣ 📂 server             👉 json-server 구동용 임시 백엔드 공간
- ┃ ┗ 📜 db.json          # 수입/지출 내역이 저장될 데이터베이스 파일
+<br/>
+
+## 🚀 핵심 기능
+
+### 🤖 AI 스마트 등록 — 자연어로 기록하다
+
+| 입력 예시 | 추출 결과 |
+|---|---|
+| `"어제 점심 9000원 김치찌개"` | 날짜: 어제 / 시간: 12:00 / 금액: 9,000원 / 카테고리: 식비 |
+| `"이번달 월세 55만원"` | 날짜: 이번달 1일 / 금액: 550,000원 / 카테고리: 주거비 |
+| `"오늘 새벽 편의점 3500"` | 날짜: 오늘 / 시간: 07:00 / 금액: 3,500원 / 카테고리: 편의점 |
+
+> ⏰ **시간 자동 매핑** — 아침·새벽(07:00) / 점심·오후(12:00) / 저녁·밤(18:00)
+
+---
+
+### 📊 홈 대시보드 — 이번 달 한눈에
+
+- **월간 요약** — 지출 / 수입 / 저축률 실시간 분석
+- **카테고리 TOP 3** — 바 차트로 시각화된 소비 패턴
+- **고정 지출 요약** — 월세, 통신비 등 고정 비용 별도 트래킹
+
+---
+
+### 📝 체계적인 내역 관리
+
+- **멀티 필터링** — 기간 / 금액대 / 카테고리별 정밀 검색
+- **정수형 순차 ID** — `json-server` 연동 기반 데이터 무결성 보장
+- **생성 / 수정 / 삭제** — 완전한 CRUD 플로우
+
+<br/>
+
+## 🛠 기술 스택
+
+| 구분 | 기술 |
+|---|---|
+| **Frontend** | Vue 3 (Composition API), Vite, Vue Router |
+| **상태 관리** | Pinia |
+| **스타일링** | Vanilla CSS — 모바일 반응형 |
+| **통신** | Axios, REST API |
+| **Mock Backend** | json-server v0.17.4 |
+| **AI** | OpenAI API (`gpt-4o-mini`) |
+
+<br/>
+
+## 📂 프로젝트 구조
+
+```
+📦 noir-vault
+ ┣ 📂 server
+ ┃ ┗ 📜 db.json                  # Mock DB (정수형 순차 ID)
  ┣ 📂 src
- ┃ ┣ 📂 api              👉 비동기 서버 통신 코드를 한 장소에 격리
- ┃ ┃ ┗ 📜 index.js       # axios 세팅(http://localhost:4000). 모든 통신은 여기서 한 번만 선언
- ┃ ┣ 📂 router           👉 라우팅 전담 공간
- ┃ ┃ ┗ 📜 index.js       # 3D 홈 화면과 월별 달력 페이지 분기 설정
- ┃ ┣ 📂 store            👉 데이터 상태 전역 관리 (Layer 구분점) 
- ┃ ┃ ┗ 📜 account.js     # Pinia로 '현재 선택된 월'과 '가계부 내역 리스트' 보관
- ┃ ┣ 📂 views            👉 라우터에 의해 바뀌는 메인 렌더링 화면 (Layer 1)
- ┃ ┃ ┣ 📜 Home.vue       # 초기 진입 3D 이미지 화면
- ┃ ┃ ┗ 📜 MonthlyLedger.vue # 월별 가계부가 보여지는 달력 렌더링 도화지 화면
- ┃ ┣ 📂 components       👉 화면을 구성하는 UI 조각 부품 모음 (Layer 2 ~ 4)
- ┃ ┃ ┣ 📜 Home3DImage.vue
- ┃ ┃ ┣ 📜 CalendarBoard.vue # 달력 전체 껍데기와 레이아웃
- ┃ ┃ ┗ 📜 LedgerItem.vue    # 달력 칸 안에 들어갈 하루치 세부 내역/모달 
- ┃ ┣ 📜 App.vue          👉 모든 라우터 페이지가 보여질 빈 도화지 껍데기 (Layer 0)
- ┃ ┗ 📜 main.js          
- ┣ 📜 package.json       👉 npm run start:all 시 서버/앱 동시 켜기 스크립트 작성됨
+ ┃ ┣ 📂 api                      # Axios 통신 레이어
+ ┃ ┃ ┣ 📜 home.js                # 대시보드 API
+ ┃ ┃ ┣ 📜 transactions.js        # 조회 · 필터 API
+ ┃ ┃ ┗ 📜 transactionsRegister.js # 등록 · 수정 · 삭제 API
+ ┃ ┣ 📂 components               # UI 컴포넌트
+ ┃ ┃ ┣ 📂 home                   # 대시보드 구성 요소
+ ┃ ┃ ┣ 📂 layout                 # 공통 레이아웃 (Header 등)
+ ┃ ┃ ┗ 📂 transaction-register   # 폼, 모달, 리스트 UI
+ ┃ ┣ 📂 services
+ ┃ ┃ ┗ 📜 aiService.js           # OpenAI 자연어 분석
+ ┃ ┣ 📂 store                    # Pinia 전역 상태
+ ┃ ┃ ┣ 📜 account.js             # 사용자 정보
+ ┃ ┃ ┣ 📜 home.js                # 대시보드 통계
+ ┃ ┃ ┗ 📜 transactions.js        # 필터 · 리스트 상태
+ ┃ ┣ 📂 styles
+ ┃ ┃ ┣ 📜 tokens.css             # CSS 변수 (Color · Spacing · Typography)
+ ┃ ┃ ┣ 📜 index.css              # UI 디자인 시스템
+ ┃ ┃ ┗ 📜 reset.css              # 브라우저 스타일 초기화
+ ┃ ┣ 📂 views
+ ┃ ┃ ┣ 📜 Home.vue               # 대시보드 페이지
+ ┃ ┃ ┗ 📜 TransactionRegister.vue # 내역 관리 페이지
+ ┃ ┣ 📜 App.vue
+ ┃ ┗ 📜 main.js
+ ┣ 📜 .env.local                  # 환경변수 (Git 제외)
+ ┗ 📜 package.json
 ```
 
+<br/>
+
+## ⚡ 시작하기
+
+### 1. 환경변수 설정
+
+프로젝트 루트에 `.env.local` 파일을 생성하고 OpenAI API Key를 등록합니다.
+
+```env
+VITE_OPENAI_API_KEY=여기에_자신의_OPENAI_API_KEY를_입력하세요
+```
+
+> AI 스마트 등록 기능은 API Key 없이는 동작하지 않습니다.
+
+### 2. 패키지 설치
+
+```bash
+npm install
+```
+
+### 3. 개발 서버 실행
+
+```bash
+npm run start:all
+```
+
+> `json-server` (포트 **4000**) + `Vite` 앱 (포트 **5173**) 동시 구동
+
+### 4. 브라우저 접속
+
+```
+http://localhost:5173
+```
+
+<br/>
+
+## ⚠️ 팀 공지사항
+
+> 협업 시 반드시 숙지해주세요.
+
+**🔢 DB 데이터 룰**  
+`db.json`은 **순차적 정수형 ID** 체계로 마이그레이션 되어 있습니다.  
+문자열 기반 ID 혼용 시 데이터 무결성이 깨질 수 있으니 주의해주세요.
+
+**🔧 json-server 버전 호환**  
+현재 `v0.17.4` 다운그레이드 상태입니다.  
+조회 쿼리 작성 시 **구버전 문법**을 사용해야 합니다. (예: `_sort=-date`)  
+최신 문법 사용 시 `500 에러`가 발생합니다.
+
+**🗂 Store 역할 분리**  
+전역 상태 비대화 방지를 위해 스토어 역할이 명확히 분리되어 있습니다.  
+반드시 기능 목적에 맞는 전용 스토어를 사용해주세요.
+
+| 스토어 | 담당 역할 |
+|---|---|
+| `transactions.js` | 필터링, 검색, 내역 리스트 |
+| `home.js` | 대시보드 요약 통계 |
+| `account.js` | 사용자 기본 정보 |
+
+<br/>
+
+## 🗺 향후 개발 방향 (Roadmap)
+
+- [ ] 월별 / 연별 소비 트렌드 차트 고도화
+- [ ] 예산 설정 및 초과 알림 기능
+- [ ] 반복 지출 자동 등록 (정기결제)
+- [ ] 영수증 이미지 OCR 인식 등록
+- [ ] 다중 계좌 / 카드 분류 관리
+- [ ] 데이터 내보내기 (CSV / Excel)
+
+<br/>
+
 ---
 
-## 🚀 프로젝트 실행 방법 (How to Run)
+<div align="center">
 
-1. **패키지 설치**
-   먼저 프로젝트 실행에 필요한 패키지들을 설치해야 합니다. 터미널을 열고 다음 명령어를 입력하세요.
-   ```bash
-   npm install
-   ```
+**느와르 볼트** — 당신의 자산을 금고처럼, 어둠 속에서 빛나게.
 
-2. **프로젝트 실행 (프론트엔드 + 백엔드 동시 실행)**
-   아래 명령어를 실행하면, `json-server`와 `Vite` 개발 서버가 동시에 실행됩니다.
-   ```bash
-   npm run start:all
-   ```
-
-3. **접속**
-   실행 후 브라우저에서 `http://localhost:5173` 으로 접속하여 앱을 확인할 수 있습니다.
+</div>
