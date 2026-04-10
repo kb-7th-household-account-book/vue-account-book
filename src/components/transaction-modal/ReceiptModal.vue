@@ -1,5 +1,9 @@
 <template>
-  <div class="modal-overlay" @click.self="handleClose">
+  <div
+    class="modal-overlay"
+    @mousedown="onMouseDownOverlay"
+    @mouseup="onMouseUpOverlay"
+  >
     <div class="modal-content">
       <div class="receipt-container" :class="{ tearing: isDeleting }">
         <div
@@ -211,6 +215,25 @@ import { onMounted, onUnmounted, ref, computed } from 'vue';
 import { useTransactionStore } from '@/store/transactions';
 import receiptSvg from '@/assets/icons/receipt.svg';
 
+const isMouseDownOnOverlay = ref(false); // 배경에서 마우스 누름 시작 여부
+
+// 마우스를 누를 때 실행
+const onMouseDownOverlay = (e) => {
+  // 정확히 '배경(Overlay)' 부분을 눌렀을 때만 true로 설정
+  if (e.target === e.currentTarget) {
+    isMouseDownOnOverlay.value = true;
+  }
+};
+
+// 마우스를 뗄 때 실행
+const onMouseUpOverlay = (e) => {
+  // 눌렀을 때도 배경이었고, 뗄 때도 배경 위라면 모달 닫기 실행
+  if (isMouseDownOnOverlay.value && e.target === e.currentTarget) {
+    handleClose();
+  }
+  // 상태값 초기화 (드래그가 끝났으므로)
+  isMouseDownOnOverlay.value = false;
+};
 const props = defineProps({
   transaction: {
     type: Object,
