@@ -1,4 +1,9 @@
 <script setup>
+import { computed } from 'vue';
+import { useHomeStore } from '@/store/home';
+
+const store = useHomeStore();
+
 const categories = [
   { id: 'FOOD', label: '식비', icon: '🍜', bg: 'linear-gradient(135deg, #FF7657, #FF5252)' },
   { id: 'COFFEE', label: '커피', icon: '☕', bg: 'linear-gradient(135deg, #FFB03A, #FF9800)' },
@@ -12,12 +17,20 @@ const categories = [
   { id: 'OTHERS', label: '기타', icon: '🏷️', bg: 'linear-gradient(135deg, #6c6c70, #48484a)' },
 ];
 
-const transactions = [
-  { id: 1, category: 'FOOD', title: '마라탕', date: '4월 5일', amount: '₩15,000' },
-  { id: 2, category: 'COFFEE', title: '아이스 아메리카노', date: '4월 5일', amount: '₩4,500' },
-  { id: 3, category: 'TRANSPORT', title: '택시비', date: '4월 4일', amount: '₩12,800' },
-  { id: 4, category: 'SHOPPING', title: '올리브영', date: '4월 4일', amount: '₩21,500' },
-];
+// 스토어의 데이터를 화면에 맞게 가공
+const transactions = computed(() => {
+  return store.state.recentTransactions.map((tx) => {
+    // 날짜 변환 (예: 2026-04-05 -> 4월 5일)
+    const [, month, day] = tx.date.split('-');
+    const formattedDate = `${parseInt(month, 10)}월 ${parseInt(day, 10)}일`;
+
+    return {
+      ...tx,
+      displayDate: formattedDate,
+      displayAmount: `₩${tx.amount.toLocaleString()}`,
+    };
+  });
+});
 
 const getCategoryInfo = (categoryId) => {
   return (
@@ -43,16 +56,17 @@ const getCategoryInfo = (categoryId) => {
 
           <div class="recent-row__text">
             <p class="recent-row__title">{{ transaction.title }}</p>
-            <p class="recent-row__date">{{ transaction.date }}</p>
+            <p class="recent-row__date">{{ transaction.displayDate }}</p>
           </div>
         </div>
 
-        <p class="recent-row__amount">{{ transaction.amount }}</p>
+        <p class="recent-row__amount">{{ transaction.displayAmount }}</p>
       </div>
+
+      <div v-if="transactions.length === 0" class="empty-state">최근 거래 내역이 없습니다.</div>
     </div>
   </section>
 </template>
-
 <style scoped>
 .recent-section {
   display: flex;
@@ -141,5 +155,12 @@ const getCategoryInfo = (categoryId) => {
   font-size: 16px;
   font-weight: 400;
   line-height: 24px;
+}
+
+.empty-state {
+  padding: 24px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 14px;
 }
 </style>

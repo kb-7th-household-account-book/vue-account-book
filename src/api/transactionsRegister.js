@@ -2,17 +2,17 @@ import apiClient from "./index";
 
 /**
  * 전 거래 내역을 조회하여 다음 순차 ID를 생성합니다.
- * @returns {Promise<string>} - 다음 ID 문자열
+ * @returns {Promise<number>} - 다음 ID 숫자
  */
 const getNextId = async () => {
     const { data } = await apiClient.get('/transactions');
-    if (!data || data.length === 0) return "1";
+    if (!data || data.length === 0) return 1;
     
-    // ID들을 숫자로 변환하여 가장 큰 값을 찾습니다.
-    const ids = data.map(item => parseInt(item.id)).filter(id => !isNaN(id));
+    // ID들을 숫자로 추출하여 가장 큰 값을 찾습니다.
+    const ids = data.map(item => Number(item.id)).filter(id => !isNaN(id));
     const maxId = ids.length > 0 ? Math.max(...ids) : 0;
     
-    return String(maxId + 1);
+    return maxId + 1;
 }
 
 // 거래 내역 추가 (POST)

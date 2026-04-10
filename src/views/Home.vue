@@ -1,4 +1,7 @@
 <script setup>
+import { onMounted } from 'vue';
+import { useHomeStore } from '@/store/home';
+
 import Home3DImage from '@/components/Home3DImage.vue';
 import SummaryCard from '@/components/home/SummaryCard.vue';
 import QuickExpenseAdd from '@/components/home/QuickExpenseAdd.vue';
@@ -7,19 +10,22 @@ import MonthlySummary from '@/components/home/MonthlySummary.vue';
 import FixedExpenseSummary from '@/components/home/FixedExpenseSummary.vue';
 import CategoryTop3 from '@/components/home/CategoryTop3.vue';
 import AISmartQuickAdd from '@/components/home/AISmartQuickAdd.vue';
+
+const homeStore = useHomeStore();
+
+onMounted(() => {
+  homeStore.fetchHomeData();
+});
 </script>
 
 <template>
   <div class="home-container">
     <main class="home-content">
-      <!-- 🔹 상단 3D 영역 -->
       <section class="home-top-box">
         <Home3DImage />
       </section>
 
-      <!-- 🔹 하단 (피그마 기준 영역) -->
       <section class="home-bottom-box">
-        <!-- 왼쪽 -->
         <div class="home-bottom-left">
           <AISmartQuickAdd />
           <SummaryCard />
@@ -27,7 +33,6 @@ import AISmartQuickAdd from '@/components/home/AISmartQuickAdd.vue';
           <RecentTransactionList />
         </div>
 
-        <!-- 오른쪽 -->
         <div class="home-bottom-right">
           <MonthlySummary />
           <FixedExpenseSummary />
@@ -38,14 +43,12 @@ import AISmartQuickAdd from '@/components/home/AISmartQuickAdd.vue';
   </div>
 </template>
 
-<!-- 🔹 Home 전용 레이아웃 -->
 <style scoped>
 .home-container {
   padding: 48px 32px 48px 32px;
   width: 100%;
 }
 
-/* 전체 구조 */
 .home-content {
   display: flex;
   flex-direction: column;
@@ -53,7 +56,6 @@ import AISmartQuickAdd from '@/components/home/AISmartQuickAdd.vue';
   box-sizing: border-box;
 }
 
-/* 🔹 상단 (3D 영역) */
 .home-top-box {
   padding: 20px 20px;
   min-height: 460px;
@@ -62,7 +64,6 @@ import AISmartQuickAdd from '@/components/home/AISmartQuickAdd.vue';
   justify-content: center;
 }
 
-/* 🔹 하단 2컬럼 */
 .home-bottom-box {
   display: grid;
   grid-template-columns: 1.2fr 1fr;
@@ -78,7 +79,6 @@ import AISmartQuickAdd from '@/components/home/AISmartQuickAdd.vue';
   min-width: 0;
 }
 
-/* 🔹 반응형 */
 @media (max-width: 1100px) {
   .home-bottom-box {
     grid-template-columns: 1fr;

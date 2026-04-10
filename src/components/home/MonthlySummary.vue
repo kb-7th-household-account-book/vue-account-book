@@ -1,35 +1,33 @@
 <script setup>
 import { computed, ref } from 'vue';
+import { useHomeStore } from '@/store/home';
 
+const store = useHomeStore();
 const currentPage = ref(0);
 
-const monthlyData = [
-  { month: '1월', netProfit: 58240 },
-  { month: '2월', netProfit: 58240 },
-  { month: '3월', netProfit: 58240 },
-  { month: '4월', netProfit: 58240 },
-  { month: '5월', netProfit: 58240 },
-  { month: '6월', netProfit: -12400 },
-  { month: '7월', netProfit: 76120 },
-  { month: '8월', netProfit: 32800 },
-  { month: '9월', netProfit: -5400 },
-  { month: '10월', netProfit: 91200 },
-  { month: '11월', netProfit: 48750 },
-  { month: '12월', netProfit: -22000 },
-];
+// 스토어의 월간 리스트를 필요한 형식으로 변환
+const monthlyData = computed(() => {
+  return store.state.monthlyList.map((item) => ({
+    month: `${item.month}월`,
+    netProfit: item.net_income,
+  }));
+});
 
+// 페이징 (6개월씩)
 const visibleMonths = computed(() => {
   const start = currentPage.value * 6;
-  return monthlyData.slice(start, start + 6);
+  return monthlyData.value.slice(start, start + 6);
 });
 
 const togglePage = () => {
+  // 데이터가 6개 이하일 경우 페이지 토글 방지
+  if (monthlyData.value.length <= 6) return;
   currentPage.value = currentPage.value === 0 ? 1 : 0;
 };
 
 const formatProfit = (value) => {
-  const sign = value >= 0 ? '+' : '-';
-  return `${sign}${Math.abs(value).toLocaleString()}원`;
+  const sign = value > 0 ? '+' : '';
+  return `${sign}${value.toLocaleString()}원`;
 };
 </script>
 
@@ -40,12 +38,22 @@ const formatProfit = (value) => {
     </div>
 
     <div class="summary-card">
-      <div v-for="item in visibleMonths" :key="item.month" class="summary-row">
-        <span class="month">{{ item.month }}</span>
-        <span class="profit">{{ formatProfit(item.netProfit) }}</span>
-      </div>
+      <template v-if="visibleMonths.length > 0">
+        <div v-for="item in visibleMonths" :key="item.month" class="summary-row">
+          <span class="month">{{ item.month }}</span>
+          <span class="profit" :class="{ negative: item.netProfit < 0 }">
+            {{ formatProfit(item.netProfit) }}
+          </span>
+        </div>
+      </template>
+      <div v-else class="empty-state">데이터가 없습니다.</div>
 
-      <button class="arrow-button" @click="togglePage" aria-label="다음 반기 보기">
+      <button
+        v-if="monthlyData.length > 6"
+        class="arrow-button"
+        @click="togglePage"
+        aria-label="다음 반기 보기"
+      >
         <svg
           width="20"
           height="12"
@@ -65,7 +73,6 @@ const formatProfit = (value) => {
     </div>
   </section>
 </template>
-
 <style scoped>
 .monthly-summary {
   width: 100%;
@@ -171,5 +178,11 @@ const formatProfit = (value) => {
   .profit {
     font-size: 17px;
   }
+}
+
+.empty-state {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.4);
+  padding: 20px;
 }
 </style>

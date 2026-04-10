@@ -10,516 +10,56 @@
     "category_count": 10
   },
   "transactions": [
-    {
-      "id": "1",
-      "type": "income",
-      "title": "부업 입금",
-      "amount": 200000,
-      "date": "2026-04-10",
-      "time": "09:00",
-      "category": "FINANCE",
-      "memo": "입금내역"
-    },
-    {
-      "id": "2",
-      "type": "expense",
-      "title": "점심 (돈까스)",
-      "amount": 12000,
-      "date": "2026-04-10",
-      "time": "12:30",
-      "category": "FOOD",
-      "memo": ""
-    },
-    {
-      "id": "3",
-      "type": "expense",
-      "title": "지하철 퇴근",
-      "amount": 3000,
-      "date": "2026-04-09",
-      "time": "18:00",
-      "category": "TRANSPORT",
-      "memo": "메모내용입니다"
-    },
-    {
-      "id": "4",
-      "type": "expense",
-      "title": "아메리카노 (카공)",
-      "amount": 4500,
-      "date": "2026-04-08",
-      "time": "14:00",
-      "category": "COFFEE",
-      "memo": "팀 회식 카공"
-    },
-    {
-      "id": "5",
-      "type": "expense",
-      "title": "저녁 배달",
-      "amount": 15000,
-      "date": "2026-04-07",
-      "time": "19:30",
-      "category": "FOOD",
-      "memo": ""
-    },
-    {
-      "id": "6",
-      "type": "expense",
-      "title": "백화점 쇼핑",
-      "amount": 125000,
-      "date": "2026-04-06",
-      "time": "14:30",
-      "category": "SHOPPING",
-      "memo": ""
-    },
-    {
-      "id": "7",
-      "type": "expense",
-      "title": "치과 검진",
-      "amount": 55000,
-      "date": "2026-04-05",
-      "time": "11:00",
-      "category": "MEDICAL",
-      "memo": ""
-    },
-    {
-      "id": "8",
-      "type": "expense",
-      "title": "편의점 아침",
-      "amount": 8500,
-      "date": "2026-04-04",
-      "time": "08:30",
-      "category": "FOOD",
-      "memo": ""
-    },
-    {
-      "id": "9",
-      "type": "expense",
-      "title": "넷플릭스 결제",
-      "amount": 14900,
-      "date": "2026-04-01",
-      "time": "00:05",
-      "category": "OTHERS",
-      "memo": ""
-    },
-    {
-      "id": "10",
-      "type": "income",
-      "title": "정기 급여",
-      "amount": 1500000,
-      "date": "2026-03-25",
-      "time": "10:00",
-      "category": "FINANCE",
-      "memo": ""
-    },
-    {
-      "id": "11",
-      "type": "expense",
-      "title": "영화 관람 및 팝콘",
-      "amount": 42000,
-      "date": "2026-03-23",
-      "time": "20:00",
-      "category": "CULTURE",
-      "memo": ""
-    },
-    {
-      "id": "12",
-      "type": "expense",
-      "title": "시내버스",
-      "amount": 2500,
-      "date": "2026-03-20",
-      "time": "09:00",
-      "category": "TRANSPORT",
-      "memo": ""
-    },
-    {
-      "id": "13",
-      "type": "expense",
-      "title": "Udemy 강의 결제",
-      "amount": 9900,
-      "date": "2026-03-18",
-      "time": "15:00",
-      "category": "EDUCATION",
-      "memo": ""
-    },
-    {
-      "id": "14",
-      "type": "expense",
-      "title": "라멘 점심",
-      "amount": 11000,
-      "date": "2026-03-15",
-      "time": "12:00",
-      "category": "FOOD",
-      "memo": ""
-    },
-    {
-      "id": "15",
-      "type": "expense",
-      "title": "서점 도서 구매",
-      "amount": 35000,
-      "date": "2026-03-12",
-      "time": "18:30",
-      "category": "SHOPPING",
-      "memo": ""
-    },
-    {
-      "id": "16",
-      "type": "expense",
-      "title": "바닐라라떼",
-      "amount": 5200,
-      "date": "2026-03-10",
-      "time": "14:00",
-      "category": "COFFEE",
-      "memo": ""
-    },
-    {
-      "id": "17",
-      "type": "expense",
-      "title": "치킨 포장",
-      "amount": 21000,
-      "date": "2026-03-08",
-      "time": "19:00",
-      "category": "FOOD",
-      "memo": ""
-    },
-    {
-      "id": "18",
-      "type": "expense",
-      "title": "따릉이 이용권",
-      "amount": 1200,
-      "date": "2026-03-05",
-      "time": "08:00",
-      "category": "TRANSPORT",
-      "memo": ""
-    },
-    {
-      "id": "19",
-      "type": "expense",
-      "title": "실비 보험료",
-      "amount": 65000,
-      "date": "2026-03-03",
-      "time": "13:00",
-      "category": "FINANCE",
-      "memo": ""
-    },
-    {
-      "id": "20",
-      "type": "expense",
-      "title": "김밥천국",
-      "amount": 8000,
-      "date": "2026-03-01",
-      "time": "12:00",
-      "category": "FOOD",
-      "memo": ""
-    },
-    {
-      "id": "21",
-      "type": "expense",
-      "title": "스타벅스",
-      "amount": 8500,
-      "date": "2026-04-08",
-      "time": "14:20",
-      "category": "COFFEE",
-      "memo": ""
-    },
-    {
-      "id": "22",
-      "type": "expense",
-      "title": "마라탕 점심",
-      "amount": 13000,
-      "date": "2026-04-08",
-      "time": "12:10",
-      "category": "FOOD",
-      "memo": ""
-    },
-    {
-      "id": "23",
-      "type": "expense",
-      "title": "버스 카드 충전",
-      "amount": 2500,
-      "date": "2026-04-08",
-      "time": "08:30",
-      "category": "TRANSPORT",
-      "memo": ""
-    },
-    {
-      "id": "24",
-      "type": "income",
-      "title": "당근마켓 거래",
-      "amount": 50000,
-      "date": "2026-04-07",
-      "time": "20:00",
-      "category": "OTHERS",
-      "memo": ""
-    },
-    {
-      "id": "25",
-      "type": "expense",
-      "title": "치킨이랑 맥주",
-      "amount": 42000,
-      "date": "2026-04-07",
-      "time": "19:00",
-      "category": "FOOD",
-      "memo": ""
-    },
-    {
-      "id": "26",
-      "type": "expense",
-      "title": "편의점 커피",
-      "amount": 2800,
-      "date": "2026-04-07",
-      "time": "15:30",
-      "category": "COFFEE",
-      "memo": ""
-    },
-    {
-      "id": "27",
-      "type": "expense",
-      "title": "봄 자켓 구매",
-      "amount": 180000,
-      "date": "2026-04-06",
-      "time": "21:00",
-      "category": "SHOPPING",
-      "memo": ""
-    },
-    {
-      "id": "28",
-      "type": "expense",
-      "title": "제육덮밥",
-      "amount": 9500,
-      "date": "2026-04-06",
-      "time": "12:40",
-      "category": "FOOD",
-      "memo": ""
-    },
-    {
-      "id": "29",
-      "type": "expense",
-      "title": "따릉이",
-      "amount": 1200,
-      "date": "2026-04-06",
-      "time": "08:10",
-      "category": "TRANSPORT",
-      "memo": ""
-    },
-    {
-      "id": "30",
-      "type": "expense",
-      "title": "뮤지컬 관람",
-      "amount": 55000,
-      "date": "2026-04-05",
-      "time": "18:20",
-      "category": "CULTURE",
-      "memo": ""
-    },
-    {
-      "id": "31",
-      "type": "expense",
-      "title": "파스타 맛집",
-      "amount": 22000,
-      "date": "2026-04-05",
-      "time": "13:00",
-      "category": "FOOD",
-      "memo": ""
-    },
-    {
-      "id": "32",
-      "type": "expense",
-      "title": "메가커피",
-      "amount": 3400,
-      "date": "2026-04-05",
-      "time": "10:00",
-      "category": "COFFEE",
-      "memo": ""
-    },
-    {
-      "id": "33",
-      "type": "income",
-      "title": "과외비 입금",
-      "amount": 150000,
-      "date": "2026-04-04",
-      "time": "15:00",
-      "category": "FINANCE",
-      "memo": ""
-    },
-    {
-      "id": "34",
-      "type": "expense",
-      "title": "롯데리아 세트",
-      "amount": 8900,
-      "date": "2026-04-04",
-      "time": "19:30",
-      "category": "FOOD",
-      "memo": ""
-    },
-    {
-      "id": "35",
-      "type": "expense",
-      "title": "카카오 택시",
-      "amount": 15000,
-      "date": "2026-04-03",
-      "time": "22:00",
-      "category": "OTHERS",
-      "memo": ""
-    },
-    {
-      "id": "36",
-      "type": "expense",
-      "title": "4월 월세",
-      "amount": 600000,
-      "date": "2026-04-03",
-      "time": "10:00",
-      "category": "HOUSING",
-      "memo": ""
-    },
-    {
-      "id": "37",
-      "type": "expense",
-      "title": "카페 라떼",
-      "amount": 4800,
-      "date": "2026-04-02",
-      "time": "15:00",
-      "category": "COFFEE",
-      "memo": ""
-    },
-    {
-      "id": "38",
-      "type": "expense",
-      "title": "김치찌개",
-      "amount": 11000,
-      "date": "2026-04-02",
-      "time": "12:30",
-      "category": "FOOD",
-      "memo": ""
-    },
-    {
-      "id": "39",
-      "type": "expense",
-      "title": "피부과 결제",
-      "amount": 65000,
-      "date": "2026-04-01",
-      "time": "14:00",
-      "category": "MEDICAL",
-      "memo": ""
-    },
-    {
-      "id": "40",
-      "type": "expense",
-      "title": "청약 저축",
-      "amount": 35000,
-      "date": "2026-04-01",
-      "time": "09:00",
-      "category": "FINANCE",
-      "memo": ""
-    },
-    {
-      "id": "41",
-      "type": "expense",
-      "title": "맥북 에어 M3 구매",
-      "amount": 1280000,
-      "date": "2026-04-08",
-      "time": "11:00",
-      "category": "SHOPPING",
-      "memo": ""
-    },
-    {
-      "id": "42",
-      "type": "expense",
-      "title": "부트캠프 심화 과정 등록",
-      "amount": 550000,
-      "date": "2026-04-07",
-      "time": "16:30",
-      "category": "EDUCATION",
-      "memo": ""
-    },
-    {
-      "id": "43",
-      "type": "expense",
-      "title": "푸꾸옥 여행 항공권/숙소 예약",
-      "amount": 820000,
-      "date": "2026-04-06",
-      "time": "10:00",
-      "category": "OTHERS",
-      "memo": ""
-    },
-    {
-      "id": "44",
-      "type": "expense",
-      "title": "주식 추가 매수 (정기)",
-      "amount": 1500000,
-      "date": "2026-04-05",
-      "time": "14:00",
-      "category": "FINANCE",
-      "memo": ""
-    },
-    {
-      "id": "45",
-      "type": "expense",
-      "title": "아이패드 프로용 매직 키보드 세트",
-      "amount": 680000,
-      "date": "2026-04-04",
-      "time": "18:00",
-      "category": "SHOPPING",
-      "memo": ""
-    },
-    {
-      "id": "46",
-      "type": "expense",
-      "title": "부모님 건강검진 예약",
-      "amount": 520000,
-      "date": "2026-04-03",
-      "time": "11:30",
-      "category": "MEDICAL",
-      "memo": ""
-    },
-    {
-      "id": "47",
-      "type": "expense",
-      "title": "비상금 파킹통장 예치",
-      "amount": 1950000,
-      "date": "2026-04-02",
-      "time": "09:00",
-      "category": "FINANCE",
-      "memo": ""
-    },
-    {
-      "id": "48",
-      "type": "expense",
-      "title": "연간 멤버십 회원권 결제",
-      "amount": 750000,
-      "date": "2026-03-30",
-      "time": "15:00",
-      "category": "CULTURE",
-      "memo": ""
-    },
-    {
-      "id": "49",
-      "type": "expense",
-      "title": "전세 자금 대출 이자",
-      "amount": 1100000,
-      "date": "2026-03-28",
-      "time": "13:00",
-      "category": "HOUSING",
-      "memo": ""
-    },
-    {
-      "id": "50",
-      "type": "expense",
-      "title": "콘솔 게임기 및 주변기기 풀셋",
-      "amount": 900000,
-      "date": "2026-03-26",
-      "time": "10:20",
-      "category": "SHOPPING",
-      "memo": ""
-    },
-    {
-      "type": "expense",
-      "title": "점심 김밥",
-      "amount": 5000,
-      "date": "2026-04-10",
-      "time": "11:19",
-      "category": "FOOD",
-      "memo": "",
-      "id": "NXL_eFuWCrs"
-    }
+  { "id": 1, "type": "income", "title": "부업 입금", "amount": 200000, "date": "2026-04-10", "time": "09:00", "category": "FINANCE", "memo": "입금내역" },
+  { "id": 2, "type": "expense", "title": "점심 (돈까스)", "amount": 12000, "date": "2026-04-10", "time": "12:30", "category": "FOOD", "memo": "" },
+  { "id": 3, "type": "expense", "title": "지하철 퇴근", "amount": 3000, "date": "2026-04-09", "time": "18:00", "category": "TRANSPORT", "memo": "메모내용입니다" },
+  { "id": 4, "type": "expense", "title": "아메리카노 (카공)", "amount": 4500, "date": "2026-04-08", "time": "14:00", "category": "COFFEE", "memo": "팀 회식 카공" },
+  { "id": 5, "type": "expense", "title": "저녁 배달", "amount": 15000, "date": "2026-04-07", "time": "19:30", "category": "FOOD", "memo": "" },
+  { "id": 6, "type": "expense", "title": "백화점 쇼핑", "amount": 125000, "date": "2026-04-06", "time": "14:30", "category": "SHOPPING", "memo": "" },
+  { "id": 7, "type": "expense", "title": "치과 검진", "amount": 55000, "date": "2026-04-05", "time": "11:00", "category": "MEDICAL", "memo": "" },
+  { "id": 8, "type": "expense", "title": "편의점 아침", "amount": 8500, "date": "2026-04-04", "time": "08:30", "category": "FOOD", "memo": "" },
+  { "id": 9, "type": "expense", "title": "넷플릭스 결제", "amount": 14900, "date": "2026-04-01", "time": "00:05", "category": "OTHERS", "memo": "" },
+  { "id": 10, "type": "income", "title": "정기 급여", "amount": 1500000, "date": "2026-03-25", "time": "10:00", "category": "FINANCE", "memo": "" },
+  { "id": 11, "type": "expense", "title": "영화 관람 및 팝콘", "amount": 42000, "date": "2026-03-23", "time": "20:00", "category": "CULTURE", "memo": "" },
+  { "id": 12, "type": "expense", "title": "시내버스", "amount": 2500, "date": "2026-03-20", "time": "09:00", "category": "TRANSPORT", "memo": "" },
+  { "id": 13, "type": "expense", "title": "Udemy 강의 결제", "amount": 9900, "date": "2026-03-18", "time": "15:00", "category": "EDUCATION", "memo": "" },
+  { "id": 14, "type": "expense", "title": "라멘 점심", "amount": 11000, "date": "2026-03-15", "time": "12:00", "category": "FOOD", "memo": "" },
+  { "id": 15, "type": "expense", "title": "서점 도서 구매", "amount": 35000, "date": "2026-03-12", "time": "18:30", "category": "SHOPPING", "memo": "" },
+  { "id": 16, "type": "expense", "title": "바닐라라떼", "amount": 5200, "date": "2026-03-10", "time": "14:00", "category": "COFFEE", "memo": "" },
+  { "id": 17, "type": "expense", "title": "치킨 포장", "amount": 21000, "date": "2026-03-08", "time": "19:00", "category": "FOOD", "memo": "" },
+  { "id": 18, "type": "expense", "title": "따릉이 이용권", "amount": 1200, "date": "2026-03-05", "time": "08:00", "category": "TRANSPORT", "memo": "" },
+  { "id": 19, "type": "expense", "title": "실비 보험료", "amount": 65000, "date": "2026-03-03", "time": "13:00", "category": "FINANCE", "memo": "" },
+  { "id": 20, "type": "expense", "title": "김밥천국", "amount": 8000, "date": "2026-03-01", "time": "12:00", "category": "FOOD", "memo": "" },
+  { "id": 21, "type": "expense", "title": "스타벅스", "amount": 8500, "date": "2026-04-08", "time": "14:20", "category": "COFFEE", "memo": "" },
+  { "id": 22, "type": "expense", "title": "마라탕 점심", "amount": 13000, "date": "2026-04-08", "time": "12:10", "category": "FOOD", "memo": "" },
+  { "id": 23, "type": "expense", "title": "버스 카드 충전", "amount": 2500, "date": "2026-04-08", "time": "08:30", "category": "TRANSPORT", "memo": "" },
+  { "id": 24, "type": "income", "title": "당근마켓 거래", "amount": 50000, "date": "2026-04-07", "time": "20:00", "category": "OTHERS", "memo": "" },
+  { "id": 25, "type": "expense", "title": "치킨이랑 맥주", "amount": 42000, "date": "2026-04-07", "time": "19:00", "category": "FOOD", "memo": "" },
+  { "id": 26, "type": "expense", "title": "편의점 커피", "amount": 2800, "date": "2026-04-07", "time": "15:30", "category": "COFFEE", "memo": "" },
+  { "id": 27, "type": "expense", "title": "봄 자켓 구매", "amount": 180000, "date": "2026-04-06", "time": "21:00", "category": "SHOPPING", "memo": "" },
+  { "id": 28, "type": "expense", "title": "제육덮밥", "amount": 9500, "date": "2026-04-06", "time": "12:40", "category": "FOOD", "memo": "" },
+  { "id": 29, "type": "expense", "title": "따릉이", "amount": 1200, "date": "2026-04-06", "time": "08:10", "category": "TRANSPORT", "memo": "" },
+  { "id": 30, "type": "expense", "title": "뮤지컬 관람", "amount": 55000, "date": "2026-04-05", "time": "18:20", "category": "CULTURE", "memo": "" },
+  { "id": 31, "type": "expense", "title": "파스타 맛집", "amount": 22000, "date": "2026-04-05", "time": "13:00", "category": "FOOD", "memo": "" },
+  { "id": 32, "type": "expense", "title": "메가커피", "amount": 3400, "date": "2026-04-05", "time": "10:00", "category": "COFFEE", "memo": "" },
+  { "id": 33, "type": "income", "title": "과외비 입금", "amount": 150000, "date": "2026-04-04", "time": "15:00", "category": "FINANCE", "memo": "" },
+  { "id": 34, "type": "expense", "title": "롯데리아 세트", "amount": 8900, "date": "2026-04-04", "time": "19:30", "category": "FOOD", "memo": "" },
+  { "id": 35, "type": "expense", "title": "카카오 택시", "amount": 15000, "date": "2026-04-03", "time": "22:00", "category": "OTHERS", "memo": "" },
+  { "id": 36, "type": "expense", "title": "4월 월세", "amount": 600000, "date": "2026-04-03", "time": "10:00", "category": "HOUSING", "memo": "" },
+  { "id": 37, "type": "expense", "title": "카페 라떼", "amount": 4800, "date": "2026-04-02", "time": "15:00", "category": "COFFEE", "memo": "" },
+  { "id": 38, "type": "expense", "title": "김치찌개", "amount": 11000, "date": "2026-04-02", "time": "12:30", "category": "FOOD", "memo": "" },
+  { "id": 39, "type": "expense", "title": "피부과 결제", "amount": 65000, "date": "2026-04-01", "time": "14:00", "category": "MEDICAL", "memo": "" },
+  { "id": 40, "type": "expense", "title": "청약 저축", "amount": 35000, "date": "2026-04-01", "time": "09:00", "category": "FINANCE", "memo": "" },
+  { "id": 41, "type": "expense", "title": "맥북 에어 M3 구매", "amount": 1280000, "date": "2026-04-08", "time": "11:00", "category": "SHOPPING", "memo": "" },
+  { "id": 42, "type": "expense", "title": "부트캠프 심화 과정 등록", "amount": 550000, "date": "2026-04-07", "time": "16:30", "category": "EDUCATION", "memo": "" },
+  { "id": 43, "type": "expense", "title": "푸꾸옥 여행 항공권/숙소 예약", "amount": 820000, "date": "2026-04-06", "time": "10:00", "category": "OTHERS", "memo": "" },
+  { "id": 44, "type": "expense", "title": "주식 추가 매수 (정기)", "amount": 1500000, "date": "2026-04-05", "time": "14:00", "category": "FINANCE", "memo": "" },
+  { "id": 45, "type": "expense", "title": "아이패드 프로용 매직 키보드 세트", "amount": 680000, "date": "2026-04-04", "time": "18:00", "category": "SHOPPING", "memo": "" },
+  { "id": 46, "type": "expense", "title": "부모님 건강검진 예약", "amount": 520000, "date": "2026-04-03", "time": "11:30", "category": "MEDICAL", "memo": "" },
+  { "id": 47, "type": "expense", "title": "비상금 파킹통장 예치", "amount": 1950000, "date": "2026-04-02", "time": "09:00", "category": "FINANCE", "memo": "" },
+  { "id": 48, "type": "expense", "title": "연간 멤버십 회원권 결제", "amount": 750000, "date": "2026-03-30", "time": "15:00", "category": "CULTURE", "memo": "" },
+  { "id": 49, "type": "expense", "title": "전세 자금 대출 이자", "amount": 1100000, "date": "2026-03-28", "time": "13:00", "category": "HOUSING", "memo": "" },
+  { "id": 50, "type": "expense", "title": "콘솔 게임기 및 주변기기 풀셋", "amount": 900000, "date": "2026-03-26", "time": "10:20", "category": "SHOPPING", "memo": "" }
   ],
   "monthly_stats": [
     {
@@ -530,7 +70,7 @@
       "income_change": 5,
       "expense_change": -2,
       "savings_rate": 30,
-      "id": "YkTUHuL5yEM"
+      "id": "sxAfPe0qNXQ"
     },
     {
       "month": 2,
@@ -540,7 +80,7 @@
       "income_change": 6.6,
       "expense_change": 19,
       "savings_rate": 21.8,
-      "id": "b4ZrLCCDiA0"
+      "id": "avK0wSoT-B0"
     },
     {
       "month": 3,
@@ -550,7 +90,7 @@
       "income_change": 9.3,
       "expense_change": 124,
       "savings_rate": -60,
-      "id": "_RhAmG_4v1Y"
+      "id": "wJJNFU-UKiM"
     },
     {
       "month": 4,
@@ -560,7 +100,7 @@
       "income_change": 85.7,
       "expense_change": 81.2,
       "savings_rate": -56.1,
-      "id": "12VIqUgpcGA"
+      "id": "-BWrLXdzy4I"
     },
     {
       "month": 5,
@@ -570,7 +110,7 @@
       "income_change": 14.2,
       "expense_change": 33.3,
       "savings_rate": 5,
-      "id": "stiCOGhV4lo"
+      "id": "bDLso1jhd6s"
     },
     {
       "month": 6,
@@ -580,7 +120,7 @@
       "income_change": -15,
       "expense_change": -42.1,
       "savings_rate": 35.2,
-      "id": "khH4ef2oT60"
+      "id": "cQaxt4C91DE"
     },
     {
       "month": 7,
@@ -590,7 +130,7 @@
       "income_change": 5.8,
       "expense_change": 40.9,
       "savings_rate": 13.8,
-      "id": "wQwwWlPdtqM"
+      "id": "vqjurgIsjwE"
     },
     {
       "month": 8,
@@ -600,7 +140,7 @@
       "income_change": -11.1,
       "expense_change": -22.5,
       "savings_rate": 25,
-      "id": "fGkwg-ZI8U0"
+      "id": "PFx7jiGXjBg"
     },
     {
       "month": 9,
@@ -610,7 +150,7 @@
       "income_change": 40.6,
       "expense_change": 33.3,
       "savings_rate": 28.8,
-      "id": "czTt9HTFwMM"
+      "id": "-E1OaAGAshs"
     },
     {
       "month": 10,
@@ -620,7 +160,7 @@
       "income_change": -26.6,
       "expense_change": -34.3,
       "savings_rate": 36.3,
-      "id": "bMPCQXevlcg"
+      "id": "gl4i0HmVMUg"
     },
     {
       "month": 11,
@@ -630,7 +170,7 @@
       "income_change": 6,
       "expense_change": 23.8,
       "savings_rate": 25.7,
-      "id": "P8nMmiKMrew"
+      "id": "-CBrBof3EmU"
     },
     {
       "month": 12,
@@ -640,7 +180,7 @@
       "income_change": 42.8,
       "expense_change": 73,
       "savings_rate": 10,
-      "id": "EuINdqlu9dU"
+      "id": "cE1r5eqozeo"
     }
   ],
   "fixed_details": [
@@ -669,7 +209,7 @@
           "expense": 50000
         }
       ],
-      "id": "t9VhJA1Zw54"
+      "id": "gGtHTP2HqRw"
     },
     {
       "month": 2,
@@ -696,7 +236,7 @@
           "expense": 50000
         }
       ],
-      "id": "_kNyWjHriI0"
+      "id": "3jUM_EPI49c"
     },
     {
       "month": 3,
@@ -723,7 +263,7 @@
           "expense": 50000
         }
       ],
-      "id": "u0wPtdLvKoc"
+      "id": "RQwjG0pXMKs"
     },
     {
       "month": 4,
@@ -750,7 +290,7 @@
           "expense": 50000
         }
       ],
-      "id": "tTrGD7AuQAE"
+      "id": "ow8rWpBNisk"
     },
     {
       "month": 5,
@@ -782,7 +322,7 @@
           "expense": 50000
         }
       ],
-      "id": "MdijIL4hN1c"
+      "id": "MigMb1uDSNk"
     },
     {
       "month": 6,
@@ -809,7 +349,7 @@
           "expense": 50000
         }
       ],
-      "id": "oVFqVbi-y1A"
+      "id": "9QkmnzTeYrU"
     },
     {
       "month": 7,
@@ -841,7 +381,7 @@
           "expense": 50000
         }
       ],
-      "id": "wptZOS0p4AU"
+      "id": "ES1AK77cn6w"
     },
     {
       "month": 8,
@@ -868,7 +408,7 @@
           "expense": 50000
         }
       ],
-      "id": "0hHb3EEbjVo"
+      "id": "YTMuEq_hQ-Y"
     },
     {
       "month": 9,
@@ -900,7 +440,7 @@
           "expense": 50000
         }
       ],
-      "id": "SOdgU3C1yLo"
+      "id": "FUz3xfpHRbY"
     },
     {
       "month": 10,
@@ -927,7 +467,7 @@
           "expense": 50000
         }
       ],
-      "id": "vFaLKiH04zI"
+      "id": "QAYJtjlg4ck"
     },
     {
       "month": 11,
@@ -954,7 +494,7 @@
           "expense": 50000
         }
       ],
-      "id": "jA-BKc8cfYs"
+      "id": "_hQINwax4EY"
     },
     {
       "month": 12,
@@ -986,7 +526,7 @@
           "expense": 50000
         }
       ],
-      "id": "sjDRg5D3KWo"
+      "id": "2V3T6RcG17k"
     }
   ],
   "categories": [
@@ -1101,7 +641,7 @@
         "min": 0,
         "max": 1200000
       },
-      "id": "S1epsVRenRo"
+      "id": "R_xsV5IJJME"
     },
     {
       "month": 2,
@@ -1136,7 +676,7 @@
         "min": 0,
         "max": 800000
       },
-      "id": "HRQ-pHvQOcI"
+      "id": "R86Z77DNNcM"
     },
     {
       "month": 3,
@@ -1189,7 +729,7 @@
         "min": 0,
         "max": 1100000
       },
-      "id": "0vWiRP4DjQA"
+      "id": "2SxiGn-3hDs"
     },
     {
       "month": 4,
@@ -1266,7 +806,7 @@
         "min": 0,
         "max": 1950000
       },
-      "id": "G8ILFD3ppM8"
+      "id": "6BJEgAyIg9c"
     },
     {
       "month": 5,
@@ -1301,7 +841,7 @@
         "min": 0,
         "max": 2000000
       },
-      "id": "tF6sEW89OuA"
+      "id": "aYPzgUg2Mk8"
     },
     {
       "month": 6,
@@ -1336,7 +876,7 @@
         "min": 0,
         "max": 900000
       },
-      "id": "UHnbDBU7M64"
+      "id": "HldG5A8RMcA"
     },
     {
       "month": 7,
@@ -1371,7 +911,7 @@
         "min": 0,
         "max": 1800000
       },
-      "id": "yubYa0AfzNE"
+      "id": "vXt4WJgjcxQ"
     },
     {
       "month": 8,
@@ -1406,7 +946,7 @@
         "min": 0,
         "max": 1100000
       },
-      "id": "2-2om-hFqoY"
+      "id": "IoxWYnDH8IE"
     },
     {
       "month": 9,
@@ -1441,7 +981,7 @@
         "min": 0,
         "max": 1400000
       },
-      "id": "N7fjSRgE_yw"
+      "id": "tiTzWl4Y7iI"
     },
     {
       "month": 10,
@@ -1476,7 +1016,7 @@
         "min": 0,
         "max": 1000000
       },
-      "id": "oqmzu227qRU"
+      "id": "w0QfoBkCrUs"
     },
     {
       "month": 11,
@@ -1511,7 +1051,7 @@
         "min": 0,
         "max": 1300000
       },
-      "id": "WwZJIs-_UPk"
+      "id": "5N2Rf3i2rGs"
     },
     {
       "month": 12,
@@ -1546,7 +1086,7 @@
         "min": 0,
         "max": 2500000
       },
-      "id": "CBiS0klhcOE"
+      "id": "aCdEg8sXKZ0"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
