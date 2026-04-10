@@ -24,6 +24,26 @@ watch(() => gameStore.score, (newScore, oldScore) => {
   }
 });
 
+// 플로팅 텍스트 (음식 먹을 때 떠오르는 가격)
+const floatingTexts = ref([]);
+let floatingTextId = 0;
+
+const addFloatingText = (amount, itemX, itemY) => {
+  const id = floatingTextId++;
+  floatingTexts.value.push({
+    id,
+    amount,
+    x: itemX,
+    y: itemY,
+    opacity: 1
+  });
+  
+  // 1초 후 자동 제거
+  setTimeout(() => {
+    floatingTexts.value = floatingTexts.value.filter(text => text.id !== id);
+  }, 1000);
+};
+
 const keys = {
   ArrowLeft: false,
   ArrowRight: false
@@ -87,6 +107,8 @@ const gameLoop = () => {
       if (isColliding) {
         item.isCaught = true; 
         gameStore.score += item.amount;
+        // 플로팅 텍스트 생성 (플레이어 위쪽에서)
+        addFloatingText(item.amount, playerX, playerTop - 30);
       } else if (item.y > window.innerHeight + 100) {
         // 화면 밖으로 나간 경우
         item.isCaught = true; 
@@ -139,6 +161,20 @@ onUnmounted(() => {
       >
         {{ item.icon }}
       </div>
+    </div>
+
+    <!-- 플로팅 텍스트 -->
+    <div
+      v-for="floatingText in floatingTexts"
+      :key="floatingText.id"
+      class="floating-text"
+      :style="{
+        left: `${floatingText.x}px`,
+        top: `${floatingText.y}px`,
+        opacity: floatingText.opacity
+      }"
+    >
+      +{{ floatingText.amount.toLocaleString() }}
     </div>
 
     <Player :x="playerX" />
@@ -204,6 +240,32 @@ onUnmounted(() => {
 .icon-badge {
   transform: translate(-50%, -50%); 
   line-height: 1;
+}
+
+/* 플로팅 텍스트 */
+.floating-text {
+  position: absolute;
+  pointer-events: none;
+  color: #00ff00;
+  font-weight: bold;
+  font-size: 1.8rem;
+  text-shadow: 
+    0 0 10px #00ff00,
+    0 0 20px #00cc00;
+  font-family: 'Mona12', sans-serif;
+  transform: translate(-50%, -50%);
+  animation: float-up 1s ease-out forwards;
+}
+
+@keyframes float-up {
+  0% {
+    transform: translate(-50%, -50%) translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) translateY(-80px);
+    opacity: 0;
+  }
 }
 
 @keyframes neon-glow {

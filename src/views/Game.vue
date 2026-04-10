@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import GameSetup from '@/components/game/GameSetup.vue';
 import GameBoard from '@/components/game/GameBoard.vue';
 import GameResult from '@/components/game/GameResult.vue';
+import { GAME_CONFIG } from '@/constants/game';
 
 const currentPhase = ref('READY');
 
@@ -15,7 +16,7 @@ const handleGameOver = () => {
 
   setTimeout(() => {
     currentPhase.value = 'END'; 
-  }, 1500);
+  }, GAME_CONFIG.GAME_END_DELAY);
 };
 </script>
 
