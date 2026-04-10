@@ -14,7 +14,6 @@
 
           <div class="divider"></div>
 
-          <
           <div class="receipt-section">
             <div class="row">
               <span class="label">DATE:</span>
@@ -247,6 +246,14 @@ onUnmounted(() => window.removeEventListener('keydown', handleEsc));
   align-items: center;
   gap: 20px;
 }
+.memo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* 👈 내용을 왼쪽 끝으로 밀착 */
+  gap: 8px; /* 라벨과 메모 사이 간격 살짝 조정 */
+  margin-top: 10px;
+  width: 100%; /* 부모 너비 꽉 채우기 */
+}
 
 /* 영수증 컨테이너: 그리드를 사용하여 자식들이 정확히 겹치게 설정 */
 .receipt-container {
@@ -309,17 +316,34 @@ onUnmounted(() => window.removeEventListener('keydown', handleEsc));
 }
 .value {
   color: #fff;
-  font-weight: bold;
+  font-weight: normal;
   text-align: right;
 }
 .memo-box {
-  padding: 16px;
+  width: 100%; /* 너비 확보 */
+  padding: 4px 0; /* 좌우 여백을 없애서 라벨과 시작선을 일치시킴 */
   border-radius: 6px;
   color: #fff;
   font-size: 14px;
-  min-height: 65px;
-  line-height: 1.5;
+  min-height: 40px; /* 너무 길지 않게 적당히 조절 */
+  line-height: 1.6;
   word-break: break-all;
+  text-align: left; /* 텍스트 왼쪽 정렬 명시 */
+  font-size: 13px; /* 원하는 크기로 숫자를 바꿔주세요 (예: 16px) */
+  font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+.edit-textarea {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
+  padding: 12px;
+  border-radius: 6px;
+  width: 100%;
+  min-height: 80px;
+  resize: vertical;
+  outline: none;
+  text-align: left; /* 👈 입력창도 왼쪽 정렬 */
 }
 .receipt-total {
   display: flex;
