@@ -8,7 +8,8 @@ export const GAME_CONFIG = {
   ITEM_SIZE_MAX: 10,     // 아이템 최대 크기 (rem)
   // 플레이어 실제 이미지 크기: 269 × 507 (비율 유지 스케일)
   PLAYER_WIDTH: 150,     // 플레이어 너비
-  PLAYER_HEIGHT: 283     // 플레이어 높이 (150 * 507 / 269)
+  PLAYER_HEIGHT: 283,    // 플레이어 높이 (150 * 507 / 269)
+  GAME_END_DELAY: 3000   // 게임 종료 후 결과 화면으로 전환되기까지의 지연 시간 (ms)
 };
 // 랜덤 아이콘 리스트
 export const RANDOM_ICONS = [
