@@ -51,35 +51,47 @@ const handleAmountInput = (event) => {
 };
 
 const saveExpense = async () => {
+  // 1. 필수 입력값 확인 (Validation)
+  // 금액, 제목(form.memo), 날짜 중 하나라도 비어있으면 경고창 띄우고 중단!
+  if (!form.value.amount || !form.value.memo || !form.value.date) {
+    alert('금액, 제목, 날짜는 필수 입력 항목입니다.');
+    return;
+  }
+
   const newTransaction = {
     type: form.value.type,
-    title: form.value.memo || '새로운 거래',
+    title: form.value.memo, // 필수값을 체크했으므로 이제 기본값(|| '새로운 거래')이 필요 없습니다.
     amount: Number(form.value.amount),
-    date: form.value.date || new Date().toISOString().split('T')[0],
+    date: form.value.date,
     time: '12:00',
     category: form.value.category,
     memo: '',
   };
 
-  // 1. 스토어의 Action 호출 (API 저장 및 리스트 갱신)
-  await store.createTransaction(newTransaction);
+  try {
+    // 2. 스토어의 Action 호출 (API 저장 및 리스트 갱신)
+    await store.createTransaction(newTransaction);
 
-  alert('내역이 성공적으로 추가되었습니다! 💸');
+    alert('내역이 성공적으로 추가되었습니다! 💸');
 
-  // 2. 모달 닫기
-  closeModal();
+    // 3. 모달 닫기
+    closeModal();
 
-  // 3. 폼 초기화
-  form.value = {
-    type: 'expense',
-    date: '',
-    amount: '',
-    category: 'FOOD',
-    memo: '',
-  };
+    // 4. 폼 초기화
+    form.value = {
+      type: 'expense',
+      date: '',
+      amount: '',
+      category: 'FOOD',
+      memo: '',
+    };
+  } catch (error) {
+    // 저장 중 문제가 생겼을 때를 대비한 안전장치
+    console.error('저장 실패:', error);
+    alert('저장 중 오류가 발생했습니다. 다시 시도해주세요.');
+  }
 };
 </script>
-
 <template>
   <div class="quick-expense-add">
     <button class="quick-add-button" @click="openModal">빠른 지출 추가</button>
@@ -181,6 +193,11 @@ const saveExpense = async () => {
   cursor: pointer;
   font-family: inherit;
 }
+
+.quick-add-button:active {
+  transform: scale(0.98);
+}
+
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -382,6 +399,10 @@ const saveExpense = async () => {
   letter-spacing: -0.31px;
   cursor: pointer;
   font-family: inherit;
+}
+
+.save-button:active {
+  transform: scale(0.98);
 }
 
 /* QuickExpenseAdd.vue <style scoped> */
