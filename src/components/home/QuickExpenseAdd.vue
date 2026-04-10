@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useHomeStore } from '@/store/home';
 import ExpenseDateInput from '@/components/home/ExpenseDataInput.vue';
 
@@ -36,6 +36,18 @@ const selectType = (type) => {
 
 const selectCategory = (categoryId) => {
   form.value.category = categoryId;
+};
+
+// 금액을 쉼표와 함께 포맷팅
+const formattedAmount = computed(() => {
+  const value = Number(form.value.amount) || 0;
+  return value.toLocaleString('ko-KR');
+});
+
+// 금액 입력 시 쉼표 제거하고 숫자만 저장
+const handleAmountInput = (event) => {
+  const value = event.target.value.replace(/,/g, '');
+  form.value.amount = value ? Number(value) : '';
 };
 
 const saveExpense = async () => {
@@ -107,7 +119,7 @@ const saveExpense = async () => {
             <label class="field-label">금액</label>
             <div class="amount-input-wrap">
               <span class="currency">₩</span>
-              <input v-model="form.amount" type="number" class="amount-input" placeholder="0" />
+              <input :value="formattedAmount" @input="handleAmountInput" type="text" inputmode="numeric" class="amount-input" placeholder="0" />
             </div>
           </div>
 
