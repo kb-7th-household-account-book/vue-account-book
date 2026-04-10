@@ -93,6 +93,7 @@ defineEmits([
 
 .date-time-row > * {
   flex: 1;
+  min-width: 0; /* Ensure children can shrink */
 }
 
 @media (max-width: 768px) {
@@ -117,6 +118,9 @@ defineEmits([
 
 .field-group {
   margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
 .field-group:last-child {

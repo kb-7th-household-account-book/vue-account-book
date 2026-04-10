@@ -29,78 +29,99 @@ const categories = [
 </script>
 
 <template>
-    <section class="input-card">
-        <p class="section-label">카테고리</p>
-        
-        <div class="category-grid">
-            <button 
-                v-for="cat in categories" 
-                :key="cat.id"
-                :class="['category-item', { active: modelValue === cat.id }]"
-                :style="{ background: cat.bg }"
-                @click="selectCategory(cat.id)"
-            >
-                <span class="icon">{{ cat.icon }}</span>
-                <span class="label">{{ cat.label }}</span>
-            </button>
-        </div>
-    </section>
+  <div class="field-container">
+    <p class="section-label">카테고리</p>
+
+    <div class="category-grid">
+      <button
+        v-for="cat in categories"
+        :key="cat.id"
+        :class="['category-item', { active: modelValue === cat.id }]"
+        :style="{ background: cat.bg }"
+        @click="selectCategory(cat.id)"
+        type="button"
+      >
+        <span class="icon">{{ cat.icon }}</span>
+        <span class="label">{{ cat.label }}</span>
+      </button>
+    </div>
+  </div>
 </template>
 
 <style scoped>
-/* 공통 카드 스타일 */
-.input-card {
-    background-color: #111111;
-    border-radius: 20px;
-    padding: 20px;
-    margin-bottom: 20px;
+.field-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
 }
 
 .section-label {
-    font-size: 14px;
-    color: #8e8e93;
-    margin-bottom: 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #8E8E93;
+  margin: 0;
+  padding-left: 4px;
 }
 
-/*  1행 배치 */
 .category-grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 16px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
 }
 
-/* 개별 버튼 스타일 */
 .category-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    aspect-ratio: 1 / 1; /* 정사각형 비율 유지 */
-
-    width: 100%;
-    max-width: 200px; 
-    margin: 0 auto;  /* 칸 안에서 버튼을 가운데로 정렬 */
-
-    border-radius: 16px;
-    border: 2px solid transparent; /* active 상태 테두리를 위한 공간 확보 */
-    cursor: pointer;
-    transition: transform 0.1s ease, border-color 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  border-radius: 16px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-/* 선택(활성화) 되었을 때 테두리 표시 */
+.category-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
 .category-item.active {
-    border-color: #b8b8b8b7;
-    transform: scale(0.95); /* 눌린 듯한 효과 */
+  border-color: #FFFFFF;
+  transform: scale(0.95);
+  box-shadow: inset 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .icon {
-    font-size: 20px;
-    margin-bottom: 4px;
+  font-size: 20px;
+  margin-bottom: 2px;
 }
 
 .label {
-    color: #ffffff;
-    font-size: 15px;
-    font-weight: 600;
+  color: #FFFFFF;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+@media (max-width: 640px) {
+  .category-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .category-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  .icon {
+    font-size: 18px;
+  }
+  .label {
+    font-size: 12px;
+  }
 }
 </style>
