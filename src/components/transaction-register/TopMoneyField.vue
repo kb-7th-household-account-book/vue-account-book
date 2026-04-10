@@ -28,8 +28,8 @@ const addAmount = (valueToAdd) => {
 }
 </script>
 <template>
-    <section class="input-card">
-        <p class="section-label">금액</p>
+    <section class="money-input-card" :style="{ animationDelay: animationDelay }">
+        <h2 class="section-title">금액 입력</h2>
         <div class="amount-input-wrapper">
             <span class="currency-symbol">₩</span>
             <input 
@@ -55,35 +55,50 @@ const addAmount = (valueToAdd) => {
 </template>
 
 <style scoped>
-/* 카드 배경 */
-.input-card {
-    background-color: #111111;
-    border-radius: 24px;
-    padding: 20px;
-    margin-bottom: 20px;
+.money-input-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 28px;
+  padding: 32px;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+  min-width: 0;
+  backdrop-filter: blur(12px);
+  animation: fadeIn 0.5s ease-out forwards;
+  opacity: 0;
 }
 
-.section-label {
-    font-size: 14px;
-    color: #8e8e93;
-    margin-bottom: 16px;
-    display: block;
+.money-input-card:hover {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.section-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #8E8E93;
+  margin-bottom: 24px;
 }
 
 /* 입력창 래퍼 */
 .amount-input-wrapper {
     display: flex;
     align-items: center;
-    background-color: #1c1c1e;
-    border-radius: 16px;
-    padding: 16px 20px;
-    margin-bottom: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 20px 24px;
+    margin-bottom: 16px;
+    transition: all 0.2s ease;
+}
+
+.amount-input-wrapper:focus-within {
+    border-color: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.08);
 }
 
 .currency-symbol {
     color: #8e8e93;
-    font-size: 20px;
-    margin-right: 12px;
+    font-size: 24px;
+    margin-right: 16px;
     font-weight: 500;
 }
 
@@ -93,35 +108,75 @@ const addAmount = (valueToAdd) => {
     border: none;
     outline: none;
     color: white;
-    font-size: 24px;
+    font-size: 32px;
+    font-weight: 700;
+    width: 100%;
+    min-width: 0;
 }
 
 .amount-input::placeholder {
-  color: #48484a;
+  color: rgba(255, 255, 255, 0.15);
 }
 
 /* 빠른 추가 버튼 */
 .quick-add-row {
   display: flex;
-  gap: 8px;
+  gap: 12px;
   width: 100%;
 }
 
 .quick-btn {
   flex: 1;
-  background-color: #1c1c1e;
-  border: none;
-  border-radius: 12px;
-  padding: 14px 0;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 16px 0;
   color: #a1a1aa;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: all 0.2s ease;
+  min-width: 0;
+}
+
+.quick-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
 .quick-btn:active {
-  background-color: #2c2c2e;
+  transform: scale(0.96);
+}
+
+@media (max-width: 768px) {
+  .money-input-card {
+    padding: 24px;
+    border-radius: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .money-input-card {
+    padding: 20px;
+  }
+  .quick-add-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .amount-input-wrapper {
+    padding: 16px;
+  }
+  .amount-input {
+    font-size: 24px;
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* input type="number" 일 때 우측 화살표 숨기기 */
@@ -130,5 +185,4 @@ input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
-
 </style>

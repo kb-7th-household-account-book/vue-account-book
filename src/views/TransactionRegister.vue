@@ -1,13 +1,9 @@
 <script setup>
 // 페이지 내부 컴포넌트 import
-import TopTypeButton from '@/components/transaction-register/TopTypeButton.vue';
+import TypeSelectionSection from '@/components/transaction-register/TypeSelectionSection.vue';
 import TopMoneyField from '@/components/transaction-register/TopMoneyField.vue';
-import MidDateField from '@/components/transaction-register/MidDateField.vue';
-import MidTimeField from '@/components/transaction-register/MidTimeField.vue';
-import MidCategoryButton from '@/components/transaction-register/MidCategoryButton.vue';
-import MidMemoField from '@/components/transaction-register/MidMemoField.vue';
+import TransactionDetailSection from '@/components/transaction-register/TransactionDetailSection.vue';
 import MidSaveButton from '@/components/transaction-register/MidSaveButton.vue';
-import MidTransactionTitle from '@/components/transaction-register/MidTransactionTitle.vue';
 import BotSummaryList from '@/components/transaction-register/BotSummaryList.vue';
 import BotRecentTransaction from '@/components/transaction-register/BotRecentTransaction.vue';
 import BotQuickTip from '@/components/transaction-register/BotQuickTip.vue';
@@ -70,141 +66,192 @@ const handleSave = async () => {
 }  
 
 </script>
+
 <template>
-    <div class="register-page">
-        
-        <header class="register-header">
-            <h1>새 거래 등록</h1>
-            <button class="close-btn" @click="handleCancle"> X </button>
-        </header>
+  <div class="register-page">
+    <div class="register-container">
+      <header class="register-header">
+        <div class="header-title">
+          <h1>새 거래 등록</h1>
+          <p class="header-subtitle">가계부를 꼼꼼하게 관리해보세요</p>
+        </div>
+        <button class="close-btn" @click="handleCancle" aria-label="닫기">
+          <span class="icon">✕</span>
+        </button>
+      </header>
 
-        <div class="RegisterTopView">
-            <div class="type-toggle-container">
-                <p class="type-toggle-label">거래 유형을 선택하세요</p>
-                <div class="button-row">
-                    <TopTypeButton 
-                        label="수입"
-                        sub-label="급여, 보너스 등"
-                        icon="💰"
-                        active-color="#2c6bed"
-                        bg-gradient="linear-gradient(135deg, #51A2FF 0%, #2B7FFF 100%)"
-                        :is-active="selectedType === 'income'"
-                        @click="selectedType = 'income'"
-                    />
-                    <TopTypeButton
-                        label="지출"
-                        sub-label="식비, 쇼핑 등"
-                        icon="💸"
-                        active-color="#FF637E"
-                        bg-gradient="linear-gradient(135deg, #FF637E 0%, #FF2056 100%)"
-                        :is-active="selectedType === 'expense'"
-                        @click="selectedType = 'expense'"
-                    >
-                    </TopTypeButton>
-                </div>
-            </div>
-        </div>
-        <div class="money-field-wrapper">
-            <TopMoneyField v-model="transactionAmount"/>
-        </div>
-        <div class="RegisterMidView"> 
-            <div class="date-time-row">
-                <MidDateField v-model="transactionDate"/>
-                <MidTimeField v-model="transactionTime"/>
-            </div>
-            <div> 
-                <MidCategoryButton v-model="transactionCategory"/>
-            </div>
-            <div> 
-                <MidTransactionTitle v-model="transactionTitle"/>
-                <MidMemoField v-model="transactionMemo"/>
-            </div>
-            <div> 
-                <MidSaveButton
-                    @save="handleSave"
-                />
-            </div>
-        </div>
-    
-        <div class="RegisterBotView">
-        <BotSummaryList 
-            :type="selectedType"
-            :amount="transactionAmount"
-            :date="transactionDate"
-            :category="transactionCategory"
-        />
-        <BotRecentTransaction />
-        <BotQuickTip />
-    </div>
-    </div>
+      <div class="register-layout">
+        <!-- Main Form Section -->
+        <main class="registration-form">
+          <TypeSelectionSection 
+            v-model:selectedType="selectedType" 
+            animation-delay="0.1s"
+          />
 
+          <TopMoneyField 
+            v-model="transactionAmount" 
+            animation-delay="0.2s"
+          />
+
+          <TransactionDetailSection 
+            v-model:transactionDate="transactionDate"
+            v-model:transactionTime="transactionTime"
+            v-model:transactionCategory="transactionCategory"
+            v-model:transactionTitle="transactionTitle"
+            v-model:transactionMemo="transactionMemo"
+            animation-delay="0.3s"
+          />
+
+          <div class="actions-row">
+            <MidSaveButton @save="handleSave" />
+          </div>
+        </main>
+
+        <!-- Sidebar / Info Section -->
+        <aside class="registration-info">
+          <div class="info-sticky">
+            <BotSummaryList 
+              :type="selectedType"
+              :amount="transactionAmount"
+              :date="transactionDate"
+              :category="transactionCategory"
+            />
+            
+            <BotRecentTransaction />
+
+            <BotQuickTip />
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
 </template>
 
 <style scoped>
-/* 페이지 전체 뼈대 */
-.register-page {
-  background-color: #000000;
-  min-height: 100vh;
-  padding: 16px;
+/* Global Box Sizing for this page */
+* {
+  box-sizing: border-box;
 }
 
-/* 헤더 영역 */
+/* Responsive Layout Grid */
+.register-page {
+  background-color: #0A0A0B;
+  min-height: 100vh;
+  color: #FFFFFF;
+  width: 100%;
+  margin: 0 auto;
+  padding: 40px 0; /* Vertical padding only, horizontal handled by container */
+  box-sizing: border-box;
+  overflow-x: hidden; /* Prevent horizontal scroll */
+}
+
+.register-container {
+  max-width: 1000px; /* Reduced from 1200px for a more 'inset' look */
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding: 0 40px; /* Increased padding for the inward feel */
+}
+
+/* Header Styling */
 .register-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 4px;
-  margin-bottom: 20px;
-  color: white;
+  padding: 0 8px;
 }
 
-.register-header h1 {
-  font-size: 22px;
-  font-weight: 700;
+.header-title h1 {
+  font-size: 28px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #FFFFFF 0%, #8E8E93 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 4px;
+}
+
+.header-subtitle {
+  font-size: 15px;
+  color: #8E8E93;
 }
 
 .close-btn {
-  background: none;
-  border: none;
-  color: #8e8e93;
-  font-size: 24px;
-  cursor: pointer;
-}
-
-/* Top, 유형 선택 카드 (어두운 배경) */
-.RegisterTopView {
-  background-color: #111111;
-  border-radius: 24px;
-  padding: 20px;
-}
-
-.type-toggle-label {
-  font-size: 14px;
-  color: #8e8e93;
-  margin-bottom: 16px;
-}
-
-/* 가로 배치 */
-.button-row {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #FFFFFF;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
   display: flex;
-  gap: 12px; /* 두 버튼 사이의 간격 */
-  width: 100%;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
 }
 
-/* Top, 금액 입력 필드 */
-.money-field-wrapper {
-  margin-top: 24px;
+.close-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: rotate(90deg);
 }
 
-/* Mid, 날짜 시간 반반씩 가로 배치 */
-.date-time-row {
-    display: flex;
-    gap: 12px;
-    margin-bottom: 20px;
+/* Main Layout Grid */
+.register-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr); /* Allow shrinking to prevent overflow */
+  gap: 32px;
+  align-items: start;
 }
 
-/* 자식 컴포넌트가 동일한 너비를 가지도록 설정 */
-.date-time-row > * {
-    flex: 1;
+/* Desktop Dual Column */
+@media (min-width: 1024px) {
+  .register-layout {
+    grid-template-columns: minmax(0, 1fr) 340px;
+  }
+}
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+  .register-page {
+    padding: 20px 0;
+  }
+  .register-container {
+    padding: 0 20px; /* Bring it closer to edges on mobile but still not touching */
+    gap: 24px;
+  }
+  .header-title h1 {
+    font-size: 24px;
+  }
+}
+
+/* Form Layout */
+.registration-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 0;
+}
+
+/* Sidebar Info Layout */
+.registration-info {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 0;
+}
+
+.info-sticky {
+  position: sticky;
+  top: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.actions-row {
+  margin-top: 8px;
 }
 </style>
