@@ -82,10 +82,10 @@ const closeModal = () => {
 
 // 임시: 수정/삭제 함수
 const handleEdit = () => {
-  alert('수정 버튼 클릭! 나중에 수정 폼으로 연결합니다.');
+  //alert('수정 버튼 클릭! 나중에 수정 폼으로 연결합니다.');
 };
 const handleDelete = () => {
-  alert('삭제 버튼 클릭! 나중에 스토어의 삭제 액션과 연결합니다.');
+  //alert('삭제 버튼 클릭! 나중에 스토어의 삭제 액션과 연결합니다.');
   closeModal();
 };
 </script>
