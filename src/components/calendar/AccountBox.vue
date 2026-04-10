@@ -1,9 +1,10 @@
 <template>
   <div class="container" :class="account.type">
     <span>{{ account.name }}</span>
-    <p>₩{{ account.balance }}</p>
+    <p>₩ {{ account.balance }}</p>
   </div>
 </template>
+
 <script setup>
 defineProps({
   account: {
