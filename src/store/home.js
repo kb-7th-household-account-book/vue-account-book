@@ -4,7 +4,6 @@ import {
   getMonthlyStats,
   getAllMonthlyStats,
   getFixedDetails,
-  getRecentTransactions,
   addTransaction,
   getAllTransactions,
 } from '@/api/home';
@@ -64,12 +63,13 @@ export const useHomeStore = defineStore('home', () => {
       console.error('고정 지출 실패', e);
     }
 
-    // 4. 카테고리 TOP 3 (금액 계산 + 한글 라벨 적용!)
+    // 4. 🌟 카테고리 TOP 3 & 최근 거래 내역 (프론트에서 직접 처리!)
     try {
       const res = await getAllTransactions();
       const allTransactions = res.data;
       const categoryMap = {};
 
+      // 카테고리 금액 합산 로직
       allTransactions.forEach((tx) => {
         if (tx.type === 'expense') {
           if (!categoryMap[tx.category]) {
@@ -83,19 +83,21 @@ export const useHomeStore = defineStore('home', () => {
         }
       });
 
+      // [4-1] 카테고리 정렬 (금액 기준)
       state.topCategories = Object.values(categoryMap)
         .sort((a, b) => b.amount - a.amount)
         .slice(0, 3);
-    } catch (e) {
-      console.error('카테고리 통계 직접 계산 실패', e);
-    }
 
-    // 5. 최근 거래 내역
-    try {
-      const res = await getRecentTransactions();
-      state.recentTransactions = res.data;
+      // [4-2] 🌟 최근 거래 내역 정렬 (날짜/시간 조합해서 최신순으로 4개 자르기)
+      state.recentTransactions = [...allTransactions]
+        .sort((a, b) => {
+          const dateTimeA = (a.date || '') + (a.time || '');
+          const dateTimeB = (b.date || '') + (b.time || '');
+          return dateTimeB.localeCompare(dateTimeA); // 내림차순
+        })
+        .slice(0, 4);
     } catch (e) {
-      console.error('최근 거래 실패', e);
+      console.error('데이터 직접 계산 실패', e);
     }
   };
 

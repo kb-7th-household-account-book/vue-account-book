@@ -10,252 +10,1534 @@
     "category_count": 10
   },
   "transactions": [
-  { "id": 1, "type": "income", "title": "부업 입금", "amount": 200000, "date": "2026-04-07", "time": "09:00", "category": "FINANCE", "memo": "" },
-  { "id": 2, "type": "expense", "title": "점심 (돈까스)", "amount": 12000, "date": "2026-04-07", "time": "12:30", "category": "FOOD", "memo": "" },
-  { "id": 3, "type": "expense", "title": "지하철 퇴근", "amount": 3000, "date": "2026-04-07", "time": "18:00", "category": "TRANSPORT", "memo": "" },
-  { "id": 4, "type": "expense", "title": "아메리카노 (카공)", "amount": 4500, "date": "2026-04-07", "time": "14:00", "category": "COFFEE", "memo": "" },
-  { "id": 5, "type": "expense", "title": "저녁 배달", "amount": 15000, "date": "2026-04-06", "time": "19:30", "category": "FOOD", "memo": "" },
-  { "id": 6, "type": "expense", "title": "백화점 쇼핑", "amount": 125000, "date": "2026-04-06", "time": "14:30", "category": "SHOPPING", "memo": "" },
-  { "id": 7, "type": "expense", "title": "치과 검진", "amount": 55000, "date": "2026-04-05", "time": "11:00", "category": "MEDICAL", "memo": "" },
-  { "id": 8, "type": "expense", "title": "편의점 아침", "amount": 8500, "date": "2026-04-04", "time": "08:30", "category": "FOOD", "memo": "" },
-  { "id": 9, "type": "expense", "title": "넷플릭스 결제", "amount": 14900, "date": "2026-04-01", "time": "00:05", "category": "OTHERS", "memo": "" },
-  { "id": 10, "type": "income", "title": "정기 급여", "amount": 1500000, "date": "2026-03-25", "time": "10:00", "category": "FINANCE", "memo": "" },
-  { "id": 11, "type": "expense", "title": "영화 관람 및 팝콘", "amount": 42000, "date": "2026-03-23", "time": "20:00", "category": "CULTURE", "memo": "" },
-  { "id": 12, "type": "expense", "title": "시내버스", "amount": 2500, "date": "2026-03-20", "time": "09:00", "category": "TRANSPORT", "memo": "" },
-  { "id": 13, "type": "expense", "title": "Udemy 강의 결제", "amount": 9900, "date": "2026-03-18", "time": "15:00", "category": "EDUCATION", "memo": "" },
-  { "id": 14, "type": "expense", "title": "라멘 점심", "amount": 11000, "date": "2026-03-15", "time": "12:00", "category": "FOOD", "memo": "" },
-  { "id": 15, "type": "expense", "title": "서점 도서 구매", "amount": 35000, "date": "2026-03-12", "time": "18:30", "category": "SHOPPING", "memo": "" },
-  { "id": 16, "type": "expense", "title": "바닐라라떼", "amount": 5200, "date": "2026-03-10", "time": "14:00", "category": "COFFEE", "memo": "" },
-  { "id": 17, "type": "expense", "title": "치킨 포장", "amount": 21000, "date": "2026-03-08", "time": "19:00", "category": "FOOD", "memo": "" },
-  { "id": 18, "type": "expense", "title": "따릉이 이용권", "amount": 1200, "date": "2026-03-05", "time": "08:00", "category": "TRANSPORT", "memo": "" },
-  { "id": 19, "type": "expense", "title": "실비 보험료", "amount": 65000, "date": "2026-03-03", "time": "13:00", "category": "FINANCE", "memo": "" },
-  { "id": 20, "type": "expense", "title": "김밥천국", "amount": 8000, "date": "2026-03-01", "time": "12:00", "category": "FOOD", "memo": "" },
-  { "id": 21, "type": "expense", "title": "스타벅스", "amount": 8500, "date": "2026-04-08", "time": "14:20", "category": "COFFEE", "memo": "" },
-  { "id": 22, "type": "expense", "title": "마라탕 점심", "amount": 13000, "date": "2026-04-08", "time": "12:10", "category": "FOOD", "memo": "" },
-  { "id": 23, "type": "expense", "title": "버스 카드 충전", "amount": 2500, "date": "2026-04-08", "time": "08:30", "category": "TRANSPORT", "memo": "" },
-  { "id": 24, "type": "income", "title": "당근마켓 거래", "amount": 50000, "date": "2026-04-07", "time": "20:00", "category": "OTHERS", "memo": "" },
-  { "id": 25, "type": "expense", "title": "치킨이랑 맥주", "amount": 42000, "date": "2026-04-07", "time": "19:00", "category": "FOOD", "memo": "" },
-  { "id": 26, "type": "expense", "title": "편의점 커피", "amount": 2800, "date": "2026-04-07", "time": "15:30", "category": "COFFEE", "memo": "" },
-  { "id": 27, "type": "expense", "title": "봄 자켓 구매", "amount": 180000, "date": "2026-04-06", "time": "21:00", "category": "SHOPPING", "memo": "" },
-  { "id": 28, "type": "expense", "title": "제육덮밥", "amount": 9500, "date": "2026-04-06", "time": "12:40", "category": "FOOD", "memo": "" },
-  { "id": 29, "type": "expense", "title": "따릉이", "amount": 1200, "date": "2026-04-06", "time": "08:10", "category": "TRANSPORT", "memo": "" },
-  { "id": 30, "type": "expense", "title": "뮤지컬 관람", "amount": 55000, "date": "2026-04-05", "time": "18:20", "category": "CULTURE", "memo": "" },
-  { "id": 31, "type": "expense", "title": "파스타 맛집", "amount": 22000, "date": "2026-04-05", "time": "13:00", "category": "FOOD", "memo": "" },
-  { "id": 32, "type": "expense", "title": "메가커피", "amount": 3400, "date": "2026-04-05", "time": "10:00", "category": "COFFEE", "memo": "" },
-  { "id": 33, "type": "income", "title": "과외비 입금", "amount": 150000, "date": "2026-04-04", "time": "15:00", "category": "FINANCE", "memo": "" },
-  { "id": 34, "type": "expense", "title": "롯데리아 세트", "amount": 8900, "date": "2026-04-04", "time": "19:30", "category": "FOOD", "memo": "" },
-  { "id": 35, "type": "expense", "title": "카카오 택시", "amount": 15000, "date": "2026-04-03", "time": "22:00", "category": "OTHERS", "memo": "" },
-  { "id": 36, "type": "expense", "title": "4월 월세", "amount": 600000, "date": "2026-04-03", "time": "10:00", "category": "HOUSING", "memo": "" },
-  { "id": 37, "type": "expense", "title": "카페 라떼", "amount": 4800, "date": "2026-04-02", "time": "15:00", "category": "COFFEE", "memo": "" },
-  { "id": 38, "type": "expense", "title": "김치찌개", "amount": 11000, "date": "2026-04-02", "time": "12:30", "category": "FOOD", "memo": "" },
-  { "id": 39, "type": "expense", "title": "피부과 결제", "amount": 65000, "date": "2026-04-01", "time": "14:00", "category": "MEDICAL", "memo": "" },
-  { "id": 40, "type": "expense", "title": "청약 저축", "amount": 35000, "date": "2026-04-01", "time": "09:00", "category": "FINANCE", "memo": "" },
-  { "id": 41, "type": "expense", "title": "맥북 에어 M3 구매", "amount": 1280000, "date": "2026-04-08", "time": "11:00", "category": "SHOPPING", "memo": "" },
-  { "id": 42, "type": "expense", "title": "부트캠프 심화 과정 등록", "amount": 550000, "date": "2026-04-07", "time": "16:30", "category": "EDUCATION", "memo": "" },
-  { "id": 43, "type": "expense", "title": "푸꾸옥 여행 항공권/숙소 예약", "amount": 820000, "date": "2026-04-06", "time": "10:00", "category": "OTHERS", "memo": "" },
-  { "id": 44, "type": "expense", "title": "주식 추가 매수 (정기)", "amount": 1500000, "date": "2026-04-05", "time": "14:00", "category": "FINANCE", "memo": "" },
-  { "id": 45, "type": "expense", "title": "아이패드 프로용 매직 키보드 세트", "amount": 680000, "date": "2026-04-04", "time": "18:00", "category": "SHOPPING", "memo": "" },
-  { "id": 46, "type": "expense", "title": "부모님 건강검진 예약", "amount": 520000, "date": "2026-04-03", "time": "11:30", "category": "MEDICAL", "memo": "" },
-  { "id": 47, "type": "expense", "title": "비상금 파킹통장 예치", "amount": 1950000, "date": "2026-04-02", "time": "09:00", "category": "FINANCE", "memo": "" },
-  { "id": 48, "type": "expense", "title": "연간 멤버십 회원권 결제", "amount": 750000, "date": "2026-03-30", "time": "15:00", "category": "CULTURE", "memo": "" },
-  { "id": 49, "type": "expense", "title": "전세 자금 대출 이자", "amount": 1100000, "date": "2026-03-28", "time": "13:00", "category": "HOUSING", "memo": "" },
-  { "id": 50, "type": "expense", "title": "콘솔 게임기 및 주변기기 풀셋", "amount": 900000, "date": "2026-03-26", "time": "10:20", "category": "SHOPPING", "memo": "" }
+    {
+      "id": "1",
+      "type": "income",
+      "title": "부업 입금",
+      "amount": 200000,
+      "date": "2026-04-07",
+      "time": "09:00",
+      "category": "FINANCE",
+      "memo": ""
+    },
+    {
+      "id": "2",
+      "type": "expense",
+      "title": "점심 (돈까스)",
+      "amount": 12000,
+      "date": "2026-04-07",
+      "time": "12:30",
+      "category": "FOOD",
+      "memo": ""
+    },
+    {
+      "id": "3",
+      "type": "expense",
+      "title": "지하철 퇴근",
+      "amount": 3000,
+      "date": "2026-04-07",
+      "time": "18:00",
+      "category": "TRANSPORT",
+      "memo": ""
+    },
+    {
+      "id": "4",
+      "type": "expense",
+      "title": "아메리카노 (카공)",
+      "amount": 4500,
+      "date": "2026-04-07",
+      "time": "14:00",
+      "category": "COFFEE",
+      "memo": ""
+    },
+    {
+      "id": "5",
+      "type": "expense",
+      "title": "저녁 배달",
+      "amount": 15000,
+      "date": "2026-04-06",
+      "time": "19:30",
+      "category": "FOOD",
+      "memo": ""
+    },
+    {
+      "id": "6",
+      "type": "expense",
+      "title": "백화점 쇼핑",
+      "amount": 125000,
+      "date": "2026-04-06",
+      "time": "14:30",
+      "category": "SHOPPING",
+      "memo": ""
+    },
+    {
+      "id": "7",
+      "type": "expense",
+      "title": "치과 검진",
+      "amount": 55000,
+      "date": "2026-04-05",
+      "time": "11:00",
+      "category": "MEDICAL",
+      "memo": ""
+    },
+    {
+      "id": "8",
+      "type": "expense",
+      "title": "편의점 아침",
+      "amount": 8500,
+      "date": "2026-04-04",
+      "time": "08:30",
+      "category": "FOOD",
+      "memo": ""
+    },
+    {
+      "id": "9",
+      "type": "expense",
+      "title": "넷플릭스 결제",
+      "amount": 14900,
+      "date": "2026-04-01",
+      "time": "00:05",
+      "category": "OTHERS",
+      "memo": ""
+    },
+    {
+      "id": "10",
+      "type": "income",
+      "title": "정기 급여",
+      "amount": 1500000,
+      "date": "2026-03-25",
+      "time": "10:00",
+      "category": "FINANCE",
+      "memo": ""
+    },
+    {
+      "id": "11",
+      "type": "expense",
+      "title": "영화 관람 및 팝콘",
+      "amount": 42000,
+      "date": "2026-03-23",
+      "time": "20:00",
+      "category": "CULTURE",
+      "memo": ""
+    },
+    {
+      "id": "12",
+      "type": "expense",
+      "title": "시내버스",
+      "amount": 2500,
+      "date": "2026-03-20",
+      "time": "09:00",
+      "category": "TRANSPORT",
+      "memo": ""
+    },
+    {
+      "id": "13",
+      "type": "expense",
+      "title": "Udemy 강의 결제",
+      "amount": 9900,
+      "date": "2026-03-18",
+      "time": "15:00",
+      "category": "EDUCATION",
+      "memo": ""
+    },
+    {
+      "id": "14",
+      "type": "expense",
+      "title": "라멘 점심",
+      "amount": 11000,
+      "date": "2026-03-15",
+      "time": "12:00",
+      "category": "FOOD",
+      "memo": ""
+    },
+    {
+      "id": "15",
+      "type": "expense",
+      "title": "서점 도서 구매",
+      "amount": 35000,
+      "date": "2026-03-12",
+      "time": "18:30",
+      "category": "SHOPPING",
+      "memo": ""
+    },
+    {
+      "id": "16",
+      "type": "expense",
+      "title": "바닐라라떼",
+      "amount": 5200,
+      "date": "2026-03-10",
+      "time": "14:00",
+      "category": "COFFEE",
+      "memo": ""
+    },
+    {
+      "id": "17",
+      "type": "expense",
+      "title": "치킨 포장",
+      "amount": 21000,
+      "date": "2026-03-08",
+      "time": "19:00",
+      "category": "FOOD",
+      "memo": ""
+    },
+    {
+      "id": "18",
+      "type": "expense",
+      "title": "따릉이 이용권",
+      "amount": 1200,
+      "date": "2026-03-05",
+      "time": "08:00",
+      "category": "TRANSPORT",
+      "memo": ""
+    },
+    {
+      "id": "19",
+      "type": "expense",
+      "title": "실비 보험료",
+      "amount": 65000,
+      "date": "2026-03-03",
+      "time": "13:00",
+      "category": "FINANCE",
+      "memo": ""
+    },
+    {
+      "id": "20",
+      "type": "expense",
+      "title": "김밥천국",
+      "amount": 8000,
+      "date": "2026-03-01",
+      "time": "12:00",
+      "category": "FOOD",
+      "memo": ""
+    },
+    {
+      "id": "21",
+      "type": "expense",
+      "title": "스타벅스",
+      "amount": 8500,
+      "date": "2026-04-08",
+      "time": "14:20",
+      "category": "COFFEE",
+      "memo": ""
+    },
+    {
+      "id": "22",
+      "type": "expense",
+      "title": "마라탕 점심",
+      "amount": 13000,
+      "date": "2026-04-08",
+      "time": "12:10",
+      "category": "FOOD",
+      "memo": ""
+    },
+    {
+      "id": "23",
+      "type": "expense",
+      "title": "버스 카드 충전",
+      "amount": 2500,
+      "date": "2026-04-08",
+      "time": "08:30",
+      "category": "TRANSPORT",
+      "memo": ""
+    },
+    {
+      "id": "24",
+      "type": "income",
+      "title": "당근마켓 거래",
+      "amount": 50000,
+      "date": "2026-04-07",
+      "time": "20:00",
+      "category": "OTHERS",
+      "memo": ""
+    },
+    {
+      "id": "25",
+      "type": "expense",
+      "title": "치킨이랑 맥주",
+      "amount": 42000,
+      "date": "2026-04-07",
+      "time": "19:00",
+      "category": "FOOD",
+      "memo": ""
+    },
+    {
+      "id": "26",
+      "type": "expense",
+      "title": "편의점 커피",
+      "amount": 2800,
+      "date": "2026-04-07",
+      "time": "15:30",
+      "category": "COFFEE",
+      "memo": ""
+    },
+    {
+      "id": "27",
+      "type": "expense",
+      "title": "봄 자켓 구매",
+      "amount": 180000,
+      "date": "2026-04-06",
+      "time": "21:00",
+      "category": "SHOPPING",
+      "memo": ""
+    },
+    {
+      "id": "28",
+      "type": "expense",
+      "title": "제육덮밥",
+      "amount": 9500,
+      "date": "2026-04-06",
+      "time": "12:40",
+      "category": "FOOD",
+      "memo": ""
+    },
+    {
+      "id": "29",
+      "type": "expense",
+      "title": "따릉이",
+      "amount": 1200,
+      "date": "2026-04-06",
+      "time": "08:10",
+      "category": "TRANSPORT",
+      "memo": ""
+    },
+    {
+      "id": "30",
+      "type": "expense",
+      "title": "뮤지컬 관람",
+      "amount": 55000,
+      "date": "2026-04-05",
+      "time": "18:20",
+      "category": "CULTURE",
+      "memo": ""
+    },
+    {
+      "id": "31",
+      "type": "expense",
+      "title": "파스타 맛집",
+      "amount": 22000,
+      "date": "2026-04-05",
+      "time": "13:00",
+      "category": "FOOD",
+      "memo": ""
+    },
+    {
+      "id": "32",
+      "type": "expense",
+      "title": "메가커피",
+      "amount": 3400,
+      "date": "2026-04-05",
+      "time": "10:00",
+      "category": "COFFEE",
+      "memo": ""
+    },
+    {
+      "id": "33",
+      "type": "income",
+      "title": "과외비 입금",
+      "amount": 150000,
+      "date": "2026-04-04",
+      "time": "15:00",
+      "category": "FINANCE",
+      "memo": ""
+    },
+    {
+      "id": "34",
+      "type": "expense",
+      "title": "롯데리아 세트",
+      "amount": 8900,
+      "date": "2026-04-04",
+      "time": "19:30",
+      "category": "FOOD",
+      "memo": ""
+    },
+    {
+      "id": "35",
+      "type": "expense",
+      "title": "카카오 택시",
+      "amount": 15000,
+      "date": "2026-04-03",
+      "time": "22:00",
+      "category": "OTHERS",
+      "memo": ""
+    },
+    {
+      "id": "36",
+      "type": "expense",
+      "title": "4월 월세",
+      "amount": 600000,
+      "date": "2026-04-03",
+      "time": "10:00",
+      "category": "HOUSING",
+      "memo": ""
+    },
+    {
+      "id": "37",
+      "type": "expense",
+      "title": "카페 라떼",
+      "amount": 4800,
+      "date": "2026-04-02",
+      "time": "15:00",
+      "category": "COFFEE",
+      "memo": ""
+    },
+    {
+      "id": "38",
+      "type": "expense",
+      "title": "김치찌개",
+      "amount": 11000,
+      "date": "2026-04-02",
+      "time": "12:30",
+      "category": "FOOD",
+      "memo": ""
+    },
+    {
+      "id": "39",
+      "type": "expense",
+      "title": "피부과 결제",
+      "amount": 65000,
+      "date": "2026-04-01",
+      "time": "14:00",
+      "category": "MEDICAL",
+      "memo": ""
+    },
+    {
+      "id": "40",
+      "type": "expense",
+      "title": "청약 저축",
+      "amount": 35000,
+      "date": "2026-04-01",
+      "time": "09:00",
+      "category": "FINANCE",
+      "memo": ""
+    },
+    {
+      "id": "41",
+      "type": "expense",
+      "title": "맥북 에어 M3 구매",
+      "amount": 1280000,
+      "date": "2026-04-08",
+      "time": "11:00",
+      "category": "SHOPPING",
+      "memo": ""
+    },
+    {
+      "id": "42",
+      "type": "expense",
+      "title": "부트캠프 심화 과정 등록",
+      "amount": 550000,
+      "date": "2026-04-07",
+      "time": "16:30",
+      "category": "EDUCATION",
+      "memo": ""
+    },
+    {
+      "id": "43",
+      "type": "expense",
+      "title": "푸꾸옥 여행 항공권/숙소 예약",
+      "amount": 820000,
+      "date": "2026-04-06",
+      "time": "10:00",
+      "category": "OTHERS",
+      "memo": ""
+    },
+    {
+      "id": "44",
+      "type": "expense",
+      "title": "주식 추가 매수 (정기)",
+      "amount": 1500000,
+      "date": "2026-04-05",
+      "time": "14:00",
+      "category": "FINANCE",
+      "memo": ""
+    },
+    {
+      "id": "45",
+      "type": "expense",
+      "title": "아이패드 프로용 매직 키보드 세트",
+      "amount": 680000,
+      "date": "2026-04-04",
+      "time": "18:00",
+      "category": "SHOPPING",
+      "memo": ""
+    },
+    {
+      "id": "46",
+      "type": "expense",
+      "title": "부모님 건강검진 예약",
+      "amount": 520000,
+      "date": "2026-04-03",
+      "time": "11:30",
+      "category": "MEDICAL",
+      "memo": ""
+    },
+    {
+      "id": "47",
+      "type": "expense",
+      "title": "비상금 파킹통장 예치",
+      "amount": 1950000,
+      "date": "2026-04-02",
+      "time": "09:00",
+      "category": "FINANCE",
+      "memo": ""
+    },
+    {
+      "id": "48",
+      "type": "expense",
+      "title": "연간 멤버십 회원권 결제",
+      "amount": 750000,
+      "date": "2026-03-30",
+      "time": "15:00",
+      "category": "CULTURE",
+      "memo": ""
+    },
+    {
+      "id": "49",
+      "type": "expense",
+      "title": "전세 자금 대출 이자",
+      "amount": 1100000,
+      "date": "2026-03-28",
+      "time": "13:00",
+      "category": "HOUSING",
+      "memo": ""
+    },
+    {
+      "id": "50",
+      "type": "expense",
+      "title": "콘솔 게임기 및 주변기기 풀셋",
+      "amount": 900000,
+      "date": "2026-03-26",
+      "time": "10:20",
+      "category": "SHOPPING",
+      "memo": ""
+    }
   ],
   "monthly_stats": [
-    { "month": 1, "income": 3000000, "expense": 2100000, "net_income": 900000, "income_change": 5, "expense_change": -2, "savings_rate": 30.0 },
-    { "month": 2, "income": 3200000, "expense": 2500000, "net_income": 700000, "income_change": 6.6, "expense_change": 19.0, "savings_rate": 21.8 },
-    { "month": 3, "income": 3500000, "expense": 5600000, "net_income": -2100000, "income_change": 9.3, "expense_change": 124.0, "savings_rate": -60.0 },
-    { "month": 4, "income": 6500000, "expense": 10150000, "net_income": -3650000, "income_change": 85.7, "expense_change": 81.2, "savings_rate": -56.1 },
-    { "month": 5, "income": 4000000, "expense": 3800000, "net_income": 200000, "income_change": 14.2, "expense_change": 33.3, "savings_rate": 5.0 },
-    { "month": 6, "income": 3400000, "expense": 2200000, "net_income": 1200000, "income_change": -15.0, "expense_change": -42.1, "savings_rate": 35.2 },
-    { "month": 7, "income": 3600000, "expense": 3100000, "net_income": 500000, "income_change": 5.8, "expense_change": 40.9, "savings_rate": 13.8 },
-    { "month": 8, "income": 3200000, "expense": 2400000, "net_income": 800000, "income_change": -11.1, "expense_change": -22.5, "savings_rate": 25.0 },
-    { "month": 9, "income": 4500000, "expense": 3200000, "net_income": 1300000, "income_change": 40.6, "expense_change": 33.3, "savings_rate": 28.8 },
-    { "month": 10, "income": 3300000, "expense": 2100000, "net_income": 1200000, "income_change": -26.6, "expense_change": -34.3, "savings_rate": 36.3 },
-    { "month": 11, "income": 3500000, "expense": 2600000, "net_income": 900000, "income_change": 6.0, "expense_change": 23.8, "savings_rate": 25.7 },
-    { "month": 12, "income": 5000000, "expense": 4500000, "net_income": 500000, "income_change": 42.8, "expense_change": 73.0, "savings_rate": 10.0 }
+    {
+      "month": 1,
+      "income": 3000000,
+      "expense": 2100000,
+      "net_income": 900000,
+      "income_change": 5,
+      "expense_change": -2,
+      "savings_rate": 30,
+      "id": "sxAfPe0qNXQ"
+    },
+    {
+      "month": 2,
+      "income": 3200000,
+      "expense": 2500000,
+      "net_income": 700000,
+      "income_change": 6.6,
+      "expense_change": 19,
+      "savings_rate": 21.8,
+      "id": "avK0wSoT-B0"
+    },
+    {
+      "month": 3,
+      "income": 3500000,
+      "expense": 5600000,
+      "net_income": -2100000,
+      "income_change": 9.3,
+      "expense_change": 124,
+      "savings_rate": -60,
+      "id": "wJJNFU-UKiM"
+    },
+    {
+      "month": 4,
+      "income": 6500000,
+      "expense": 10150000,
+      "net_income": -3650000,
+      "income_change": 85.7,
+      "expense_change": 81.2,
+      "savings_rate": -56.1,
+      "id": "-BWrLXdzy4I"
+    },
+    {
+      "month": 5,
+      "income": 4000000,
+      "expense": 3800000,
+      "net_income": 200000,
+      "income_change": 14.2,
+      "expense_change": 33.3,
+      "savings_rate": 5,
+      "id": "bDLso1jhd6s"
+    },
+    {
+      "month": 6,
+      "income": 3400000,
+      "expense": 2200000,
+      "net_income": 1200000,
+      "income_change": -15,
+      "expense_change": -42.1,
+      "savings_rate": 35.2,
+      "id": "cQaxt4C91DE"
+    },
+    {
+      "month": 7,
+      "income": 3600000,
+      "expense": 3100000,
+      "net_income": 500000,
+      "income_change": 5.8,
+      "expense_change": 40.9,
+      "savings_rate": 13.8,
+      "id": "vqjurgIsjwE"
+    },
+    {
+      "month": 8,
+      "income": 3200000,
+      "expense": 2400000,
+      "net_income": 800000,
+      "income_change": -11.1,
+      "expense_change": -22.5,
+      "savings_rate": 25,
+      "id": "PFx7jiGXjBg"
+    },
+    {
+      "month": 9,
+      "income": 4500000,
+      "expense": 3200000,
+      "net_income": 1300000,
+      "income_change": 40.6,
+      "expense_change": 33.3,
+      "savings_rate": 28.8,
+      "id": "-E1OaAGAshs"
+    },
+    {
+      "month": 10,
+      "income": 3300000,
+      "expense": 2100000,
+      "net_income": 1200000,
+      "income_change": -26.6,
+      "expense_change": -34.3,
+      "savings_rate": 36.3,
+      "id": "gl4i0HmVMUg"
+    },
+    {
+      "month": 11,
+      "income": 3500000,
+      "expense": 2600000,
+      "net_income": 900000,
+      "income_change": 6,
+      "expense_change": 23.8,
+      "savings_rate": 25.7,
+      "id": "-CBrBof3EmU"
+    },
+    {
+      "month": 12,
+      "income": 5000000,
+      "expense": 4500000,
+      "net_income": 500000,
+      "income_change": 42.8,
+      "expense_change": 73,
+      "savings_rate": 10,
+      "id": "cE1r5eqozeo"
+    }
   ],
   "fixed_details": [
-    { "month": 1, "total_fixed_expense": 1050000, "items": [{ "id": 1, "name": "월세", "expense": 600000 }, { "id": 2, "name": "보험료", "expense": 300000 }, { "id": 3, "name": "통신비", "expense": 100000 }, { "id": 4, "name": "구독료", "expense": 50000 }] },
-    { "month": 2, "total_fixed_expense": 1050000, "items": [{ "id": 1, "name": "월세", "expense": 600000 }, { "id": 2, "name": "보험료", "expense": 300000 }, { "id": 3, "name": "통신비", "expense": 100000 }, { "id": 4, "name": "구독료", "expense": 50000 }] },
-    { "month": 3, "total_fixed_expense": 1050000, "items": [{ "id": 1, "name": "월세", "expense": 600000 }, { "id": 2, "name": "보험료", "expense": 300000 }, { "id": 3, "name": "통신비", "expense": 100000 }, { "id": 4, "name": "구독료", "expense": 50000 }] },
-    { "month": 4, "total_fixed_expense": 1050000, "items": [{ "id": 1, "name": "월세", "expense": 600000 }, { "id": 2, "name": "보험료", "expense": 300000 }, { "id": 3, "name": "통신비", "expense": 100000 }, { "id": 4, "name": "OTT 구독료", "expense": 50000 }] },
-    { "month": 5, "total_fixed_expense": 1550000, "items": [{ "id": 5, "name": "월세", "expense": 600000 }, { "id": 6, "name": "보험료", "expense": 300000 }, { "id": 7, "name": "통신비", "expense": 100000 }, { "id": 8, "name": "어버이날 정기 용돈", "expense": 500000 }, { "id": 9, "name": "구독료", "expense": 50000 }] },
-    { "month": 6, "total_fixed_expense": 1050000, "items": [{ "id": 10, "name": "월세", "expense": 600000 }, { "id": 11, "name": "보험료", "expense": 300000 }, { "id": 12, "name": "통신비", "expense": 100000 }, { "id": 13, "name": "구독료", "expense": 50000 }] },
-    { "month": 7, "total_fixed_expense": 1350000, "items": [{ "id": 14, "name": "월세", "expense": 600000 }, { "id": 15, "name": "여름휴가 적금", "expense": 300000 }, { "id": 16, "name": "보험료", "expense": 300000 }, { "id": 17, "name": "통신비", "expense": 100000 }, { "id": 18, "name": "구독료", "expense": 50000 }] },
-    { "month": 8, "total_fixed_expense": 1050000, "items": [{ "id": 19, "name": "월세", "expense": 600000 }, { "id": 20, "name": "보험료", "expense": 300000 }, { "id": 21, "name": "통신비", "expense": 100000 }, { "id": 22, "name": "구독료", "expense": 50000 }] },
-    { "month": 9, "total_fixed_expense": 1550000, "items": [{ "id": 23, "name": "월세", "expense": 600000 }, { "id": 24, "name": "명절 정기 지출", "expense": 500000 }, { "id": 25, "name": "보험료", "expense": 300000 }, { "id": 26, "name": "통신비", "expense": 100000 }, { "id": 27, "name": "구독료", "expense": 50000 }] },
-    { "month": 10, "total_fixed_expense": 1050000, "items": [{ "id": 28, "name": "월세", "expense": 600000 }, { "id": 29, "name": "보험료", "expense": 300000 }, { "id": 30, "name": "통신비", "expense": 100000 }, { "id": 31, "name": "구독료", "expense": 50000 }] },
-    { "month": 11, "total_fixed_expense": 1050000, "items": [{ "id": 32, "name": "월세", "expense": 600000 }, { "id": 33, "name": "보험료", "expense": 300000 }, { "id": 34, "name": "통신비", "expense": 100000 }, { "id": 35, "name": "구독료", "expense": 50000 }] },
-    { "month": 12, "total_fixed_expense": 1550000, "items": [{ "id": 36, "name": "월세", "expense": 600000 }, { "id": 37, "name": "보험료", "expense": 300000 }, { "id": 38, "name": "통신비", "expense": 100000 }, { "id": 39, "name": "연말 모임 회비", "expense": 500000 }, { "id": 40, "name": "구독료", "expense": 50000 }] }
+    {
+      "month": 1,
+      "total_fixed_expense": 1050000,
+      "items": [
+        {
+          "id": 1,
+          "name": "월세",
+          "expense": 600000
+        },
+        {
+          "id": 2,
+          "name": "보험료",
+          "expense": 300000
+        },
+        {
+          "id": 3,
+          "name": "통신비",
+          "expense": 100000
+        },
+        {
+          "id": 4,
+          "name": "구독료",
+          "expense": 50000
+        }
+      ],
+      "id": "gGtHTP2HqRw"
+    },
+    {
+      "month": 2,
+      "total_fixed_expense": 1050000,
+      "items": [
+        {
+          "id": 1,
+          "name": "월세",
+          "expense": 600000
+        },
+        {
+          "id": 2,
+          "name": "보험료",
+          "expense": 300000
+        },
+        {
+          "id": 3,
+          "name": "통신비",
+          "expense": 100000
+        },
+        {
+          "id": 4,
+          "name": "구독료",
+          "expense": 50000
+        }
+      ],
+      "id": "3jUM_EPI49c"
+    },
+    {
+      "month": 3,
+      "total_fixed_expense": 1050000,
+      "items": [
+        {
+          "id": 1,
+          "name": "월세",
+          "expense": 600000
+        },
+        {
+          "id": 2,
+          "name": "보험료",
+          "expense": 300000
+        },
+        {
+          "id": 3,
+          "name": "통신비",
+          "expense": 100000
+        },
+        {
+          "id": 4,
+          "name": "구독료",
+          "expense": 50000
+        }
+      ],
+      "id": "RQwjG0pXMKs"
+    },
+    {
+      "month": 4,
+      "total_fixed_expense": 1050000,
+      "items": [
+        {
+          "id": 1,
+          "name": "월세",
+          "expense": 600000
+        },
+        {
+          "id": 2,
+          "name": "보험료",
+          "expense": 300000
+        },
+        {
+          "id": 3,
+          "name": "통신비",
+          "expense": 100000
+        },
+        {
+          "id": 4,
+          "name": "OTT 구독료",
+          "expense": 50000
+        }
+      ],
+      "id": "ow8rWpBNisk"
+    },
+    {
+      "month": 5,
+      "total_fixed_expense": 1550000,
+      "items": [
+        {
+          "id": 5,
+          "name": "월세",
+          "expense": 600000
+        },
+        {
+          "id": 6,
+          "name": "보험료",
+          "expense": 300000
+        },
+        {
+          "id": 7,
+          "name": "통신비",
+          "expense": 100000
+        },
+        {
+          "id": 8,
+          "name": "어버이날 정기 용돈",
+          "expense": 500000
+        },
+        {
+          "id": 9,
+          "name": "구독료",
+          "expense": 50000
+        }
+      ],
+      "id": "MigMb1uDSNk"
+    },
+    {
+      "month": 6,
+      "total_fixed_expense": 1050000,
+      "items": [
+        {
+          "id": 10,
+          "name": "월세",
+          "expense": 600000
+        },
+        {
+          "id": 11,
+          "name": "보험료",
+          "expense": 300000
+        },
+        {
+          "id": 12,
+          "name": "통신비",
+          "expense": 100000
+        },
+        {
+          "id": 13,
+          "name": "구독료",
+          "expense": 50000
+        }
+      ],
+      "id": "9QkmnzTeYrU"
+    },
+    {
+      "month": 7,
+      "total_fixed_expense": 1350000,
+      "items": [
+        {
+          "id": 14,
+          "name": "월세",
+          "expense": 600000
+        },
+        {
+          "id": 15,
+          "name": "여름휴가 적금",
+          "expense": 300000
+        },
+        {
+          "id": 16,
+          "name": "보험료",
+          "expense": 300000
+        },
+        {
+          "id": 17,
+          "name": "통신비",
+          "expense": 100000
+        },
+        {
+          "id": 18,
+          "name": "구독료",
+          "expense": 50000
+        }
+      ],
+      "id": "ES1AK77cn6w"
+    },
+    {
+      "month": 8,
+      "total_fixed_expense": 1050000,
+      "items": [
+        {
+          "id": 19,
+          "name": "월세",
+          "expense": 600000
+        },
+        {
+          "id": 20,
+          "name": "보험료",
+          "expense": 300000
+        },
+        {
+          "id": 21,
+          "name": "통신비",
+          "expense": 100000
+        },
+        {
+          "id": 22,
+          "name": "구독료",
+          "expense": 50000
+        }
+      ],
+      "id": "YTMuEq_hQ-Y"
+    },
+    {
+      "month": 9,
+      "total_fixed_expense": 1550000,
+      "items": [
+        {
+          "id": 23,
+          "name": "월세",
+          "expense": 600000
+        },
+        {
+          "id": 24,
+          "name": "명절 정기 지출",
+          "expense": 500000
+        },
+        {
+          "id": 25,
+          "name": "보험료",
+          "expense": 300000
+        },
+        {
+          "id": 26,
+          "name": "통신비",
+          "expense": 100000
+        },
+        {
+          "id": 27,
+          "name": "구독료",
+          "expense": 50000
+        }
+      ],
+      "id": "FUz3xfpHRbY"
+    },
+    {
+      "month": 10,
+      "total_fixed_expense": 1050000,
+      "items": [
+        {
+          "id": 28,
+          "name": "월세",
+          "expense": 600000
+        },
+        {
+          "id": 29,
+          "name": "보험료",
+          "expense": 300000
+        },
+        {
+          "id": 30,
+          "name": "통신비",
+          "expense": 100000
+        },
+        {
+          "id": 31,
+          "name": "구독료",
+          "expense": 50000
+        }
+      ],
+      "id": "QAYJtjlg4ck"
+    },
+    {
+      "month": 11,
+      "total_fixed_expense": 1050000,
+      "items": [
+        {
+          "id": 32,
+          "name": "월세",
+          "expense": 600000
+        },
+        {
+          "id": 33,
+          "name": "보험료",
+          "expense": 300000
+        },
+        {
+          "id": 34,
+          "name": "통신비",
+          "expense": 100000
+        },
+        {
+          "id": 35,
+          "name": "구독료",
+          "expense": 50000
+        }
+      ],
+      "id": "_hQINwax4EY"
+    },
+    {
+      "month": 12,
+      "total_fixed_expense": 1550000,
+      "items": [
+        {
+          "id": 36,
+          "name": "월세",
+          "expense": 600000
+        },
+        {
+          "id": 37,
+          "name": "보험료",
+          "expense": 300000
+        },
+        {
+          "id": 38,
+          "name": "통신비",
+          "expense": 100000
+        },
+        {
+          "id": 39,
+          "name": "연말 모임 회비",
+          "expense": 500000
+        },
+        {
+          "id": 40,
+          "name": "구독료",
+          "expense": 50000
+        }
+      ],
+      "id": "2V3T6RcG17k"
+    }
   ],
   "categories": [
-    { "id": 1, "name": "FOOD", "label": "식비", "icon": "🍜", "color": "#FF7F50" },
-    { "id": 2, "name": "COFFEE", "label": "커피", "icon": "☕", "color": "#FFB347" },
-    { "id": 3, "name": "TRANSPORT", "label": "교통", "icon": "🚗", "color": "#00BFFF" },
-    { "id": 4, "name": "SHOPPING", "label": "쇼핑", "icon": "🛍️", "color": "#FF69B4" },
-    { "id": 5, "name": "CULTURE", "label": "문화", "icon": "🎬", "color": "#DA70D6" },
-    { "id": 6, "name": "MEDICAL", "label": "의료", "icon": "💊", "color": "#FF4D4D" },
-    { "id": 7, "name": "EDUCATION", "label": "교육", "icon": "📚", "color": "#6495ED" },
-    { "id": 8, "name": "HOUSING", "label": "주거", "icon": "🏠", "color": "#00FA9A" },
-    { "id": 9, "name": "FINANCE", "label": "금융", "icon": "💳", "color": "#BA55D3" },
-    { "id": 10, "name": "OTHERS", "label": "기타", "icon": "📌", "color": "#FFFFFF" }
+    {
+      "id": "1",
+      "name": "FOOD",
+      "label": "식비",
+      "icon": "🍜",
+      "color": "#FF7F50"
+    },
+    {
+      "id": "2",
+      "name": "COFFEE",
+      "label": "커피",
+      "icon": "☕",
+      "color": "#FFB347"
+    },
+    {
+      "id": "3",
+      "name": "TRANSPORT",
+      "label": "교통",
+      "icon": "🚗",
+      "color": "#00BFFF"
+    },
+    {
+      "id": "4",
+      "name": "SHOPPING",
+      "label": "쇼핑",
+      "icon": "🛍️",
+      "color": "#FF69B4"
+    },
+    {
+      "id": "5",
+      "name": "CULTURE",
+      "label": "문화",
+      "icon": "🎬",
+      "color": "#DA70D6"
+    },
+    {
+      "id": "6",
+      "name": "MEDICAL",
+      "label": "의료",
+      "icon": "💊",
+      "color": "#FF4D4D"
+    },
+    {
+      "id": "7",
+      "name": "EDUCATION",
+      "label": "교육",
+      "icon": "📚",
+      "color": "#6495ED"
+    },
+    {
+      "id": "8",
+      "name": "HOUSING",
+      "label": "주거",
+      "icon": "🏠",
+      "color": "#00FA9A"
+    },
+    {
+      "id": "9",
+      "name": "FINANCE",
+      "label": "금융",
+      "icon": "💳",
+      "color": "#BA55D3"
+    },
+    {
+      "id": "10",
+      "name": "OTHERS",
+      "label": "기타",
+      "icon": "📌",
+      "color": "#FFFFFF"
+    }
   ],
   "statistics": [
     {
       "month": 1,
       "total_count": 78,
       "daily_average_count": 2.5,
-      "type_counts": { "all": 78, "income": 10, "expense": 68 },
+      "type_counts": {
+        "all": 78,
+        "income": 10,
+        "expense": 68
+      },
       "category_counts": [
-        { "id": 1, "name": "FOOD", "label": "식비", "count": 22 },
-        { "id": 2, "name": "COFFEE", "label": "커피", "count": 10 },
-        { "id": 8, "name": "HOUSING", "label": "주거", "count": 1 },
-        { "id": 10, "name": "OTHERS", "label": "기타", "count": 35 }
+        {
+          "id": 1,
+          "name": "FOOD",
+          "label": "식비",
+          "count": 22
+        },
+        {
+          "id": 2,
+          "name": "COFFEE",
+          "label": "커피",
+          "count": 10
+        },
+        {
+          "id": 8,
+          "name": "HOUSING",
+          "label": "주거",
+          "count": 1
+        },
+        {
+          "id": 10,
+          "name": "OTHERS",
+          "label": "기타",
+          "count": 35
+        }
       ],
-      "amount_range": { "min": 0, "max": 1200000 }
+      "amount_range": {
+        "min": 0,
+        "max": 1200000
+      },
+      "id": "R_xsV5IJJME"
     },
     {
       "month": 2,
       "total_count": 65,
       "daily_average_count": 2.3,
-      "type_counts": { "all": 65, "income": 8, "expense": 57 },
+      "type_counts": {
+        "all": 65,
+        "income": 8,
+        "expense": 57
+      },
       "category_counts": [
-        { "id": 1, "name": "FOOD", "label": "식비", "count": 20 },
-        { "id": 4, "name": "SHOPPING", "label": "쇼핑", "count": 15 },
-        { "id": 9, "name": "FINANCE", "label": "금융", "count": 22 }
+        {
+          "id": 1,
+          "name": "FOOD",
+          "label": "식비",
+          "count": 20
+        },
+        {
+          "id": 4,
+          "name": "SHOPPING",
+          "label": "쇼핑",
+          "count": 15
+        },
+        {
+          "id": 9,
+          "name": "FINANCE",
+          "label": "금융",
+          "count": 22
+        }
       ],
-      "amount_range": { "min": 0, "max": 800000 }
+      "amount_range": {
+        "min": 0,
+        "max": 800000
+      },
+      "id": "R86Z77DNNcM"
     },
     {
       "month": 3,
       "total_count": 95,
       "daily_average_count": 3.1,
-      "type_counts": { "all": 95, "income": 15, "expense": 80 },
+      "type_counts": {
+        "all": 95,
+        "income": 15,
+        "expense": 80
+      },
       "category_counts": [
-        { "id": 7, "name": "EDUCATION", "label": "교육", "count": 40 },
-        { "id": 1, "name": "FOOD", "label": "식비", "count": 30 },
-        { "id": 3, "name": "TRANSPORT", "label": "교통", "count": 22 },
-        { "id": 4, "name": "SHOPPING", "label": "쇼핑", "count": 1 },
-        { "id": 5, "name": "CULTURE", "label": "문화", "count": 1 },
-        { "id": 8, "name": "HOUSING", "label": "주거", "count": 1 }
+        {
+          "id": 7,
+          "name": "EDUCATION",
+          "label": "교육",
+          "count": 40
+        },
+        {
+          "id": 1,
+          "name": "FOOD",
+          "label": "식비",
+          "count": 30
+        },
+        {
+          "id": 3,
+          "name": "TRANSPORT",
+          "label": "교통",
+          "count": 22
+        },
+        {
+          "id": 4,
+          "name": "SHOPPING",
+          "label": "쇼핑",
+          "count": 1
+        },
+        {
+          "id": 5,
+          "name": "CULTURE",
+          "label": "문화",
+          "count": 1
+        },
+        {
+          "id": 8,
+          "name": "HOUSING",
+          "label": "주거",
+          "count": 1
+        }
       ],
-      "amount_range": { "min": 0, "max": 1100000 }
+      "amount_range": {
+        "min": 0,
+        "max": 1100000
+      },
+      "id": "2SxiGn-3hDs"
     },
     {
       "month": 4,
       "total_count": 91,
-      "daily_average_count": 3.0,
-      "type_counts": { "all": 91, "income": 12, "expense": 79 },
+      "daily_average_count": 3,
+      "type_counts": {
+        "all": 91,
+        "income": 12,
+        "expense": 79
+      },
       "category_counts": [
-        { "id": 1, "name": "FOOD", "label": "식비", "count": 25 },
-        { "id": 2, "name": "COFFEE", "label": "커피", "count": 12 },
-        { "id": 4, "name": "SHOPPING", "label": "쇼핑", "count": 12 },
-        { "id": 3, "name": "TRANSPORT", "label": "교통", "count": 8 },
-        { "id": 9, "name": "FINANCE", "label": "금융", "count": 4 },
-        { "id": 10, "name": "OTHERS", "label": "기타", "count": 6 },
-        { "id": 5, "name": "CULTURE", "label": "문화", "count": 4 },
-        { "id": 7, "name": "EDUCATION", "label": "교육", "count": 4 },
-        { "id": 6, "name": "MEDICAL", "label": "의료", "count": 3 },
-        { "id": 8, "name": "HOUSING", "label": "주거", "count": 1 }
+        {
+          "id": 1,
+          "name": "FOOD",
+          "label": "식비",
+          "count": 25
+        },
+        {
+          "id": 2,
+          "name": "COFFEE",
+          "label": "커피",
+          "count": 12
+        },
+        {
+          "id": 4,
+          "name": "SHOPPING",
+          "label": "쇼핑",
+          "count": 12
+        },
+        {
+          "id": 3,
+          "name": "TRANSPORT",
+          "label": "교통",
+          "count": 8
+        },
+        {
+          "id": 9,
+          "name": "FINANCE",
+          "label": "금융",
+          "count": 4
+        },
+        {
+          "id": 10,
+          "name": "OTHERS",
+          "label": "기타",
+          "count": 6
+        },
+        {
+          "id": 5,
+          "name": "CULTURE",
+          "label": "문화",
+          "count": 4
+        },
+        {
+          "id": 7,
+          "name": "EDUCATION",
+          "label": "교육",
+          "count": 4
+        },
+        {
+          "id": 6,
+          "name": "MEDICAL",
+          "label": "의료",
+          "count": 3
+        },
+        {
+          "id": 8,
+          "name": "HOUSING",
+          "label": "주거",
+          "count": 1
+        }
       ],
-      "amount_range": { "min": 0, "max": 1950000 }
+      "amount_range": {
+        "min": 0,
+        "max": 1950000
+      },
+      "id": "6BJEgAyIg9c"
     },
     {
       "month": 5,
       "total_count": 110,
       "daily_average_count": 3.5,
-      "type_counts": { "all": 110, "income": 20, "expense": 90 },
+      "type_counts": {
+        "all": 110,
+        "income": 20,
+        "expense": 90
+      },
       "category_counts": [
-        { "id": 10, "name": "OTHERS", "label": "기타", "count": 45 },
-        { "id": 1, "name": "FOOD", "label": "식비", "count": 35 },
-        { "id": 5, "name": "CULTURE", "label": "문화", "count": 30 }
+        {
+          "id": 10,
+          "name": "OTHERS",
+          "label": "기타",
+          "count": 45
+        },
+        {
+          "id": 1,
+          "name": "FOOD",
+          "label": "식비",
+          "count": 35
+        },
+        {
+          "id": 5,
+          "name": "CULTURE",
+          "label": "문화",
+          "count": 30
+        }
       ],
-      "amount_range": { "min": 0, "max": 2000000 }
+      "amount_range": {
+        "min": 0,
+        "max": 2000000
+      },
+      "id": "aYPzgUg2Mk8"
     },
     {
       "month": 6,
       "total_count": 75,
       "daily_average_count": 2.5,
-      "type_counts": { "all": 75, "income": 10, "expense": 65 },
+      "type_counts": {
+        "all": 75,
+        "income": 10,
+        "expense": 65
+      },
       "category_counts": [
-        { "id": 1, "name": "FOOD", "label": "식비", "count": 30 },
-        { "id": 2, "name": "COFFEE", "label": "커피", "count": 25 },
-        { "id": 3, "name": "TRANSPORT", "label": "교통", "count": 20 }
+        {
+          "id": 1,
+          "name": "FOOD",
+          "label": "식비",
+          "count": 30
+        },
+        {
+          "id": 2,
+          "name": "COFFEE",
+          "label": "커피",
+          "count": 25
+        },
+        {
+          "id": 3,
+          "name": "TRANSPORT",
+          "label": "교통",
+          "count": 20
+        }
       ],
-      "amount_range": { "min": 0, "max": 900000 }
+      "amount_range": {
+        "min": 0,
+        "max": 900000
+      },
+      "id": "HldG5A8RMcA"
     },
     {
       "month": 7,
       "total_count": 95,
       "daily_average_count": 3.1,
-      "type_counts": { "all": 95, "income": 12, "expense": 83 },
+      "type_counts": {
+        "all": 95,
+        "income": 12,
+        "expense": 83
+      },
       "category_counts": [
-        { "id": 5, "name": "CULTURE", "label": "문화", "count": 40 },
-        { "id": 1, "name": "FOOD", "label": "식비", "count": 35 },
-        { "id": 4, "name": "SHOPPING", "label": "쇼핑", "count": 20 }
+        {
+          "id": 5,
+          "name": "CULTURE",
+          "label": "문화",
+          "count": 40
+        },
+        {
+          "id": 1,
+          "name": "FOOD",
+          "label": "식비",
+          "count": 35
+        },
+        {
+          "id": 4,
+          "name": "SHOPPING",
+          "label": "쇼핑",
+          "count": 20
+        }
       ],
-      "amount_range": { "min": 0, "max": 1800000 }
+      "amount_range": {
+        "min": 0,
+        "max": 1800000
+      },
+      "id": "vXt4WJgjcxQ"
     },
     {
       "month": 8,
       "total_count": 80,
       "daily_average_count": 2.6,
-      "type_counts": { "all": 80, "income": 10, "expense": 70 },
+      "type_counts": {
+        "all": 80,
+        "income": 10,
+        "expense": 70
+      },
       "category_counts": [
-        { "id": 1, "name": "FOOD", "label": "식비", "count": 40 },
-        { "id": 2, "name": "COFFEE", "label": "커피", "count": 30 },
-        { "id": 10, "name": "OTHERS", "label": "기타", "count": 10 }
+        {
+          "id": 1,
+          "name": "FOOD",
+          "label": "식비",
+          "count": 40
+        },
+        {
+          "id": 2,
+          "name": "COFFEE",
+          "label": "커피",
+          "count": 30
+        },
+        {
+          "id": 10,
+          "name": "OTHERS",
+          "label": "기타",
+          "count": 10
+        }
       ],
-      "amount_range": { "min": 0, "max": 1100000 }
+      "amount_range": {
+        "min": 0,
+        "max": 1100000
+      },
+      "id": "IoxWYnDH8IE"
     },
     {
       "month": 9,
       "total_count": 88,
       "daily_average_count": 2.9,
-      "type_counts": { "all": 88, "income": 18, "expense": 70 },
+      "type_counts": {
+        "all": 88,
+        "income": 18,
+        "expense": 70
+      },
       "category_counts": [
-        { "id": 10, "name": "OTHERS", "label": "기타", "count": 38 },
-        { "id": 1, "name": "FOOD", "label": "식비", "count": 30 },
-        { "id": 4, "name": "SHOPPING", "label": "쇼핑", "count": 20 }
+        {
+          "id": 10,
+          "name": "OTHERS",
+          "label": "기타",
+          "count": 38
+        },
+        {
+          "id": 1,
+          "name": "FOOD",
+          "label": "식비",
+          "count": 30
+        },
+        {
+          "id": 4,
+          "name": "SHOPPING",
+          "label": "쇼핑",
+          "count": 20
+        }
       ],
-      "amount_range": { "min": 0, "max": 1400000 }
+      "amount_range": {
+        "min": 0,
+        "max": 1400000
+      },
+      "id": "tiTzWl4Y7iI"
     },
     {
       "month": 10,
       "total_count": 72,
       "daily_average_count": 2.3,
-      "type_counts": { "all": 72, "income": 10, "expense": 62 },
+      "type_counts": {
+        "all": 72,
+        "income": 10,
+        "expense": 62
+      },
       "category_counts": [
-        { "id": 1, "name": "FOOD", "label": "식비", "count": 32 },
-        { "id": 7, "name": "EDUCATION", "label": "교육", "count": 25 },
-        { "id": 6, "name": "MEDICAL", "label": "의료", "count": 15 }
+        {
+          "id": 1,
+          "name": "FOOD",
+          "label": "식비",
+          "count": 32
+        },
+        {
+          "id": 7,
+          "name": "EDUCATION",
+          "label": "교육",
+          "count": 25
+        },
+        {
+          "id": 6,
+          "name": "MEDICAL",
+          "label": "의료",
+          "count": 15
+        }
       ],
-      "amount_range": { "min": 0, "max": 1000000 }
+      "amount_range": {
+        "min": 0,
+        "max": 1000000
+      },
+      "id": "w0QfoBkCrUs"
     },
     {
       "month": 11,
       "total_count": 82,
       "daily_average_count": 2.7,
-      "type_counts": { "all": 82, "income": 12, "expense": 70 },
+      "type_counts": {
+        "all": 82,
+        "income": 12,
+        "expense": 70
+      },
       "category_counts": [
-        { "id": 4, "name": "SHOPPING", "label": "쇼핑", "count": 35 },
-        { "id": 1, "name": "FOOD", "label": "식비", "count": 30 },
-        { "id": 2, "name": "COFFEE", "label": "커피", "count": 17 }
+        {
+          "id": 4,
+          "name": "SHOPPING",
+          "label": "쇼핑",
+          "count": 35
+        },
+        {
+          "id": 1,
+          "name": "FOOD",
+          "label": "식비",
+          "count": 30
+        },
+        {
+          "id": 2,
+          "name": "COFFEE",
+          "label": "커피",
+          "count": 17
+        }
       ],
-      "amount_range": { "min": 0, "max": 1300000 }
+      "amount_range": {
+        "min": 0,
+        "max": 1300000
+      },
+      "id": "5N2Rf3i2rGs"
     },
     {
       "month": 12,
       "total_count": 120,
       "daily_average_count": 3.9,
-      "type_counts": { "all": 120, "income": 25, "expense": 95 },
+      "type_counts": {
+        "all": 120,
+        "income": 25,
+        "expense": 95
+      },
       "category_counts": [
-        { "id": 1, "name": "FOOD", "label": "식비", "count": 50 },
-        { "id": 5, "name": "CULTURE", "label": "문화", "count": 40 },
-        { "id": 10, "name": "OTHERS", "label": "기타", "count": 30 }
+        {
+          "id": 1,
+          "name": "FOOD",
+          "label": "식비",
+          "count": 50
+        },
+        {
+          "id": 5,
+          "name": "CULTURE",
+          "label": "문화",
+          "count": 40
+        },
+        {
+          "id": 10,
+          "name": "OTHERS",
+          "label": "기타",
+          "count": 30
+        }
       ],
-      "amount_range": { "min": 0, "max": 2500000 }
+      "amount_range": {
+        "min": 0,
+        "max": 2500000
+      },
+      "id": "aCdEg8sXKZ0"
     }
-  ]
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }
