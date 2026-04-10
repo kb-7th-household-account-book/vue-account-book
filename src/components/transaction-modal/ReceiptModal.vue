@@ -1,5 +1,5 @@
 <template>
-  <div class="modal-overlay" @click.self="$emit('close')">
+  <div class="modal-overlay" @click.self="handleClose">
     <div class="modal-content">
       <div class="receipt-container" :class="{ tearing: isDeleting }">
         <div
@@ -51,7 +51,6 @@
                 v-else
                 v-model="editForm.category"
                 class="edit-input select-bg"
-                style="width: 140px"
               >
                 <option
                   v-for="cat in store.categoriesList"
@@ -79,7 +78,7 @@
 
           <div class="divider"></div>
 
-          <div class="receipt-total">
+          <div class="receipt-total" :class="{ 'editing-total': isEditing }">
             <span class="label">TOTAL</span>
 
             <div v-if="!isEditing" class="amount" :class="editForm.type">
@@ -87,20 +86,32 @@
                 editForm.amount.toLocaleString()
               }}
             </div>
+            <div v-else class="edit-total-wrapper">
+              <div class="type-toggle">
+                <button
+                  type="button"
+                  :class="['type-btn', { active: editForm.type === 'income' }]"
+                  @click="editForm.type = 'income'"
+                >
+                  수입
+                </button>
+                <button
+                  type="button"
+                  :class="['type-btn', { active: editForm.type === 'expense' }]"
+                  @click="editForm.type = 'expense'"
+                >
+                  지출
+                </button>
+              </div>
 
-            <div v-else class="edit-flex right">
-              <select
-                v-model="editForm.type"
-                class="edit-input short select-bg"
-              >
-                <option value="expense">지출(-)</option>
-                <option value="income">수입(+)</option>
-              </select>
-              <input
-                v-model.number="editForm.amount"
-                type="number"
-                class="edit-input amount-input"
-              />
+              <div class="amount-wrapper">
+                <span class="currency">₩</span>
+                <input
+                  v-model.number="editForm.amount"
+                  type="number"
+                  class="amount-input"
+                />
+              </div>
             </div>
           </div>
 
@@ -112,27 +123,22 @@
       </div>
 
       <div class="action-buttons">
-        <button
-          v-if="!isEditing"
-          class="btn-icon btn-delete"
-          @click="startDelete"
-        >
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M6 19C6 20.1 6.9 21 8 21H16C17.1 21 18 20.1 18 19V7H6V19ZM19 4H15.5L14.5 3H9.5L8.5 4H5V6H19V4Z"
-              fill="#ff4d4d"
-            />
-          </svg>
-        </button>
-
-        <button class="btn-text btn-edit" @click="toggleEdit">
-          <template v-if="!isEditing">
+        <template v-if="!isEditing">
+          <button class="btn-icon btn-delete" @click="startDelete">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M6 19C6 20.1 6.9 21 8 21H16C17.1 21 18 20.1 18 19V7H6V19ZM19 4H15.5L14.5 3H9.5L8.5 4H5V6H19V4Z"
+                fill="#ff4d4d"
+              />
+            </svg>
+          </button>
+          <button class="btn-text btn-edit" @click="toggleEdit">
             <svg
               width="18"
               height="18"
@@ -146,24 +152,55 @@
               />
             </svg>
             수정하기
-          </template>
-          <template v-else> 저장하기 </template>
-        </button>
+          </button>
+          <button class="btn-icon btn-close" @click="handleClose">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z"
+                fill="#999"
+              />
+            </svg>
+          </button>
+        </template>
 
-        <button class="btn-icon btn-close" @click="handleClose">
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z"
-              fill="#999"
-            />
-          </svg>
-        </button>
+        <template v-else>
+          <button class="btn-icon btn-cancel-edit" @click="handleClose">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="white"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+          <button class="btn-save-edit" @click="toggleEdit">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="white"
+              stroke-width="3"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            저장
+          </button>
+        </template>
       </div>
     </div>
   </div>
@@ -348,6 +385,8 @@ onUnmounted(() => window.removeEventListener('keydown', handleEsc));
   color: #fff;
   text-align: right;
   font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
+  /*font-weight: bold !important; 
+  font-size: 16px !important;*/
 }
 .memo-box {
   width: 100%; /* 너비 확보 */
@@ -379,14 +418,26 @@ onUnmounted(() => window.removeEventListener('keydown', handleEsc));
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
   color: #fff;
-  padding: 4px 8px;
-  border-radius: 4px;
+  padding: 6px 10px;
+  border-radius: 6px;
   text-align: right;
   outline: none;
   font-size: 14px;
-  font-weight: bold;
+  font-weight: normal;
+  font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
+  color-scheme: dark;
+}
+select.select-bg {
+  width: auto;
+  text-align: right;
+  cursor: pointer;
+}
+select.select-bg option {
+  background-color: #111113;
+  color: #fff;
   font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
+
 .receipt-total {
   display: flex;
   justify-content: space-between;
@@ -394,6 +445,9 @@ onUnmounted(() => window.removeEventListener('keydown', handleEsc));
   margin: 20px 0;
   font-weight: bold;
 }
+.receipt-total.editing-total {
+  align-items: flex-start;
+} /* 수정 시 토글버튼 공간 확보 */
 .receipt-total .label {
   color: #fff;
   font-size: 20px;
@@ -408,6 +462,68 @@ onUnmounted(() => window.removeEventListener('keydown', handleEsc));
 }
 .amount.income {
   color: #4da6ff;
+}
+/* 🌟 수입/지출 토글 및 금액 입력 래퍼 */
+.edit-total-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+.type-toggle {
+  display: flex;
+  background: #222;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.type-btn {
+  background: transparent;
+  border: none;
+  color: #888;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.type-btn.active:first-child {
+  background: #4da6ff;
+  color: #fff;
+} /* 수입: 파란색 */
+.type-btn.active:last-child {
+  background: #ff4d4d;
+  color: #fff;
+} /* 지출: 빨간색 */
+
+.amount-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 6px 12px;
+  border-radius: 6px;
+}
+.amount-wrapper .currency {
+  color: #fff;
+  font-weight: bold;
+  font-size: 18px;
+}
+.amount-input {
+  background: transparent;
+  border: none;
+  width: 110px;
+  font-size: 20px;
+  color: #fff;
+  text-align: right;
+  outline: none;
+  font-weight: bold;
+  font-family: Menlo, Monaco, Consolas, 'Courier New', monospace;
+  -moz-appearance: textfield;
+}
+.amount-input::-webkit-outer-spin-button,
+.amount-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0; /* 크롬, 사파리, 엣지 화살표 숨기기 */
 }
 .barcode-img {
   width: 100%;
@@ -517,6 +633,7 @@ onUnmounted(() => window.removeEventListener('keydown', handleEsc));
   display: flex;
   gap: 12px;
   margin-top: 10px;
+  align-items: center;
 }
 .btn-icon {
   width: 48px;
@@ -544,5 +661,39 @@ onUnmounted(() => window.removeEventListener('keydown', handleEsc));
   font-weight: bold;
   border: none;
   cursor: pointer;
+}
+.btn-cancel-edit {
+  background-color: #2a2a2b;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.btn-save-edit {
+  background-color: #00d26a;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 20px;
+  height: 48px;
+  border-radius: 24px;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s;
+  box-shadow: 0 4px 15px rgba(0, 210, 106, 0.3);
+}
+.btn-save-edit:hover {
+  transform: scale(1.05);
+}
+.btn-cancel-edit:hover {
+  background-color: #444;
 }
 </style>
