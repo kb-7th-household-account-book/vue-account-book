@@ -47,6 +47,12 @@ FOOD, COFFEE, TRANSPORT, SHOPPING, CULTURE, MEDICAL, EDUCATION, HOUSING, FINANCE
 
 [응답 가이드라인]
 - UPDATE 또는 DELETE인 경우 반드시 "targetId"를 최근 거래 내역의 ID 중에서 찾아 포함하세요.
+- 시간에 대한 명시적인 키워드가 있다면 아래 규칙을 따르세요:
+    * "아침", "새벽" 등이 포함되면 "07:00"으로 설정
+    * "점심", "오후" 등이 포함되면 "12:00"으로 설정
+    * "저녁", "밤" 등이 포함되면 "18:00"으로 설정
+    * 그 외 별도의 언급이 없으면 현재 시간(${currentTime})을 사용하세요.
+- 날짜에 대한 키워드(어제, 오늘, 그저께 등)가 있으면 오늘 날짜(${currentDate})를 기준으로 정확히 계산하세요.
 - 응답은 반드시 다음 JSON 구조여야 합니다:
 {
   "intent": "CREATE" | "UPDATE" | "DELETE",

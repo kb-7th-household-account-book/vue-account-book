@@ -11,512 +11,534 @@
   },
   "transactions": [
     {
-      "id": "1",
+      "id": 1,
       "type": "income",
       "title": "부업 입금",
       "amount": 200000,
       "date": "2026-04-10",
       "time": "09:00",
       "category": "FINANCE",
-      "memo": "입금내역"
+      "memo": "부업 프리랜서 작업 완료 후 입금"
     },
     {
-      "id": "2",
+      "id": 2,
       "type": "expense",
       "title": "점심 (돈까스)",
       "amount": 12000,
       "date": "2026-04-10",
       "time": "12:30",
       "category": "FOOD",
-      "memo": ""
+      "memo": "회사 근처 식당에서 혼밥"
     },
     {
-      "id": "3",
+      "id": 3,
       "type": "expense",
       "title": "지하철 퇴근",
       "amount": 3000,
       "date": "2026-04-09",
       "time": "18:00",
       "category": "TRANSPORT",
-      "memo": "메모내용입니다"
+      "memo": "야근 후 지하철 귀가"
     },
     {
-      "id": "4",
+      "id": 4,
       "type": "expense",
       "title": "아메리카노 (카공)",
       "amount": 4500,
       "date": "2026-04-08",
       "time": "14:00",
       "category": "COFFEE",
-      "memo": "팀 회식 카공"
+      "memo": "카페에서 혼자 공부"
     },
     {
-      "id": "5",
+      "id": 5,
       "type": "expense",
       "title": "저녁 배달",
       "amount": 15000,
       "date": "2026-04-07",
       "time": "19:30",
       "category": "FOOD",
-      "memo": ""
+      "memo": "피곤해서 배달 시킴"
     },
     {
-      "id": "6",
+      "id": 6,
       "type": "expense",
       "title": "백화점 쇼핑",
       "amount": 125000,
       "date": "2026-04-06",
       "time": "14:30",
       "category": "SHOPPING",
-      "memo": ""
+      "memo": "봄 시즌 세일 쇼핑"
     },
     {
-      "id": "7",
+      "id": 7,
       "type": "expense",
       "title": "치과 검진",
       "amount": 55000,
       "date": "2026-04-05",
       "time": "11:00",
       "category": "MEDICAL",
-      "memo": ""
+      "memo": "스케일링 및 정기 검진"
     },
     {
-      "id": "8",
+      "id": 8,
       "type": "expense",
       "title": "편의점 아침",
       "amount": 8500,
       "date": "2026-04-04",
       "time": "08:30",
       "category": "FOOD",
-      "memo": ""
+      "memo": "출근 전 간단히 때움"
     },
     {
-      "id": "9",
+      "id": 9,
       "type": "expense",
       "title": "넷플릭스 결제",
       "amount": 14900,
       "date": "2026-04-01",
       "time": "00:05",
       "category": "OTHERS",
-      "memo": ""
+      "memo": "매월 자동결제"
     },
     {
-      "id": "10",
+      "id": 10,
       "type": "income",
       "title": "정기 급여",
       "amount": 1500000,
       "date": "2026-03-25",
       "time": "10:00",
       "category": "FINANCE",
-      "memo": ""
+      "memo": "3월 월급 입금"
     },
     {
-      "id": "11",
+      "id": 11,
       "type": "expense",
       "title": "영화 관람 및 팝콘",
       "amount": 42000,
       "date": "2026-03-23",
       "time": "20:00",
       "category": "CULTURE",
-      "memo": ""
+      "memo": "친구랑 주말 영화 데이트"
     },
     {
-      "id": "12",
+      "id": 12,
       "type": "expense",
       "title": "시내버스",
       "amount": 2500,
       "date": "2026-03-20",
       "time": "09:00",
       "category": "TRANSPORT",
-      "memo": ""
+      "memo": "외근 이동"
     },
     {
-      "id": "13",
+      "id": 13,
       "type": "expense",
       "title": "Udemy 강의 결제",
       "amount": 9900,
       "date": "2026-03-18",
       "time": "15:00",
       "category": "EDUCATION",
-      "memo": ""
+      "memo": "개발 공부용 강의 구매"
     },
     {
-      "id": "14",
+      "id": 14,
       "type": "expense",
       "title": "라멘 점심",
       "amount": 11000,
       "date": "2026-03-15",
       "time": "12:00",
       "category": "FOOD",
-      "memo": ""
+      "memo": "점심 혼밥"
     },
     {
-      "id": "15",
+      "id": 15,
       "type": "expense",
       "title": "서점 도서 구매",
       "amount": 35000,
       "date": "2026-03-12",
       "time": "18:30",
       "category": "SHOPPING",
-      "memo": ""
+      "memo": "읽고 싶던 책 3권 구매"
     },
     {
-      "id": "16",
+      "id": 16,
       "type": "expense",
       "title": "바닐라라떼",
       "amount": 5200,
       "date": "2026-03-10",
       "time": "14:00",
       "category": "COFFEE",
-      "memo": ""
+      "memo": "오후 업무 중 카페"
     },
     {
-      "id": "17",
+      "id": 17,
       "type": "expense",
       "title": "치킨 포장",
       "amount": 21000,
       "date": "2026-03-08",
       "time": "19:00",
       "category": "FOOD",
-      "memo": ""
+      "memo": "주말 저녁 혼자 치킨"
     },
     {
-      "id": "18",
+      "id": 18,
       "type": "expense",
       "title": "따릉이 이용권",
       "amount": 1200,
       "date": "2026-03-05",
       "time": "08:00",
       "category": "TRANSPORT",
-      "memo": ""
+      "memo": "날씨 좋아서 자전거 출근"
     },
     {
-      "id": "19",
+      "id": 19,
       "type": "expense",
       "title": "실비 보험료",
       "amount": 65000,
       "date": "2026-03-03",
       "time": "13:00",
       "category": "FINANCE",
-      "memo": ""
+      "memo": "매월 자동이체 보험료"
     },
     {
-      "id": "20",
+      "id": 20,
       "type": "expense",
       "title": "김밥천국",
       "amount": 8000,
       "date": "2026-03-01",
       "time": "12:00",
       "category": "FOOD",
-      "memo": ""
+      "memo": "점심 간단히 해결"
     },
     {
-      "id": "21",
+      "id": 21,
       "type": "expense",
       "title": "스타벅스",
       "amount": 8500,
       "date": "2026-04-08",
       "time": "14:20",
       "category": "COFFEE",
-      "memo": ""
+      "memo": "업무 미팅 전 아메리카노"
     },
     {
-      "id": "22",
+      "id": 22,
       "type": "expense",
       "title": "마라탕 점심",
       "amount": 13000,
       "date": "2026-04-08",
       "time": "12:10",
       "category": "FOOD",
-      "memo": ""
+      "memo": "동료랑 점심"
     },
     {
-      "id": "23",
+      "id": 23,
       "type": "expense",
       "title": "버스 카드 충전",
       "amount": 2500,
       "date": "2026-04-08",
       "time": "08:30",
       "category": "TRANSPORT",
-      "memo": ""
+      "memo": "출근길 교통카드 잔액 부족"
     },
     {
-      "id": "24",
+      "id": 24,
       "type": "income",
       "title": "당근마켓 거래",
       "amount": 50000,
       "date": "2026-04-07",
       "time": "20:00",
       "category": "OTHERS",
-      "memo": ""
+      "memo": "안 쓰는 물건 당근에서 처분"
     },
     {
-      "id": "25",
+      "id": 25,
       "type": "expense",
       "title": "치킨이랑 맥주",
       "amount": 42000,
       "date": "2026-04-07",
       "time": "19:00",
       "category": "FOOD",
-      "memo": ""
+      "memo": "퇴근 후 친구들이랑 치맥"
     },
     {
-      "id": "26",
+      "id": 26,
       "type": "expense",
       "title": "편의점 커피",
       "amount": 2800,
       "date": "2026-04-07",
       "time": "15:30",
       "category": "COFFEE",
-      "memo": ""
+      "memo": "오후 슬슬 졸려서 커피 한 잔"
     },
     {
-      "id": "27",
+      "id": 27,
       "type": "expense",
       "title": "봄 자켓 구매",
       "amount": 180000,
       "date": "2026-04-06",
       "time": "21:00",
       "category": "SHOPPING",
-      "memo": ""
+      "memo": "환절기 아우터 쇼핑"
     },
     {
-      "id": "28",
+      "id": 28,
       "type": "expense",
       "title": "제육덮밥",
       "amount": 9500,
       "date": "2026-04-06",
       "time": "12:40",
       "category": "FOOD",
-      "memo": ""
+      "memo": "점심 혼밥"
     },
     {
-      "id": "29",
+      "id": 29,
       "type": "expense",
       "title": "따릉이",
       "amount": 1200,
       "date": "2026-04-06",
       "time": "08:10",
       "category": "TRANSPORT",
-      "memo": ""
+      "memo": "아침 자전거 출근"
     },
     {
-      "id": "30",
+      "id": 30,
       "type": "expense",
       "title": "뮤지컬 관람",
       "amount": 55000,
       "date": "2026-04-05",
       "time": "18:20",
       "category": "CULTURE",
-      "memo": ""
+      "memo": "오랜만에 뮤지컬 관람"
     },
     {
-      "id": "31",
+      "id": 31,
       "type": "expense",
       "title": "파스타 맛집",
       "amount": 22000,
       "date": "2026-04-05",
       "time": "13:00",
       "category": "FOOD",
-      "memo": ""
+      "memo": "점심 약속"
     },
     {
-      "id": "32",
+      "id": 32,
       "type": "expense",
       "title": "메가커피",
       "amount": 3400,
       "date": "2026-04-05",
       "time": "10:00",
       "category": "COFFEE",
-      "memo": ""
+      "memo": "오전 업무 시작 전 커피"
     },
     {
-      "id": "33",
+      "id": 33,
       "type": "income",
       "title": "과외비 입금",
       "amount": 150000,
       "date": "2026-04-04",
       "time": "15:00",
       "category": "FINANCE",
-      "memo": ""
+      "memo": "이번 달 과외 수업료 입금"
     },
     {
-      "id": "34",
+      "id": 34,
       "type": "expense",
       "title": "롯데리아 세트",
       "amount": 8900,
       "date": "2026-04-04",
       "time": "19:30",
       "category": "FOOD",
-      "memo": ""
+      "memo": "퇴근 후 간단히 저녁"
     },
     {
-      "id": "35",
+      "id": 35,
       "type": "expense",
       "title": "카카오 택시",
       "amount": 15000,
       "date": "2026-04-03",
       "time": "22:00",
       "category": "OTHERS",
-      "memo": ""
+      "memo": "늦은 귀가라 택시 이용"
     },
     {
-      "id": "36",
+      "id": 36,
       "type": "expense",
       "title": "4월 월세",
       "amount": 600000,
       "date": "2026-04-03",
       "time": "10:00",
       "category": "HOUSING",
-      "memo": ""
+      "memo": "4월 월세 이체"
     },
     {
-      "id": "37",
+      "id": 37,
       "type": "expense",
       "title": "카페 라떼",
       "amount": 4800,
       "date": "2026-04-02",
       "time": "15:00",
       "category": "COFFEE",
-      "memo": ""
+      "memo": "오후 카페 작업"
     },
     {
-      "id": "38",
+      "id": 38,
       "type": "expense",
       "title": "김치찌개",
       "amount": 11000,
       "date": "2026-04-02",
       "time": "12:30",
       "category": "FOOD",
-      "memo": ""
+      "memo": "점심 혼밥"
     },
     {
-      "id": "39",
+      "id": 39,
       "type": "expense",
       "title": "피부과 결제",
       "amount": 65000,
       "date": "2026-04-01",
       "time": "14:00",
       "category": "MEDICAL",
-      "memo": ""
+      "memo": "피부 트러블로 방문"
     },
     {
-      "id": "40",
+      "id": 40,
       "type": "expense",
       "title": "청약 저축",
       "amount": 35000,
       "date": "2026-04-01",
       "time": "09:00",
       "category": "FINANCE",
-      "memo": ""
+      "memo": "매월 정기 청약저축"
     },
     {
-      "id": "41",
+      "id": 41,
       "type": "expense",
       "title": "맥북 에어 M3 구매",
       "amount": 1280000,
       "date": "2026-04-08",
       "time": "11:00",
       "category": "SHOPPING",
-      "memo": ""
+      "memo": "기존 맥북 교체, 할인 행사 때 구매"
     },
     {
-      "id": "42",
+      "id": 42,
       "type": "expense",
       "title": "부트캠프 심화 과정 등록",
       "amount": 550000,
       "date": "2026-04-07",
       "time": "16:30",
       "category": "EDUCATION",
-      "memo": ""
+      "memo": "커리어 전환 준비 교육 등록"
     },
     {
-      "id": "43",
+      "id": 43,
       "type": "expense",
       "title": "푸꾸옥 여행 항공권/숙소 예약",
       "amount": 820000,
       "date": "2026-04-06",
       "time": "10:00",
       "category": "OTHERS",
-      "memo": ""
+      "memo": "5월 여행 일정 미리 예약"
     },
     {
-      "id": "44",
+      "id": 44,
       "type": "expense",
       "title": "주식 추가 매수 (정기)",
       "amount": 1500000,
       "date": "2026-04-05",
       "time": "14:00",
       "category": "FINANCE",
-      "memo": ""
+      "memo": "이달 정기 주식 분할 매수"
     },
     {
-      "id": "45",
+      "id": 45,
       "type": "expense",
       "title": "아이패드 프로용 매직 키보드 세트",
       "amount": 680000,
       "date": "2026-04-04",
       "time": "18:00",
       "category": "SHOPPING",
-      "memo": ""
+      "memo": "재택 업무 생산성 향상용 구매"
     },
     {
-      "id": "46",
+      "id": 46,
       "type": "expense",
       "title": "부모님 건강검진 예약",
       "amount": 520000,
       "date": "2026-04-03",
       "time": "11:30",
       "category": "MEDICAL",
-      "memo": ""
+      "memo": "부모님 생신 선물로 건강검진 예약"
     },
     {
-      "id": "47",
+      "id": 47,
       "type": "expense",
       "title": "비상금 파킹통장 예치",
       "amount": 1950000,
       "date": "2026-04-02",
       "time": "09:00",
       "category": "FINANCE",
-      "memo": ""
+      "memo": "비상금 파킹통장으로 이월"
     },
     {
-      "id": "48",
+      "id": 48,
       "type": "expense",
       "title": "연간 멤버십 회원권 결제",
       "amount": 750000,
       "date": "2026-03-30",
       "time": "15:00",
       "category": "CULTURE",
-      "memo": ""
+      "memo": "헬스장 연간 회원권 갱신"
     },
     {
-      "id": "49",
+      "id": 49,
       "type": "expense",
       "title": "전세 자금 대출 이자",
       "amount": 1100000,
       "date": "2026-03-28",
       "time": "13:00",
       "category": "HOUSING",
-      "memo": ""
+      "memo": "매월 고정 대출이자 납부"
     },
     {
-      "id": "50",
+      "id": 50,
       "type": "expense",
       "title": "콘솔 게임기 및 주변기기 풀셋",
       "amount": 900000,
       "date": "2026-03-26",
       "time": "10:20",
       "category": "SHOPPING",
+      "memo": "오래 벼르던 콘솔 게임기 구매"
+    },
+    {
+      "id": 51,
+      "type": "expense",
+      "title": "점심 (순대국)",
+      "amount": 7000,
+      "date": "2026-04-10",
+      "time": "14:58",
+      "category": "FOOD",
       "memo": ""
     },
     {
-      "id": "tzzTOSB5IMM",
-      "title": "test_number_id"
+      "id": 52,
+      "type": "expense",
+      "title": "샐러드",
+      "amount": 3000,
+      "date": "2026-04-10",
+      "time": "15:28",
+      "category": "FOOD",
+      "memo": "간단한 메모"
     },
     {
-      "id": "NJS3vzqnAkw",
-      "title": "test_string_id"
+      "id": 53,
+      "type": "expense",
+      "title": "김치찌개",
+      "amount": 19000,
+      "date": "2026-04-09",
+      "time": "15:29",
+      "category": "FOOD",
+      "memo": ""
     }
   ],
   "monthly_stats": [
