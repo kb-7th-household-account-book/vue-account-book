@@ -43,8 +43,9 @@
             class="amount"
             :class="item.type === 'income' ? 'income' : 'expense'"
           >
-            ₩ {{ item.type === 'income' ? '+' : '-'
-            }}{{ Math.abs(item.amount).toLocaleString() }}
+            {{ item.type === 'income' ? '+' : '-' }}₩{{
+              Math.abs(item.amount).toLocaleString()
+            }}
           </div>
         </div>
       </div>
