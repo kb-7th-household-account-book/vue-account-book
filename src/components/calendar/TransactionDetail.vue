@@ -30,17 +30,27 @@
 
       <div v-if="selectedData?.items?.length">
         <div v-for="item in selectedData.items" :key="item.id" class="item">
-          <div class="left">
+          <div
+            class="icon-box"
+            :style="{
+              background: `linear-gradient(to right, ${item.color}, ${item.endColor})`,
+            }"
+          >
+            {{ item.icon }}
+          </div>
+
+          <div class="info">
             <p class="title">{{ item.title }}</p>
-            <span class="category">{{ item.category }}</span>
+            <span class="category-label">{{ item.label }}</span>
           </div>
 
           <div
             class="amount"
             :class="item.type === 'income' ? 'income' : 'expense'"
           >
-            ₩ {{ item.type === 'income' ? '+' : '-'
-            }}{{ Math.abs(item.amount).toLocaleString() }}
+            {{ item.type === 'income' ? '+' : '-' }}₩{{
+              Math.abs(item.amount).toLocaleString()
+            }}
           </div>
         </div>
       </div>
@@ -151,28 +161,40 @@ const getDay = (dateStr) => {
 /* 아이템 */
 .item {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  padding: 14px 16px;
-  border-radius: 12px;
-
-  background: #0f1623;
-  margin-bottom: 10px;
+  align-items: center; /* 세로 중앙 정렬 */
+  padding: 14px 0; /* 좌우 패딩은 빼고 위아래만 주거나 조정 */
   transition: 0.2s;
 }
 
-.item:hover {
-  background: #162033;
+.item:last-child {
+  border-bottom: none;
 }
 
-/* 왼쪽 */
-.title {
+/* 새롭게 추가된 아이콘 박스 */
+.icon-box {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  margin-right: 15px;
+  flex-shrink: 0; /* 아이콘 크기 고정 */
+}
+
+.info {
+  flex: 1;
+}
+
+.info .title {
   font-size: 15px;
   font-weight: 600;
+  margin: 0;
+  color: #fff;
 }
 
-.category {
+.info .category-label {
   font-size: 12px;
   color: #888;
 }
