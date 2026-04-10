@@ -166,7 +166,7 @@ https://github.com/user-attachments/assets/90d60f56-0a73-4dbf-b445-c89004db8404
 <td align="center" colspan="2">
 
 ### 🤖 AI 거래 CRUD  ( 가계부 거래 등록 / 가계부 거래 수정 / 가계부 거래 삭제)
-https://github.com/user-attachments/assets/86e76a93-d32b-4925-865a-c81a4ef05072
+https://github.com/user-attachments/assets/5bcc2143-4acc-4b1d-91d9-3ef0dccc6382
 
 </td>
 </tr>
