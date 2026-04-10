@@ -50,6 +50,7 @@ import FixedExpenseModal from '@/components/calendar/FixedExpenseModal.vue';
 import { ref, computed, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useCalendarStore } from '@/store/calendar';
+import { categoryMeta } from '@/constants/category';
 
 const calendarStore = useCalendarStore();
 const route = useRoute();
@@ -108,17 +109,34 @@ const handleMonthChange = (yearMonth) => {
 
 // 상세 내역에 전달할 데이터 (Store에서 선택 날짜만 쏙)
 const selectedData = computed(() => {
-  // 1. dailyDataMap이 아직 로드되지 않았을 경우를 대비한 방어 코드
+  // 1. 방어 코드
   if (!calendarStore.dailyDataMap) {
     return { items: [], income: 0, expense: 0 };
   }
 
   const dateKey = selectedDate.value;
+  const rawData = calendarStore.dailyDataMap[dateKey] || {
+    items: [],
+    income: 0,
+    expense: 0,
+  };
 
-  // 2. 해당 날짜에 데이터가 있으면 반환, 없으면 기본값 반환
-  return (
-    calendarStore.dailyDataMap[dateKey] || { items: [], income: 0, expense: 0 }
-  );
+  // 2. JS 방식으로 카테고리 정보 매칭
+  const enrichedItems = rawData.items.map((item) => {
+    const meta = categoryMeta[item.category] || categoryMeta.OTHERS;
+
+    return {
+      ...item,
+      icon: meta.icon,
+      label: meta.label,
+      color: meta.color,
+    };
+  });
+
+  return {
+    ...rawData,
+    items: enrichedItems,
+  };
 });
 
 /* --- 버튼 및 모달 로직 --- */
