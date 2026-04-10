@@ -44,21 +44,21 @@ onMounted(() => {
 });
 </script>
 <template>
-    <section class="recent-card">
-        <p class="section-label">최근 거래</p>
+    <section class="recent-transactions-card">
+        <h2 class="section-title">최근 거래</h2>
         
         <ul class="recent-list">
             <li v-for="item in recentTransactions" :key="item.id" class="recent-item">
                 <div class="left-content">
-                    <span class="icon">{{ getCategoryInfo(item.category).icon }}</span>
+                    <span class="icon-orb">{{ getCategoryInfo(item.category).icon }}</span>
                     <div class="text-group">
                         <span class="category-name">{{ getCategoryInfo(item.category).label }}</span>
                         <span class="date-text">{{ item.date }}</span>
                     </div>
                 </div>
                 
-                <span class="amount">
-                    {{ item.type === 'expense' ? '-' : '' }}{{ item.amount.toLocaleString() }}원
+                <span class="amount" :class="{ 'expense': item.type === 'expense', 'income': item.type === 'income' }">
+                    {{ item.type === 'expense' ? '-' : '+' }}{{ item.amount.toLocaleString() }}
                 </span>
             </li>
         </ul>
@@ -66,17 +66,22 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.recent-card {
-    background-color: #111111;
-    border-radius: 20px;
-    padding: 20px 24px;
-    margin-bottom: 20px;
+.recent-transactions-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 24px;
+    padding: 24px;
+    backdrop-filter: blur(12px);
+    animation: fadeIn 0.5s ease-out forwards;
+    opacity: 0;
+    animation-delay: 0.5s;
 }
 
-.section-label {
-    font-size: 14px;
-    color: #8e8e93;
-    margin-bottom: 20px;
+.section-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #8E8E93;
+  margin-bottom: 24px;
 }
 
 .recent-list {
@@ -85,22 +90,39 @@ onMounted(() => {
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 20px; 
+    gap: 16px; 
 }
 
 .recent-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    transition: all 0.2s ease;
+}
+
+.recent-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.08);
 }
 
 .left-content {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 16px;
 }
 
-.icon {
+.icon-orb {
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: 20px;
 }
 
@@ -112,17 +134,31 @@ onMounted(() => {
 .category-name {
     font-size: 15px;
     color: #ffffff;
-    font-weight: 500;
+    font-weight: 600;
 }
 
 .date-text {
     font-size: 12px;
-    color: #8e8e93;
+    color: #8E8E93;
     margin-top: 2px;
 }
 
 .amount {
     font-size: 15px;
-    color: #8e8e93; 
+    font-weight: 700;
+    color: #8E8E93; 
+}
+
+.amount.expense {
+    color: #FF637E;
+}
+
+.amount.income {
+    color: #51A2FF;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 </style>

@@ -28,45 +28,68 @@ const openDatePicker = () => {
 </script>
 
 <template>
-    <section class="input-card">
+  <div class="field-container">
     <p class="section-label">날짜</p>
 
     <div class="input-wrapper" @click="openDatePicker">
       <span class="icon">
-        <img src="/public/images/DateIcon.svg" alt="날짜 아이콘" />
+        <img src="/public/images/CalendarIcon.png" alt="날짜 아이콘" />
       </span>
-      <input type="date" ref="dateInput" class="custom-input" :value="modelValue" @input="$emit('update:modelValue', $event.target.value)" />
+      <input 
+        type="date" 
+        ref="dateInput" 
+        class="custom-input" 
+        :value="modelValue" 
+        @input="$emit('update:modelValue', $event.target.value)" 
+      />
     </div>
-  </section>
+  </div>
 </template>
 
 <style scoped>
-.input-card {
-  background-color: #111111;
-  border-radius: 20px;
-  padding: 20px;
+.field-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
 }
 
 .section-label {
   font-size: 14px;
-  color: #8e8e93;
-  margin-bottom: 16px;
+  font-weight: 600;
+  color: #8E8E93;
+  margin: 0;
+  padding-left: 4px;
 }
 
 .input-wrapper {
   display: flex;
-  gap: 16px;
+  gap: 12px;
   align-items: center;
-  background-color: #1c1c1e;
-  border-radius: 12px;
-  padding: 12px 16px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 14px 16px;
+  height: 56px;
   cursor: pointer;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.input-wrapper:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
 .icon {
-  font-size: 18px;
   display: flex;
   align-items: center;
+  opacity: 0.7;
+}
+
+.icon img {
+  width: 20px;
+  height: 20px;
 }
 
 .custom-input {
@@ -74,14 +97,16 @@ const openDatePicker = () => {
   background: transparent;
   border: none;
   outline: none;
-  color: white;
+  color: #FFFFFF;
   font-size: 16px;
-  color-scheme: dark; /* 달력 아이콘을 다크모드에 맞게 변경 */
-  cursor: pointer; /* 텍스트 부분 클릭 반영 */
+  font-weight: 600;
+  color-scheme: dark;
+  cursor: pointer;
+  min-width: 0;
 }
 
 .custom-input::-webkit-calendar-picker-indicator {
-    display: none;
-    -webkit-appearance: none;
+  display: none;
+  -webkit-appearance: none;
 }
 </style>

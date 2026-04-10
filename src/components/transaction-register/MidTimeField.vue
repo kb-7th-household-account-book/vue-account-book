@@ -41,100 +41,129 @@ watch(minute, (newVal) => {
 
 </script>
 <template>
-  <section class="input-card">
-    <div class="time-wrapper">
-        <p class="section-label">시간 </p>
-        <span class="time-icon">
-            <img src="/public/images/TimeIcon.svg" alt="시간 아이콘"/>
-        </span>
-    </div>
-    
-    <div class="toggle-row">
-      <button 
-        type="button"
-        class="toggle-btn" 
-        :class="{ active: period === '오전' }"
-        @click="togglePeriod('오전')"
-      >오전</button>
-      <button 
-        type="button"
-        class="toggle-btn" 
-        :class="{ active: period === '오후' }"
-        @click="togglePeriod('오후')"
-      >오후</button>
+  <div class="field-container">
+    <div class="time-header">
+      <p class="section-label">시간</p>
+      <span class="time-icon">
+        <img src="/images/TimeIcon.svg" alt="시간 아이콘" />
+      </span>
     </div>
 
-   <div class="time-input-row">
-      <div class="time-box">
-        <input 
-          type="number" 
-          class="time-input" 
-          v-model="hour" 
-          placeholder="00"
-          min="1"
-          max="12"
-        />
-        <span>시</span>
+    <div class="time-controls">
+      <div class="toggle-row">
+        <button
+          type="button"
+          class="toggle-btn"
+          :class="{ active: period === '오전' }"
+          @click="togglePeriod('오전')"
+        >
+          오전
+        </button>
+        <button
+          type="button"
+          class="toggle-btn"
+          :class="{ active: period === '오후' }"
+          @click="togglePeriod('오후')"
+        >
+          오후
+        </button>
       </div>
-      <div class="time-box">
-        <input 
-          type="number" 
-          class="time-input" 
-          v-model="minute" 
-          placeholder="00"
-          min="0"
-          max="59"
-        />
-        <span>분</span>
+
+      <div class="time-input-row">
+        <div class="time-box">
+          <input
+            type="number"
+            class="time-input"
+            v-model="hour"
+            placeholder="00"
+            min="1"
+            max="12"
+          />
+          <span class="unit">시</span>
+        </div>
+        <div class="time-box">
+          <input
+            type="number"
+            class="time-input"
+            v-model="minute"
+            placeholder="00"
+            min="0"
+            max="59"
+          />
+          <span class="unit">분</span>
+        </div>
       </div>
     </div>
-  </section>
+  </div>
 </template>
 
 <style scoped>
-.time-wrapper {
-    display: flex;
-    gap: 4px;
+.field-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
 }
-.input-card {
-  background-color: #111111;
-  border-radius: 20px;
-  padding: 20px;
+
+.time-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-left: 4px;
 }
 
 .section-label {
   font-size: 14px;
-  color: #8e8e93;
-  margin-bottom: 16px;
+  font-weight: 600;
+  color: #8E8E93;
+  margin: 0;
+}
+
+.time-icon {
+  display: flex;
+  align-items: center;
+  opacity: 0.6;
+}
+
+.time-icon img {
+  width: 16px;
+  height: 16px;
+  filter: invert(1);
+}
+
+.time-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .toggle-row {
   display: flex;
   gap: 8px;
-  margin-bottom: 12px;
 }
 
 .toggle-btn {
   flex: 1;
-  background-color: #1c1c1e;
-  color: #8e8e93;
-  border: none;
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #8E8E93;
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 12px;
-  padding: 12px 0;
+  padding: 10px 0;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-/* Todo: 버튼 활성화 시 노란색 배경 */
 .toggle-btn.active {
-  background-color: #ffb340; 
-  color: #000;
+  background-color: #FFB340;
+  border-color: #FFB340;
+  color: #000000;
+  box-shadow: 0 4px 12px rgba(255, 179, 64, 0.2);
 }
 
 .time-input-row {
   display: flex;
-  justify-content: space-between;
   gap: 12px;
 }
 
@@ -142,30 +171,44 @@ watch(minute, (newVal) => {
   display: flex;
   flex: 1;
   align-items: center;
-  background-color: #1c1c1e;
-  color: #8e8e93;
-  border-radius: 12px; 
-  padding: 12px 16px; 
-  font-size: 14px;
-  transition: all 0.2s;
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 10px 14px;
+  height: 52px;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+.time-box:focus-within {
+  background-color: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
 .time-input {
-  flex: 1; /* 박스 내부 남는 공간을 다 차지 */
-  width: 60px;
-  background-color: transparent; /* 배경은 부모(box)가 가지고 있으므로 투명하게 */
+  flex: 1;
+  width: 100%;
+  background-color: transparent;
   border: none;
-  color: white;
+  color: #FFFFFF;
   text-align: center;
-  font-size: 20px; /* 숫자를 더 크게 해서 크기감을 줌 */
-  font-weight: bold;
+  font-size: 18px;
+  font-weight: 700;
   outline: none;
+  min-width: 0;
 }
 
-/* input type="number" 일 때 우측 화살표 숨기기 */
+.unit {
+  font-size: 13px;
+  color: #8E8E93;
+  font-weight: 500;
+  margin-left: 4px;
+}
+
+/* input type="number" arrows hide */
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+  -webkit-appearance: none;
+  margin: 0;
 }
 </style>

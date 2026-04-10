@@ -1,29 +1,34 @@
 <script setup>
-const summaryCards = [
+import { computed } from 'vue';
+import { useHomeStore } from '@/store/home';
+
+const store = useHomeStore();
+
+// store.state가 변경되면 자동으로 재계산됩니다.
+const summaryCards = computed(() => [
   {
     id: 1,
     title: '총지출',
-    amount: '1,000,000원',
+    amount: `${store.state.summary.expense.toLocaleString()}원`,
     icon: '💸',
     type: 'expense',
   },
   {
     id: 2,
     title: '순수익',
-    amount: '500,000원',
+    amount: `${store.state.summary.net_income.toLocaleString()}원`,
     icon: '📈',
     type: 'profit',
   },
   {
     id: 3,
     title: '총수입',
-    amount: '1,000,000원',
+    amount: `${store.state.summary.income.toLocaleString()}원`,
     icon: '💰',
     type: 'income',
   },
-];
+]);
 </script>
-
 <template>
   <section class="summary-section">
     <h3 class="section-title">이번달 가계부 요약</h3>
