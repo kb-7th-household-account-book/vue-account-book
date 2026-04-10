@@ -88,7 +88,6 @@ const handleProfileUpdate = async (newData) => {
     nickname: newData.nickname,
     imgUrl: newData.imgUrl,
   });
-  alert('프로필 정보가 성공적으로 업데이트되었습니다! 🎉');
 };
 </script>
 
