@@ -1,6 +1,11 @@
 import { defineStore } from 'pinia';
 import { ref, computed, readonly } from 'vue';
-import { getAllTransactions, getFixedDetails } from '@/api/calendar';
+import {
+  getAllTransactions,
+  getFixedDetails,
+  createFixedExpense,
+  updateFixedExpense,
+} from '@/api/calendar';
 
 export const useCalendarStore = defineStore('calendar', () => {
   const _allList = ref([]);
@@ -10,7 +15,7 @@ export const useCalendarStore = defineStore('calendar', () => {
   // 현재 캘린더가 보여주고 있는 연-월 (기본값: 오늘 날짜의 YYYY-MM)
   const currentYearMonth = ref(new Date().toISOString().slice(0, 7));
 
-  // 데이터 가져오기 (고정 지출 포함)
+  // 모든 거래내역 데이터 가져오기 (고정 지출 포함)
   const fetchAllData = async () => {
     _loading.value = true;
     try {
@@ -21,10 +26,14 @@ export const useCalendarStore = defineStore('calendar', () => {
     }
   };
 
-  const fetchFixedDate = async () => {
+  const fetchFixedData = async () => {
     _loading.value = true;
     try {
       const res = await getFixedDetails();
+      console.log(
+        '고정 지출 데이터:',
+        res.data.find((f) => f.month === 4) || res,
+      ); // 디버깅용 로그
       _fixedList.value = res.data || res;
     } finally {
       _loading.value = false;
@@ -78,14 +87,85 @@ export const useCalendarStore = defineStore('calendar', () => {
     currentYearMonth.value = dateStr.slice(0, 7);
   };
 
+  // 공통 로직: 수정된 아이템 배열을 받아서 합계를 계산하고 서버에 PUT 하는 함수
+  const _updateFixedMonth = async (monthId, updatedItems) => {
+    const newTotal = updatedItems.reduce((sum, item) => sum + item.expense, 0);
+    const target = _fixedList.value.find((f) => f.id === monthId);
+
+    const updatedObject = {
+      ...target,
+      total_fixed_expense: newTotal,
+      items: updatedItems,
+    };
+
+    await updateFixedExpense(monthId, updatedObject);
+    await fetchFixedData(); // 최신 고정지출 갱신
+  };
+
+  // 1. 추가 로직
+  const addFixedItem = async (month, name, expense) => {
+    const allItems = _fixedList.value.flatMap((f) => f.items);
+    let nextId;
+    if (allItems.length === 0) {
+      nextId = 1; // 데이터가 하나도 없을 때 1번 부여
+    } else {
+      // Math.max를 이용해 가장 큰 id를 찾고 +1
+      const maxId = Math.max(...allItems.map((item) => item.id));
+      nextId = maxId + 1;
+    }
+
+    const target = _fixedList.value.find((f) => f.month === month);
+    if (target) {
+      const newItems = [...target.items, { id: nextId, name, expense }];
+      await _updateFixedMonth(target.id, newItems);
+    } else {
+      // 해당 월 데이터가 아예 없으면 POST
+      await createFixedExpense({
+        month,
+        total_fixed_expense: expense,
+        items: [{ id: nextId, name, expense }],
+      });
+
+      await fetchFixedData();
+    }
+  };
+
+  // 2. 수정 로직 (아이템 하나만 선택해서 수정)
+  // const editFixedItem = async (monthId, itemId, newName, newExpense) => {
+  //   const target = _fixedList.value.find((f) => f.id === monthId);
+  //   if (!target) return;
+
+  //   const updatedItems = target.items.map((item) =>
+  //     item.id === itemId
+  //       ? { ...item, name: newName, expense: newExpense }
+  //       : item,
+  //   );
+
+  //   await _updateFixedMonth(monthId, updatedItems);
+  // };
+
+  // 3. 삭제 로직 (아이템 하나만 선택해서 삭제)
+  // const deleteFixedItem = async (monthId, itemId) => {
+  //   const target = _fixedList.value.find((f) => f.id === monthId);
+  //   if (!target) return;
+
+  //   // 해당 ID만 제외하고 필터링
+  //   const updatedItems = target.items.filter((item) => item.id !== itemId);
+
+  //   await _updateFixedMonth(monthId, updatedItems);
+  // };
+
   return {
     allList: readonly(_allList),
     fixedList: readonly(_fixedList),
     currentYearMonth,
     monthlySummary,
     dailyDataMap,
-    fetchFixedDate,
+    fetchFixedData,
     fetchAllData,
+    addFixedItem,
+    // editFixedItem,
+    // deleteFixedItem,
     setCurrentMonth,
     loading: readonly(_loading),
   };

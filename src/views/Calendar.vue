@@ -69,7 +69,7 @@ const selectedDate = ref(route.query.date || getToday());
 // 데이터 로드
 onMounted(async () => {
   await calendarStore.fetchAllData();
-  await calendarStore.fetchFixedDate();
+  await calendarStore.fetchFixedData();
 });
 
 /* --- 상단 계좌 정보 데이터 --- */
@@ -128,9 +128,18 @@ const handleButtonAction = (type) => {
   }
 };
 
-const saveFixedExpense = (newExpense) => {
-  console.log('저장 데이터:', newExpense);
-  isModalOpen.value = false;
+const saveFixedExpense = async (newExpense) => {
+  try {
+    const { month, title, amount } = newExpense;
+
+    await calendarStore.addFixedItem(month, title, amount);
+
+    alert('고정 지출이 저장되었습니다!');
+    isModalOpen.value = false;
+  } catch (error) {
+    console.error('저장 중 오류 발생:', error);
+    alert('저장에 실패했습니다.');
+  }
 };
 
 const adds = [
