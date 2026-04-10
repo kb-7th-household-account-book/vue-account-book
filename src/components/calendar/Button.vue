@@ -43,7 +43,7 @@ const handleButtonClick = () => {
   font-size: 16px; /* 21px은 너무 커서 살짝 줄였습니다 */
   font-weight: bold;
   cursor: pointer;
-  background-color: #fe9a00; /* 기본: + 거래 추가 색상 */
+  background: linear-gradient(to right, #ffb900, #fe9a00);
   color: #000;
   transition: opacity 0.2s;
 }
@@ -59,7 +59,7 @@ const handleButtonClick = () => {
 }
 
 .fixedExpenses {
-  background-color: #ad46ff; /* + 고정지출 추가 색상 (보라) */
+  background: linear-gradient(to right, #c27aff, #ad46ff);
   color: white;
 }
 </style>

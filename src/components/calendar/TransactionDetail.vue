@@ -30,7 +30,12 @@
 
       <div v-if="selectedData?.items?.length">
         <div v-for="item in selectedData.items" :key="item.id" class="item">
-          <div class="icon-box" :style="{ backgroundColor: item.color }">
+          <div
+            class="icon-box"
+            :style="{
+              background: `linear-gradient(to right, ${item.color}, ${item.endColor})`,
+            }"
+          >
             {{ item.icon }}
           </div>
 

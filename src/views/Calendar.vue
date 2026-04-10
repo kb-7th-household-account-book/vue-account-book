@@ -130,6 +130,7 @@ const selectedData = computed(() => {
       icon: meta.icon,
       label: meta.label,
       color: meta.color,
+      endColor: meta.endColor,
     };
   });
 
