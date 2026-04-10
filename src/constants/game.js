@@ -6,8 +6,8 @@ export const GAME_CONFIG = {
   ITEM_SPEED_MAX: 3.0,     // 아이템 최대 낙하 속도
   ITEM_SIZE_MIN: 3,        // 아이템 최소 크기 (rem)
   ITEM_SIZE_MAX: 10,       // 아이템 최대 크기 (rem)
-  PLAYER_WIDTH: 150,       // 플레이어 너비
-  PLAYER_HEIGHT: 283,      // 플레이어 높이 (150 * 507 / 269)
+  PLAYER_WIDTH: 112,       // 플레이어 너비 (150 * 0.75)
+  PLAYER_HEIGHT: 212,      // 플레이어 높이 (283 * 0.75)
   MAX_FALLING_ITEMS: 15,   // 동시에 낙하는 아이템의 최대 개수
   ITEM_SPAWN_OFFSET: -150, // 초기 Y 위치
   ITEM_SPACING: 150,       // 아이템 간격 (픽셀)
