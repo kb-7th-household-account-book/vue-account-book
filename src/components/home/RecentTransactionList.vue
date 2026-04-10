@@ -163,4 +163,25 @@ const getCategoryInfo = (categoryId) => {
   color: rgba(255, 255, 255, 0.4);
   font-size: 14px;
 }
+
+/* RecentTransactionList.vue <style scoped> */
+@media (max-width: 768px) {
+  .recent-row {
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .recent-row__icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .recent-row__title {
+    font-size: 14px;
+  }
+
+  .recent-row__amount {
+    font-size: 15px;
+  }
+}
 </style>

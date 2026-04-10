@@ -170,4 +170,16 @@ const summaryCards = computed(() => [
 .summary-item__icon--income {
   background: linear-gradient(117deg, #51a2ff 0%, #2b7fff 100%);
 }
+
+/* SummaryCard.vue <style scoped> */
+@media (max-width: 768px) {
+  /* 순수익 카드를 강조하고 싶다면 첫 번째 열을 다 쓰게 설정 */
+  .summary-item:nth-child(2) {
+    grid-column: span 2;
+  }
+
+  .summary-item__amount {
+    font-size: 20px; /* 폰트 크기 최적화 */
+  }
+}
 </style>

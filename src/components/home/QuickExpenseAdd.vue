@@ -119,7 +119,14 @@ const saveExpense = async () => {
             <label class="field-label">금액</label>
             <div class="amount-input-wrap">
               <span class="currency">₩</span>
-              <input :value="formattedAmount" @input="handleAmountInput" type="text" inputmode="numeric" class="amount-input" placeholder="0" />
+              <input
+                :value="formattedAmount"
+                @input="handleAmountInput"
+                type="text"
+                inputmode="numeric"
+                class="amount-input"
+                placeholder="0"
+              />
             </div>
           </div>
 
@@ -375,5 +382,23 @@ const saveExpense = async () => {
   letter-spacing: -0.31px;
   cursor: pointer;
   font-family: inherit;
+}
+
+/* QuickExpenseAdd.vue <style scoped> */
+@media (max-width: 768px) {
+  .category-grid {
+    grid-template-columns: repeat(4, 1fr); /* 한 줄에 4개 */
+    gap: 8px;
+  }
+
+  .category-button {
+    aspect-ratio: 1 / 1; /* 정사각형 유지 */
+    height: auto;
+    padding: 8px;
+  }
+
+  .category-emoji {
+    font-size: 20px;
+  }
 }
 </style>
