@@ -185,4 +185,16 @@ const formatProfit = (value) => {
   color: rgba(255, 255, 255, 0.4);
   padding: 20px;
 }
+
+/* MonthlySummary.vue <style scoped> */
+@media (max-width: 480px) {
+  .summary-row {
+    padding: 0 4px; /* 좌우 여백 줄임 */
+  }
+
+  .month,
+  .profit {
+    font-size: 16px; /* 텍스트 크기 조절 */
+  }
+}
 </style>
