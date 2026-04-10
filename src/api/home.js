@@ -25,11 +25,6 @@ export const getRecentTransactions = () => {
   return apiClient.get('/transactions?_sort=date,time&_order=desc,desc&_limit=4');
 };
 
-// 6. 거래 추가
-export const addTransaction = (data) => {
-  return apiClient.post('/transactions', data);
-};
-
 // 카테고리 금액 직접 계산을 위해 전체 거래내역 가져오기
 export const getAllTransactions = () => {
   return apiClient.get('/transactions');
