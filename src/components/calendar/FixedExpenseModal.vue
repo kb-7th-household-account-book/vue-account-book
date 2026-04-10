@@ -12,9 +12,9 @@
             <div class="input-group">
               <label>고정지출 월</label>
               <input
-                type="text"
+                type="number"
                 v-model="expenseData.month"
-                placeholder="예: 4월"
+                placeholder="예: 4"
                 class="input-dark"
               />
             </div>
@@ -34,7 +34,7 @@
               <div class="amount-input-wrapper">
                 <span class="currency">₩</span>
                 <input
-                  type="text"
+                  type="number"
                   v-model="expenseData.amount"
                   placeholder="0"
                   class="input-dark amount-input"
@@ -55,6 +55,7 @@
 
 <script setup>
 import { reactive, watch } from 'vue';
+import { useCalendarStore } from '@/store/calendar';
 
 // 부모에게서 모달 노출 여부를 props로 받습니다.
 const props = defineProps({
@@ -64,11 +65,18 @@ const props = defineProps({
 // 부모에게 닫기(close)와 저장(save) 신호를 보냅니다.
 const emit = defineEmits(['close', 'save']);
 
+const calendarStore = useCalendarStore(); // 2. 스토어 사용 준비
+
+const getCurrentMonthNum = () => {
+  // 스토어의 "2026-04" 형태에서 "04"를 떼어내 숫자로 변환
+  return parseInt(calendarStore.currentYearMonth.split('-')[1]);
+};
+
 // 입력 폼 데이터를 저장할 반응형 객체
 const expenseData = reactive({
-  month: '',
+  month: getCurrentMonthNum(),
   title: '',
-  amount: '',
+  amount: 0,
 });
 
 // 모달이 열릴 때마다 입력 폼 초기화 (선택 사항)
@@ -76,9 +84,9 @@ watch(
   () => props.show,
   (newVal) => {
     if (newVal) {
-      expenseData.month = '';
+      expenseData.month = getCurrentMonthNum();
       expenseData.title = '';
-      expenseData.amount = '';
+      expenseData.amount = 0;
     }
   },
 );
@@ -91,7 +99,7 @@ const save = () => {
   // 간단한 유효성 검사 (금액 숫자 변환 등) 후 부모에게 데이터 전달
   const finalData = {
     ...expenseData,
-    amount: parseInt(expenseData.amount.replace(/,/g, '')) || 0, // 쉼표 제거 후 숫자로 변환
+    amount: expenseData.amount || 0,
   };
 
   if (!finalData.month || !finalData.title || finalData.amount === 0) {
@@ -99,7 +107,6 @@ const save = () => {
     return;
   }
 
-  console.log('고정지출 저장:', finalData);
   emit('save', finalData); // 부모에게 데이터 전달
   close(); // 저장 후 닫기
 };

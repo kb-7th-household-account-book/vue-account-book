@@ -11,14 +11,14 @@
     <div class="card summary-card">
       <div class="summary-item income">
         <p>수입</p>
-        <h3>₩{{ selectedData?.income.toLocaleString() || 0 }}</h3>
+        <h3>₩ {{ selectedData?.income.toLocaleString() || 0 }}</h3>
       </div>
 
       <div class="divider"></div>
 
       <div class="summary-item expense">
         <p>지출</p>
-        <h3>₩{{ selectedData?.expense.toLocaleString() || 0 }}</h3>
+        <h3>₩ {{ selectedData?.expense.toLocaleString() || 0 }}</h3>
       </div>
     </div>
 
@@ -35,8 +35,12 @@
             <span class="category">{{ item.category }}</span>
           </div>
 
-          <div class="amount" :class="item.amount > 0 ? 'income' : 'expense'">
-            ₩ {{ item.amount > 0 ? '+' : '' }}{{ item.amount.toLocaleString() }}
+          <div
+            class="amount"
+            :class="item.type === 'income' ? 'income' : 'expense'"
+          >
+            ₩ {{ item.type === 'income' ? '+' : '-'
+            }}{{ Math.abs(item.amount).toLocaleString() }}
           </div>
         </div>
       </div>
