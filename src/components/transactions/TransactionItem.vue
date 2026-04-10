@@ -47,10 +47,10 @@ const formattedTime = computed(() => {
       </div>
       <div class="text-group">
         <div class="title-top">
-            <span class="title">{{ transaction.memo }}</span>
+            <span class="title">{{ transaction.title }}</span>
             <CategoryButton :category="meta.label" :color="meta.color" :background-color="`${meta.color}1A`" />
         </div>
-        <span class="category-tag">추가 메모</span>
+        <span class="category-tag">{{ transaction.memo }}</span>
       </div>
     </div>
 
