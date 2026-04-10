@@ -28,12 +28,12 @@ export const useGameStore = defineStore('game', () => {
       });
 
       const sorted = filtered.sort((a, b) => b.amount - a.amount);
-      const top20 = sorted.slice(0, 20);
+      const top15 = sorted.slice(0, 15);
 
       // 최고 금액 찾기
-      const maxAmount = top20.length > 0 ? top20[0].amount : 1;
+      const maxAmount = top15.length > 0 ? top15[0].amount : 1;
 
-      fallingItems.value = top20.map((item, index) => {
+      fallingItems.value = top15.map((item, index) => {
         const calculatedSize = GAME_CONFIG.ITEM_SIZE_MIN + (GAME_CONFIG.ITEM_SIZE_MAX - GAME_CONFIG.ITEM_SIZE_MIN) * (item.amount / maxAmount);
         // 각 아이템별 무작위 낙하 속도 할당
         const randomSpeed = GAME_CONFIG.ITEM_SPEED_MIN + Math.random() * (GAME_CONFIG.ITEM_SPEED_MAX - GAME_CONFIG.ITEM_SPEED_MIN);
@@ -43,7 +43,7 @@ export const useGameStore = defineStore('game', () => {
         return {
           ...item,
           x: Math.random() * (GAME_CONFIG.BOARD_WIDTH - 60) + 30, 
-          y: -100 - (index * 200), 
+          y: -100 - (index * 120),  // 간격을 100에서 120으로 늘림 (게임 시간 원래 대로 20초)
           isCaught: false,
           size: calculatedSize,
           speed: randomSpeed, // 👈 각 아이템의 개별 낙하 속도
