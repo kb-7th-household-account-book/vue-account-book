@@ -6,6 +6,7 @@ import RecentTransactionList from '@/components/home/RecentTransactionList.vue';
 import MonthlySummary from '@/components/home/MonthlySummary.vue';
 import FixedExpenseSummary from '@/components/home/FixedExpenseSummary.vue';
 import CategoryTop3 from '@/components/home/CategoryTop3.vue';
+import AISmartQuickAdd from '@/components/home/AISmartQuickAdd.vue';
 </script>
 
 <template>
@@ -20,6 +21,7 @@ import CategoryTop3 from '@/components/home/CategoryTop3.vue';
       <section class="home-bottom-box">
         <!-- 왼쪽 -->
         <div class="home-bottom-left">
+          <AISmartQuickAdd />
           <SummaryCard />
           <QuickExpenseAdd />
           <RecentTransactionList />
