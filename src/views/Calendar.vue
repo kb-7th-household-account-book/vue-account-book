@@ -55,9 +55,21 @@ const calendarStore = useCalendarStore();
 const route = useRoute();
 const isModalOpen = ref(false);
 
+/* --- 날짜 선택 관련 로직 --- */
+const getToday = () => {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, '0');
+  const day = String(today.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
+
+const selectedDate = ref(route.query.date || getToday());
+
 // 데이터 로드
 onMounted(async () => {
   await calendarStore.fetchAllData();
+  await calendarStore.fetchFixedDate();
 });
 
 /* --- 상단 계좌 정보 데이터 --- */
@@ -85,17 +97,6 @@ const accounts = computed(() => {
   ];
 });
 
-/* --- 날짜 선택 관련 로직 --- */
-const getToday = () => {
-  const today = new Date();
-  const year = today.getFullYear();
-  const month = String(today.getMonth() + 1).padStart(2, '0');
-  const day = String(today.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`;
-};
-
-const selectedDate = ref(route.query.date || getToday());
-
 const handleDateSelect = (date) => {
   selectedDate.value = date;
 };
@@ -107,12 +108,16 @@ const handleMonthChange = (yearMonth) => {
 
 // 상세 내역에 전달할 데이터 (Store에서 선택 날짜만 쏙)
 const selectedData = computed(() => {
+  // 1. dailyDataMap이 아직 로드되지 않았을 경우를 대비한 방어 코드
+  if (!calendarStore.dailyDataMap) {
+    return { items: [], income: 0, expense: 0 };
+  }
+
+  const dateKey = selectedDate.value;
+
+  // 2. 해당 날짜에 데이터가 있으면 반환, 없으면 기본값 반환
   return (
-    calendarStore.dailyDataMap[selectedDate.value] || {
-      items: [],
-      income: 0,
-      expense: 0,
-    }
+    calendarStore.dailyDataMap[dateKey] || { items: [], income: 0, expense: 0 }
   );
 });
 

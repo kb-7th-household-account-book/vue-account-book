@@ -232,6 +232,7 @@ const calendarOptions = computed(() => ({
 }
 
 :deep(th) {
+  font-size: 18px;
   color: #364153;
 }
 </style>
