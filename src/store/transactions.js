@@ -22,7 +22,7 @@ export const getDefaultDates = () => {
     startDate: formatDate(start),
     endDate: formatDate(end)
   };
-};b
+};
 
 export const useTransactionStore = defineStore('transactions', () => {
   const _list = ref([]);           // 전체 거래 내역
