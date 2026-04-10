@@ -1,61 +1,75 @@
-import apiClient from "./index";
+import apiClient from './index';
 
 // 이번달 요약 카드 컴포넌트에 사용하는 API
 export const getMonthlySummary = () => {
   const currentMonth = new Date().getMonth() + 1;
   return apiClient.get(`/monthly_stats?month=${currentMonth}`);
-}
+};
 
 // 필터링 쪽 거래 유형 컴포넌트에에 사용하는 API
 export const getTransactionsCount = (filters) => {
   const params = new URLSearchParams();
-  if (filters.startDate) params.append("date_gte", filters.startDate);
-  if (filters.endDate) params.append("date_lte", filters.endDate);
+  if (filters.startDate) params.append('date_gte', filters.startDate);
+  if (filters.endDate) params.append('date_lte', filters.endDate);
 
   return apiClient.get(`/transactions?${params.toString()}`);
+};
+
+// 거래 내역 삭제
+export const deleteTransactionAPI = (id) => {
+  return apiClient.delete(`/transactions/${id}`);
+};
+
+// 거래 내역 수정 (수정된 데이터 전체를 덮어씀)
+export const updateTransactionAPI = (id, data) => {
+  return apiClient.put(`/transactions/${id}`, data);
 };
 
 export const getTransactions = (filters) => {
   const params = new URLSearchParams();
 
   // 정렬
-  params.append("_sort", "-date");
-  params.append("_sort", "-time");
+  params.append('_sort', '-date');
+  params.append('_sort', '-time');
 
   // 페이지네이션
   const page = filters.page || 1;
   const limit = 10;
 
-  params.append("_page", page.toString());
-  params.append("_per_page", limit.toString());
+  params.append('_page', page.toString());
+  params.append('_per_page', limit.toString());
 
   // 날짜 필터
-  if (filters.startDate) params.append("date_gte", filters.startDate);
-  if (filters.endDate) params.append("date_lte", filters.endDate);
+  if (filters.startDate) params.append('date_gte', filters.startDate);
+  if (filters.endDate) params.append('date_lte', filters.endDate);
 
   // 거래 유형 필터
   if (filters.type && filters.type !== 'all') {
-    params.append("type", filters.type);
+    params.append('type', filters.type);
   }
 
   // 카테고리 필터
   if (filters.categories && filters.categories.length > 0) {
-    filters.categories.forEach(cat => {
-      params.append("category", cat);
+    filters.categories.forEach((cat) => {
+      params.append('category', cat);
     });
   }
 
   // 금액 범위 필터
   if (filters.minAmount !== undefined && filters.minAmount !== '') {
-    params.append("amount_gte", filters.minAmount.toString());
+    params.append('amount_gte', filters.minAmount.toString());
   }
 
   // maxAmount가 설정되어 있고, 무의미하게 작은 값이 아닐 때만 추가
-  if (filters.maxAmount !== undefined && filters.maxAmount !== '' && filters.maxAmount > 0) {
-    params.append("amount_lte", filters.maxAmount.toString());
+  if (
+    filters.maxAmount !== undefined &&
+    filters.maxAmount !== '' &&
+    filters.maxAmount > 0
+  ) {
+    params.append('amount_lte', filters.maxAmount.toString());
   }
 
   const queryString = params.toString();
-  
+
   return apiClient.get(`/transactions?${queryString}`);
 };
