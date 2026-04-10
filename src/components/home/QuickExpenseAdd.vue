@@ -52,6 +52,8 @@ const saveExpense = async () => {
   // 1. 스토어의 Action 호출 (API 저장 및 리스트 갱신)
   await store.createTransaction(newTransaction);
 
+  alert('내역이 성공적으로 추가되었습니다! 💸');
+
   // 2. 모달 닫기
   closeModal();
 
