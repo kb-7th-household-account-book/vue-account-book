@@ -4,7 +4,7 @@ import {
   getAllTransactions,
   getFixedDetails,
   createFixedExpense,
-  updateFixedExpense,
+  // updateFixedExpense,
 } from '@/api/calendar';
 
 export const useCalendarStore = defineStore('calendar', () => {
@@ -36,6 +36,20 @@ export const useCalendarStore = defineStore('calendar', () => {
     }
   };
 
+  const getValidFixedItemsForMonth = (yearMonth) => {
+    const [year, month] = yearMonth.split('-').map(Number);
+
+    return _fixedList.value.filter((item) => {
+      // 시작일(start_date)이 현재 보고 있는 월보다 이전이거나 같아야 함
+      const startDate = new Date(item.start_date);
+      const viewDate = new Date(year, month - 1, item.day || 1);
+
+      const isStarted = startDate <= viewDate;
+      // deleted_at 로직은 일단 제외 (나중에 필요시 추가)
+      return isStarted;
+    });
+  };
+
   // [월별 합계] - 변동 지출 + 고정 지출 합산
   const monthlySummary = computed(() => {
     // A. 변동 지출 필터링
@@ -65,14 +79,18 @@ export const useCalendarStore = defineStore('calendar', () => {
     };
   });
 
-  // [날짜별 그룹화] - (이전과 동일)
+  // [날짜별 그룹화]
   const dailyDataMap = computed(() => {
     return _allList.value.reduce((acc, cur) => {
       if (!acc[cur.date]) {
         acc[cur.date] = { date: cur.date, income: 0, expense: 0, items: [] };
       }
-      if (cur.type === 'income') acc[cur.date].income += cur.amount;
-      else acc[cur.date].expense += cur.amount;
+      if (cur.type === 'income') {
+        acc[cur.date].income += cur.amount;
+      } else if (cur.type === 'expense') {
+        // 🎯 고정 지출을 제외한 순수 변동 지출만 합산 (빨간색용)
+        acc[cur.date].expense += cur.amount;
+      }
       acc[cur.date].items.push(cur);
       return acc;
     }, {});
@@ -84,46 +102,31 @@ export const useCalendarStore = defineStore('calendar', () => {
   };
 
   // 공통 로직: 수정된 아이템 배열을 받아서 합계를 계산하고 서버에 PUT 하는 함수
-  const _updateFixedMonth = async (monthId, updatedItems) => {
-    const newTotal = updatedItems.reduce((sum, item) => sum + item.expense, 0);
-    const target = _fixedList.value.find((f) => f.id === monthId);
+  // const _updateFixedMonth = async (monthId, updatedItems) => {
+  //   const newTotal = updatedItems.reduce((sum, item) => sum + item.expense, 0);
+  //   const target = _fixedList.value.find((f) => f.id === monthId);
 
-    const updatedObject = {
-      ...target,
-      total_fixed_expense: newTotal,
-      items: updatedItems,
-    };
+  //   const updatedObject = {
+  //     ...target,
+  //     total_fixed_expense: newTotal,
+  //     items: updatedItems,
+  //   };
 
-    await updateFixedExpense(monthId, updatedObject);
-    await fetchFixedData(); // 최신 고정지출 갱신
-  };
+  //   await updateFixedExpense(monthId, updatedObject);
+  //   await fetchFixedData(); // 최신 고정지출 갱신
+  // };
 
   // 1. 추가 로직
-  const addFixedItem = async (month, name, expense) => {
-    const allItems = _fixedList.value.flatMap((f) => f.items);
-    let nextId;
-    if (allItems.length === 0) {
-      nextId = 1; // 데이터가 하나도 없을 때 1번 부여
-    } else {
-      // Math.max를 이용해 가장 큰 id를 찾고 +1
-      const maxId = Math.max(...allItems.map((item) => item.id));
-      nextId = maxId + 1;
-    }
+  const addFixedItem = async (name, expense, day, startDate) => {
+    const newFixed = {
+      name,
+      expense: parseInt(expense),
+      day: parseInt(day),
+      start_date: startDate || new Date().toISOString().slice(0, 10),
+    };
 
-    const target = _fixedList.value.find((f) => f.month === month);
-    if (target) {
-      const newItems = [...target.items, { id: nextId, name, expense }];
-      await _updateFixedMonth(target.id, newItems);
-    } else {
-      // 해당 월 데이터가 아예 없으면 POST
-      await createFixedExpense({
-        month,
-        total_fixed_expense: expense,
-        items: [{ id: nextId, name, expense }],
-      });
-
-      await fetchFixedData();
-    }
+    await createFixedExpense(newFixed);
+    await fetchFixedData(); // 마스터 데이터 갱신
   };
 
   // 2. 수정 로직 (아이템 하나만 선택해서 수정)

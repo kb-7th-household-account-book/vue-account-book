@@ -40,7 +40,7 @@ const handleButtonClick = () => {
   height: 55px; /* Grid 레이아웃에 맞춰 높이 조정 */
   border-radius: 18px; /* 피그마의 라운드 값 반영 (image_310579.jpg) */
   border: none;
-  font-size: 16px; /* 21px은 너무 커서 살짝 줄였습니다 */
+  font-size: 16px;
   font-weight: bold;
   cursor: pointer;
   background: linear-gradient(to right, #ffb900, #fe9a00);
