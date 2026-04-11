@@ -65,7 +65,7 @@ const props = defineProps({
 // 부모에게 닫기(close)와 저장(save) 신호를 보냅니다.
 const emit = defineEmits(['close', 'save']);
 
-const calendarStore = useCalendarStore(); // 2. 스토어 사용 준비
+const calendarStore = useCalendarStore();
 
 // 입력 폼 데이터를 저장할 반응형 객체
 const expenseData = reactive({
@@ -106,13 +106,11 @@ watch(
     }
   },
 );
-
 const close = () => {
   emit('close');
 };
 
 const save = () => {
-  // 간단한 유효성 검사 (금액 숫자 변환 등) 후 부모에게 데이터 전달
   const finalData = {
     id: expenseData.id,
     title: expenseData.title,
@@ -127,7 +125,6 @@ const save = () => {
   }
 
   emit('save', finalData);
-
   close();
 };
 </script>
@@ -146,6 +143,13 @@ const save = () => {
   justify-content: center;
   align-items: center;
   z-index: 9999; /* 다른 요소보다 위에 오도록 */
+}
+
+.input-dark {
+  color-scheme: dark; /* 달력 팝업 어둡게 */
+}
+.input-dark::-webkit-calendar-picker-indicator {
+  filter: invert(0.5) sepia(1) saturate(5) hue-rotate(240deg); /* 보라색 아이콘 */
 }
 
 /* 2. 실제 모달 상자 (image_6.png 스타일 반영) */

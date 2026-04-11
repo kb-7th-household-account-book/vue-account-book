@@ -64,12 +64,11 @@ import { ref, computed, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useCalendarStore } from '@/store/calendar';
 import { categoryMeta } from '@/constants/category';
-import { formatDate } from '@fullcalendar/core/index.js';
 
 const calendarStore = useCalendarStore();
 const route = useRoute();
 const isModalOpen = ref(false);
-const selectedExpense = ref(null); // 수정할 데이터를 담을 통 (null이면 '추가' 모드)
+const selectedExpense = ref(null);
 
 /* --- 날짜 선택 관련 로직 --- */
 const getToday = () => {
@@ -211,6 +210,7 @@ const saveFixedExpense = async (formData) => {
     if (formData.id) {
       // ID가 있으면 수정 (PATCH)
       await calendarStore.updateFixedItem(formData.id, formData);
+      alert('고정 지출이 수정 되었습니다!');
     } else {
       // ID가 없으면 추가 (POST)
       await calendarStore.addFixedItem(
@@ -219,8 +219,9 @@ const saveFixedExpense = async (formData) => {
         formData.day,
         formData.start_date,
       );
+
+      alert('고정 지출이 추가 되었습니다!');
     }
-    alert('고정 지출이 저장되었습니다!');
     isModalOpen.value = false;
     selectedExpense.value = null;
   } catch (error) {
