@@ -16,6 +16,11 @@ export const createFixedExpense = (data) => {
 };
 
 // 고정 지출 수정 (해당 월 데이터가 이미 있을 때)
-// export const updateFixedExpense = (id, data) => {
-//   return apiClient.put(`/fixed_details/${id}`, data);
-// };
+export const updateFixedExpense = (id, data) => {
+  return apiClient.put(`/fixed_details/${id}`, data);
+};
+
+// 고정 지출 삭제
+export const deleteFixedExpense = (id) => {
+  return apiClient.delete(`/fixed_details/${id}`);
+};

@@ -4,7 +4,8 @@ import {
   getAllTransactions,
   getFixedDetails,
   createFixedExpense,
-  // updateFixedExpense,
+  updateFixedExpense,
+  deleteFixedExpense,
 } from '@/api/calendar';
 
 export const useCalendarStore = defineStore('calendar', () => {
@@ -34,20 +35,6 @@ export const useCalendarStore = defineStore('calendar', () => {
     } finally {
       _loading.value = false;
     }
-  };
-
-  const getValidFixedItemsForMonth = (yearMonth) => {
-    const [year, month] = yearMonth.split('-').map(Number);
-
-    return _fixedList.value.filter((item) => {
-      // 시작일(start_date)이 현재 보고 있는 월보다 이전이거나 같아야 함
-      const startDate = new Date(item.start_date);
-      const viewDate = new Date(year, month - 1, item.day || 1);
-
-      const isStarted = startDate <= viewDate;
-      // deleted_at 로직은 일단 제외 (나중에 필요시 추가)
-      return isStarted;
-    });
   };
 
   // [월별 합계] - 변동 지출 + 고정 지출 합산
@@ -113,22 +100,7 @@ export const useCalendarStore = defineStore('calendar', () => {
     currentYearMonth.value = dateStr.slice(0, 7);
   };
 
-  // 공통 로직: 수정된 아이템 배열을 받아서 합계를 계산하고 서버에 PUT 하는 함수
-  // const _updateFixedMonth = async (monthId, updatedItems) => {
-  //   const newTotal = updatedItems.reduce((sum, item) => sum + item.expense, 0);
-  //   const target = _fixedList.value.find((f) => f.id === monthId);
-
-  //   const updatedObject = {
-  //     ...target,
-  //     total_fixed_expense: newTotal,
-  //     items: updatedItems,
-  //   };
-
-  //   await updateFixedExpense(monthId, updatedObject);
-  //   await fetchFixedData(); // 최신 고정지출 갱신
-  // };
-
-  // 1. 추가 로직
+  // 추가 로직
   const addFixedItem = async (title, expense, day, startDate) => {
     const newFixed = {
       title: title,
@@ -141,30 +113,43 @@ export const useCalendarStore = defineStore('calendar', () => {
     await fetchFixedData(); // 마스터 데이터 갱신
   };
 
-  // 2. 수정 로직 (아이템 하나만 선택해서 수정)
-  // const editFixedItem = async (monthId, itemId, newName, newExpense) => {
-  //   const target = _fixedList.value.find((f) => f.id === monthId);
-  //   if (!target) return;
+  // 수정 로직
+  const updateFixedItem = async (id, updateData) => {
+    try {
+      const response = await updateFixedExpense(id, {
+        title: updateData.title,
+        expense: updateData.expense,
+        day: updateData.day,
+        start_date: updateData.start_date,
+      });
 
-  //   const updatedItems = target.items.map((item) =>
-  //     item.id === itemId
-  //       ? { ...item, name: newName, expense: newExpense }
-  //       : item,
-  //   );
+      const index = _fixedList.value.findIndex((item) => item.id === id);
+      if (index !== -1) {
+        _fixedList.value[index] = response.data;
+      }
 
-  //   await _updateFixedMonth(monthId, updatedItems);
-  // };
+      console.log('수정 완료:', response.data);
+    } catch (error) {
+      console.error('고정 지출 수정 실패:', error);
+      throw error;
+    }
+  };
 
-  // 3. 삭제 로직 (아이템 하나만 선택해서 삭제)
-  // const deleteFixedItem = async (monthId, itemId) => {
-  //   const target = _fixedList.value.find((f) => f.id === monthId);
-  //   if (!target) return;
+  // 삭제 로직
+  const deleteFixedItem = async (id) => {
+    try {
+      await deleteFixedExpense(id);
 
-  //   // 해당 ID만 제외하고 필터링
-  //   const updatedItems = target.items.filter((item) => item.id !== itemId);
+      _fixedList.value = _fixedList.value.filter((item) => item.id !== id);
 
-  //   await _updateFixedMonth(monthId, updatedItems);
-  // };
+      console.log(`ID: ${id} 항목 삭제 완료`);
+    } catch (error) {
+      console.error('고정 지출 삭제 실패:', error);
+      throw error;
+    }
+
+    await fetchFixedData();
+  };
 
   return {
     allList: readonly(_allList),
@@ -175,8 +160,8 @@ export const useCalendarStore = defineStore('calendar', () => {
     fetchFixedData,
     fetchAllData,
     addFixedItem,
-    // editFixedItem,
-    // deleteFixedItem,
+    updateFixedItem,
+    deleteFixedItem,
     setCurrentMonth,
     loading: readonly(_loading),
   };

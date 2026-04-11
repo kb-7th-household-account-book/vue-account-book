@@ -23,6 +23,8 @@
             :items="currentFixedItems"
             @add-action="handleButtonAction"
             @refresh="calendarStore.fetchFixedData()"
+            @edit-action="handleEditClick"
+            @delete-action="handleDeleteFixed"
           />
         </div>
       </div>
@@ -36,6 +38,7 @@
       </div>
       <FixedExpenseModal
         :show="isModalOpen"
+        :initialData="selectedExpense"
         :getToday="getToday"
         @close="isModalOpen = false"
         @save="saveFixedExpense"
@@ -65,6 +68,7 @@ import { categoryMeta } from '@/constants/category';
 const calendarStore = useCalendarStore();
 const route = useRoute();
 const isModalOpen = ref(false);
+const selectedExpense = ref(null);
 
 /* --- 날짜 선택 관련 로직 --- */
 const getToday = () => {
@@ -110,6 +114,11 @@ const accounts = computed(() => {
 
 const handleDateSelect = (date) => {
   selectedDate.value = date;
+};
+
+const handleEditClick = (item) => {
+  selectedExpense.value = { ...item }; // 원본 보호를 위해 복사본 전달
+  isModalOpen.value = true;
 };
 
 // 지금 화면에 "보이고 있는" 연-월 (기본값은 오늘 날짜 기준)
@@ -195,16 +204,39 @@ const handleButtonAction = (type) => {
   }
 };
 
-const saveFixedExpense = async (newExpense) => {
+const saveFixedExpense = async (formData) => {
   try {
-    const { start_date, title, expense, day } = newExpense;
-    await calendarStore.addFixedItem(title, expense, day, start_date);
+    console.log(formData);
+    if (formData.id) {
+      // ID가 있으면 수정 (PATCH)
+      await calendarStore.updateFixedItem(formData.id, formData);
+      alert('고정 지출이 수정 되었습니다!');
+    } else {
+      // ID가 없으면 추가 (POST)
+      await calendarStore.addFixedItem(
+        formData.title,
+        formData.expense,
+        formData.day,
+        formData.start_date,
+      );
 
-    alert('고정 지출이 저장되었습니다!');
+      alert('고정 지출이 추가 되었습니다!');
+    }
     isModalOpen.value = false;
+    selectedExpense.value = null;
   } catch (error) {
     console.error('저장 중 오류 발생:', error);
     alert('저장에 실패했습니다.');
+  }
+};
+
+const handleDeleteFixed = async (id) => {
+  try {
+    console.log(id);
+    await calendarStore.deleteFixedItem(id);
+    alert('삭제되었습니다.');
+  } catch (error) {
+    alert('삭제 중 오류가 발생했습니다.');
   }
 };
 
@@ -248,7 +280,7 @@ const adds = [
 }
 
 /* 태블릿 이하 해상도에서는 세로로 배치 */
-@media (max-width: 1100px) {
+@media (max-width: 1140px) {
   .calendar-and-fixed-layout {
     flex-direction: column;
   }
@@ -258,6 +290,7 @@ const adds = [
   background-color: #121212; /* 더 짙은 다크 배경 */
   border-radius: 32px; /* 피그마의 아주 둥근 값 반영 */
   padding: 28px;
+  min-width: 420px;
   width: 100%;
   color: white;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);

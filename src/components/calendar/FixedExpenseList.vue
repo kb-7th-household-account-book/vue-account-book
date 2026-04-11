@@ -2,20 +2,44 @@
   <div class="header">
     <span class="count-label">등록된 고정지출 [{{ items.length }}건]</span>
     <button class="refresh-icon-btn" @click="$emit('refresh')">
-      <img src="@/assets/icons/Icon.svg" alt="arrow" class="icon-arrow" />
+      <img src="@/assets/icons/Icon.svg" alt="arrow" />
     </button>
   </div>
   <div class="list-wrapper">
-    <div v-for="item in items" :key="item.id" class="fixed-item-card">
-      <div class="purple-icon-circle">
-        <!-- <img src="@/assets/icons/Icon.svg" alt="arrow" class="icon-arrow" /> -->
-        📌
-      </div>
+    <div
+      v-for="item in items"
+      :key="item.id"
+      class="fixed-item-card"
+      :class="{ 'is-selected': selectedId === item.id }"
+      @click="toggleSelect(item.id)"
+    >
+      <div class="purple-icon-circle">📌</div>
       <div class="item-info">
         <p class="item-name">{{ item.title }}</p>
         <p class="item-cycle">{{ item.day }}일</p>
       </div>
-      <div class="item-amount">-₩{{ item.expense?.toLocaleString() }}</div>
+      <div class="amount-group">
+        <div class="item-amount">-₩{{ item.expense?.toLocaleString() }}</div>
+
+        <Transition name="fade">
+          <div v-if="selectedId === item.id" class="action-buttons">
+            <button class="edit-btn" @click.stop="$emit('edit-action', item)">
+              <img
+                src="@/assets/icons/editIcon.png"
+                alt="arrow"
+                class="edit-icon"
+              />
+            </button>
+            <button class="delete-btn" @click.stop="onDelete(item)">
+              <img
+                src="@/assets/icons/deleteIcon.png"
+                alt="arrow"
+                class="delete-icon"
+              />
+            </button>
+          </div>
+        </Transition>
+      </div>
     </div>
     <div v-if="items.length === 0" class="empty-state">
       고정 지출 내역이 없습니다.
@@ -30,7 +54,7 @@
 </template>
 
 <script setup>
-// 공통 버튼 컴포넌트 불러오기 (실제 경로에 맞게 수정)
+import { ref } from 'vue';
 import Button from '@/components/calendar/Button.vue';
 
 const props = defineProps({
@@ -40,7 +64,26 @@ const props = defineProps({
   },
 });
 
-defineEmits(['add-action', 'refresh']);
+const emit = defineEmits([
+  'add-action',
+  'refresh',
+  'edit-action',
+  'delete-action',
+]);
+
+const selectedId = ref(null);
+
+// 항목 클릭 시 선택/해제 토글
+const toggleSelect = (id) => {
+  selectedId.value = selectedId.value === id ? null : id;
+};
+
+const onDelete = (item) => {
+  if (confirm(`'${item.title}' 내역을 삭제하시겠습니까?`)) {
+    emit('delete-action', item.id);
+  }
+  console.log(item);
+};
 </script>
 
 <style scoped>
@@ -53,74 +96,119 @@ defineEmits(['add-action', 'refresh']);
 
 .count-label {
   font-size: 15px;
-  color: #777; /* 피그마의 흐릿한 회색 */
+  color: #777;
 }
 
-/* 오른쪽 상단 보라색 리프레시 버튼 */
 .refresh-icon-btn {
   background: none;
   border: none;
   cursor: pointer;
-  color: #ad46ff; /* 선명한 보라색 */
-}
-.refresh-icon-btn span {
-  font-size: 20px;
 }
 
 .list-wrapper {
-  max-height: 480px; /* 리스트 스크롤 영역 */
+  max-height: 480px;
   overflow-y: auto;
-
-  /* 스크롤바 전체 너비 */
-  &::-webkit-scrollbar {
-    width: 5px;
-  }
-
-  /* 스크롤바 트랙 (바탕) */
-  &::-webkit-scrollbar-track {
-    background: transparent; /* 배경은 투명하게 해서 깔끔하게 */
-  }
-
-  /* 스크롤바 막대 (실제 움직이는 부분) */
-  &::-webkit-scrollbar-thumb {
-    /* 배경보다 약간 밝은 그레이로 설정 */
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-  }
-
-  &::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.2); /* 마우스 올릴 때만 살짝 선명하게 */
-  }
+  padding-top: 2px;
+  padding-right: 5px; /* 스크롤바와 카드 사이 간격 */
 }
 
-/* 개별 지출 항목 카드 스타일 */
+/* 스크롤바 커스텀 */
+.list-wrapper::-webkit-scrollbar {
+  width: 5px;
+}
+.list-wrapper::-webkit-scrollbar-track {
+  background: transparent;
+}
+.list-wrapper::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+/* --- [수정/추가된 카드 스타일] --- */
 .fixed-item-card {
-  background-color: #212121; /* 개별 카드는 배경보다 살짝 밝게 */
-  border-radius: 24px; /* 카드 라운드 값 */
+  background-color: #212121;
+  border-radius: 24px;
   padding: 18px 20px;
   display: flex;
   align-items: center;
   margin-bottom: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent; /* 기본 테두리 투명 */
 }
 
-/* 피그마 보라색 원형 아이콘 스타일 */
+/* 클릭해서 선택되었을 때 스타일 */
+.fixed-item-card.is-selected {
+  background-color: #2a2a2a;
+  border-color: #ad46ff; /* 보라색 테두리 추가 */
+  transform: translateY(-2px); /* 살짝 떠오르는 효과 */
+}
+
+.action-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.edit-btn {
+  background: none; /* 배경 절대 없음 */
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  opacity: 0.6;
+  box-shadow: none; /* 그림자도 제거 */
+}
+
+.edit-btn:hover {
+  opacity: 1;
+  transform: scale(1.1);
+  background: none; /* 호버 시에도 배경 생기지 않게 */
+}
+
+.edit-icon {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  display: block;
+  filter: brightness(0) invert(1);
+}
+
+/* ⭐ 삭제 버튼 스타일 (붉은색 계열) */
+.delete-btn {
+  background: none; /* 삭제 버튼도 투명하게 맞추면 더 예뻐 */
+  border: none;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: all 0.2s;
+}
+
+.delete-btn:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.delete-icon {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  display: block;
+  filter: brightness(0) invert(1);
+}
+
 .purple-icon-circle {
   width: 48px;
   height: 48px;
   background-color: #ad46ff;
-  border-radius: 50%; /* 완전한 원 */
+  border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
   margin-right: 15px;
   flex-shrink: 0;
 }
-.purple-icon-circle span {
-  font-size: 22px;
-  color: white;
-}
 
-/* 이름 & 주기 정보 */
 .item-info .item-name {
   font-size: 17px;
   font-weight: 600;
@@ -134,12 +222,30 @@ defineEmits(['add-action', 'refresh']);
   margin: 6px 0 0 0;
 }
 
-/* 금액 (피그마 붉은색) */
+/* --- [수정된 금액 & 버튼 그룹] --- */
+.amount-group {
+  margin-left: auto; /* 그룹 전체를 오른쪽 끝으로 */
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 .item-amount {
-  margin-left: auto; /* 금액을 오른쪽 끝으로 밀어줌 */
-  color: #ff6b6b; /* 지출용 붉은색 */
+  color: #ff6b6b;
   font-size: 18px;
   font-weight: 700;
+  white-space: nowrap;
+}
+
+/* 애니메이션 */
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 0.2s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+  transform: translateX(10px);
 }
 
 .btn-area {
@@ -152,8 +258,4 @@ defineEmits(['add-action', 'refresh']);
   padding: 40px 0;
   font-size: 14px;
 }
-
-/* Material Icons 사용을 위해 CDN 호출이 프로젝트 최상단에 되어있어야 합니다. 
-   예: <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-*/
 </style>
