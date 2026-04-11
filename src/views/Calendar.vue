@@ -36,6 +36,7 @@
       </div>
       <FixedExpenseModal
         :show="isModalOpen"
+        :getToday="getToday"
         @close="isModalOpen = false"
         @save="saveFixedExpense"
       />
@@ -196,9 +197,8 @@ const handleButtonAction = (type) => {
 
 const saveFixedExpense = async (newExpense) => {
   try {
-    const { month, title, amount } = newExpense;
-
-    await calendarStore.addFixedItem(month, title, amount);
+    const { start_date, title, expense, day } = newExpense;
+    await calendarStore.addFixedItem(title, expense, day, start_date);
 
     alert('고정 지출이 저장되었습니다!');
     isModalOpen.value = false;

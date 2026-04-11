@@ -7,18 +7,16 @@
             <h3>고정지출 추가</h3>
             <button @click="close" class="close-btn">&times;</button>
           </div>
-
           <div class="modal-body">
             <div class="input-group">
-              <label>고정지출 월</label>
+              <label>시작일 설정</label>
               <input
-                type="number"
-                v-model="expenseData.month"
-                placeholder="예: 4"
+                type="date"
+                v-model="expenseData.start_date"
                 class="input-dark"
+                @change="updateDayFromDate"
               />
             </div>
-
             <div class="input-group">
               <label>고정지출 내역</label>
               <input
@@ -28,7 +26,6 @@
                 class="input-dark"
               />
             </div>
-
             <div class="input-group">
               <label>금액</label>
               <div class="amount-input-wrapper">
@@ -42,7 +39,6 @@
               </div>
             </div>
           </div>
-
           <div class="modal-footer">
             <button @click="close" class="btn-cancel">취소</button>
             <button @click="save" class="btn-save">저장 &#10003;</button>
@@ -60,12 +56,13 @@ import { useCalendarStore } from '@/store/calendar';
 // 부모에게서 모달 노출 여부를 props로 받습니다.
 const props = defineProps({
   show: Boolean,
+  getToday: Function,
 });
 
 // 부모에게 닫기(close)와 저장(save) 신호를 보냅니다.
 const emit = defineEmits(['close', 'save']);
 
-const calendarStore = useCalendarStore(); // 2. 스토어 사용 준비
+const calendarStore = useCalendarStore();
 
 const getCurrentMonthNum = () => {
   // 스토어의 "2026-04" 형태에서 "04"를 떼어내 숫자로 변환
@@ -74,41 +71,50 @@ const getCurrentMonthNum = () => {
 
 // 입력 폼 데이터를 저장할 반응형 객체
 const expenseData = reactive({
-  month: getCurrentMonthNum(),
+  start_date: props.getToday(),
+  day: parseInt(props.getToday().split('-')[2]),
   title: '',
   amount: 0,
 });
 
-// 모달이 열릴 때마다 입력 폼 초기화 (선택 사항)
+const updateDayFromDate = () => {
+  if (expenseData.start_date) {
+    expenseData.day = parseInt(expenseData.start_date.split('-')[2]);
+  }
+};
+
+// 모달이 열릴 때마다 스토어의 현재 연-월 기준으로 초기화
 watch(
   () => props.show,
   (newVal) => {
     if (newVal) {
-      expenseData.month = getCurrentMonthNum();
+      const todayStr = props.getToday(); // 부모가 준 함수 사용
+      expenseData.start_date = todayStr;
+      expenseData.day = parseInt(todayStr.split('-')[2]);
       expenseData.title = '';
       expenseData.amount = 0;
     }
   },
 );
-
 const close = () => {
   emit('close');
 };
 
 const save = () => {
-  // 간단한 유효성 검사 (금액 숫자 변환 등) 후 부모에게 데이터 전달
   const finalData = {
-    ...expenseData,
-    amount: expenseData.amount || 0,
+    title: expenseData.title,
+    expense: Number(expenseData.amount),
+    start_date: expenseData.start_date,
+    day: expenseData.day,
   };
 
-  if (!finalData.month || !finalData.title || finalData.amount === 0) {
+  if (!finalData.start_date || !finalData.title || finalData.expense === 0) {
     alert('모든 항목을 올바르게 입력해주세요.');
     return;
   }
 
-  emit('save', finalData); // 부모에게 데이터 전달
-  close(); // 저장 후 닫기
+  emit('save', finalData);
+  close();
 };
 </script>
 
@@ -126,6 +132,13 @@ const save = () => {
   justify-content: center;
   align-items: center;
   z-index: 9999; /* 다른 요소보다 위에 오도록 */
+}
+
+.input-dark {
+  color-scheme: dark; /* 달력 팝업 어둡게 */
+}
+.input-dark::-webkit-calendar-picker-indicator {
+  filter: invert(0.5) sepia(1) saturate(5) hue-rotate(240deg); /* 보라색 아이콘 */
 }
 
 /* 2. 실제 모달 상자 (image_6.png 스타일 반영) */
