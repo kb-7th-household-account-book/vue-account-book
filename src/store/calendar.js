@@ -66,9 +66,21 @@ export const useCalendarStore = defineStore('calendar', () => {
       .reduce((sum, t) => sum + t.amount, 0);
 
     // B. 고정 지출 찾기
-    const currentMonthNum = parseInt(currentYearMonth.value.split('-')[1]);
-    const fixedData = _fixedList.value.find((f) => f.month === currentMonthNum);
-    const fixedExpense = fixedData ? fixedData.total_fixed_expense : 0;
+    const fixedExpense = _fixedList.value.reduce((sum, f) => {
+      const currentViewDate = new Date(currentYearMonth.value + '-01');
+      const startDate = new Date(f.start_date);
+
+      // 🎯 시작일이 현재 달보다 이전이거나 같을 때만 더하기
+      if (
+        startDate <= currentViewDate ||
+        (startDate.getFullYear() === currentViewDate.getFullYear() &&
+          startDate.getMonth() === currentViewDate.getMonth())
+      ) {
+        return sum + (f.expense || 0);
+      }
+
+      return sum;
+    }, 0);
 
     return {
       income,

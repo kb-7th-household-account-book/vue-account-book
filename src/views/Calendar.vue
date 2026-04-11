@@ -143,10 +143,7 @@ const handleMonthChange = (yearMonth) => {
 
 // 상세 내역에 전달할 데이터 (Store에서 선택 날짜만 쏙)
 const selectedData = computed(() => {
-  if (!calendarStore.dailyDataMap) {
-    return { items: [], income: 0, expense: 0 };
-  }
-
+  // ... (기존 방어 코드 및 변동 지출 rawData 가져오는 로직)
   const dateKey = selectedDate.value;
   const rawData = calendarStore.dailyDataMap[dateKey] || {
     items: [],
@@ -156,37 +153,37 @@ const selectedData = computed(() => {
 
   const dayOnly = Number(dateKey.split('-')[2]);
 
-  // 1. 고정 지출 매핑
+  // 1. 고정 지출 필터링 및 amount 추출
   const fixedItemsForDay = currentFixedItems.value
     .filter((f) => Number(f.day) === dayOnly)
     .map((f) => ({
       ...f,
       id: `fixed-${f.id}`,
-      amount: f.expense,
-      title: f.title,
+      amount: f.expense, // 지출 금액
+      title: f.title || f.name,
       type: 'fixed',
       category: 'FIXED',
     }));
 
-  const combinedItems = [...rawData.items, ...fixedItemsForDay];
+  // 2. 🎯 고정 지출 합계 계산
+  const totalFixedAmount = fixedItemsForDay.reduce(
+    (sum, f) => sum + f.amount,
+    0,
+  );
 
-  // 2. 카테고리 메타데이터 결합
+  // 3. 아이템 합치기 및 메타데이터 강화 (기존 로직 동일)
+  const combinedItems = [...rawData.items, ...fixedItemsForDay];
   const enrichedItems = combinedItems.map((item) => {
     const categoryKey = item.type === 'fixed' ? 'FIXED' : item.category;
     const meta = categoryMeta[categoryKey] || categoryMeta.OTHERS;
-
-    return {
-      ...item,
-      icon: meta.icon,
-      label: meta.label,
-      color: meta.color,
-      endColor: meta.endColor,
-    };
+    return { ...item, ...meta };
   });
 
   return {
     ...rawData,
     items: enrichedItems,
+    // 🎯 핵심: 변동 지출 합계 + 고정 지출 합계
+    expense: rawData.expense + totalFixedAmount,
   };
 });
 

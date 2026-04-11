@@ -8,7 +8,7 @@
 import FullCalendar from '@fullcalendar/vue3';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import { onMounted, computed } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 
 const props = defineProps({
   dailyDataMap: Object, // 부모가 준 날짜별 요약 데이터
@@ -17,6 +17,8 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['dateSelect', 'changeMonth']);
+
+const visibleYearMonth = ref(props.currentDate.substring(0, 7)); // 초기값 '2026-04'
 
 /* --- 💡 날짜 선택 스타일 유지 (건드리지 않음) --- */
 const selectDay = (dateStr, dayEl) => {
@@ -29,13 +31,12 @@ const selectDay = (dateStr, dayEl) => {
 };
 
 const handleDatesSet = (arg) => {
-  // arg.view.currentStart는 해당 월의 1일 날짜를 가리킵니다.
   const year = arg.view.currentStart.getFullYear();
   const month = String(arg.view.currentStart.getMonth() + 1).padStart(2, '0');
   const yearMonth = `${year}-${month}`;
 
-  // 부모에게 현재 달력에 보이는 연-월을 보냄
-  emit('changeMonth', yearMonth);
+  visibleYearMonth.value = yearMonth; // 내부 상태 업데이트 (이벤트 재계산 트리거)
+  emit('changeMonth', yearMonth); // 부모에게 알림
 };
 
 const handleDateClick = (info) => {
@@ -62,7 +63,7 @@ onMounted(() => {
 const events = computed(() => {
   const dailyEvents = [];
 
-  // 1️⃣ 기존 변동 지출 & 수익 처리 (dailyDataMap)
+  // 1️⃣ 기존 변동 지출 & 수익 처리
   if (props.dailyDataMap) {
     Object.values(props.dailyDataMap).forEach((day) => {
       if (day.income > 0) {
@@ -82,27 +83,29 @@ const events = computed(() => {
     });
   }
 
-  // 2️⃣ 🎯 고정 지출 처리 (fixedList)
-  if (props.fixedList && props.currentDate) {
-    const [year, month] = props.currentDate.split('-'); // 현재 달력의 연-월 추출
+  // 2️⃣ 🎯 고정 지출 처리 (visibleYearMonth 기준)
+  if (props.fixedList && visibleYearMonth.value) {
+    const [year, month] = visibleYearMonth.value.split('-');
 
     props.fixedList.forEach((item) => {
-      // 시작일(start_date) 체크 로직
       const startDate = new Date(item.start_date);
       const targetDateStr = `${year}-${month}-${String(item.day).padStart(2, '0')}`;
       const targetDate = new Date(targetDateStr);
 
-      // 시작일 이후이고 삭제되지 않은 경우만 달력에 추가
+      // 날짜 유효성 체크
+      if (isNaN(targetDate.getTime())) return;
+
+      // 시작일 조건 및 삭제 로직 체크
       if (
         startDate <= targetDate &&
         (!item.deleted_at || new Date(item.deleted_at) > targetDate)
       ) {
         dailyEvents.push({
           date: targetDateStr,
-          order: 3, // 지출 아래 보라색으로 표시하기 위해 순서 조정
+          order: 3,
           extendedProps: {
             amount: item.expense,
-            type: 'fixed', // 고정 지출 전용 타입
+            type: 'fixed',
             name: item.name,
           },
         });
