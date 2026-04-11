@@ -15,7 +15,6 @@ const props = defineProps({
 const emit = defineEmits(['action']);
 
 const handleButtonClick = () => {
-  console.log('버튼 클릭:', props.add.type);
   // 타입별 분기 처리
   switch (props.add.type) {
     case 'transaction':
