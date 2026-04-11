@@ -129,12 +129,12 @@ export const useCalendarStore = defineStore('calendar', () => {
   // };
 
   // 1. 추가 로직
-  const addFixedItem = async (name, expense, day, startDate) => {
+  const addFixedItem = async (title, expense, day, startDate) => {
     const newFixed = {
-      name,
-      expense: parseInt(expense),
-      day: parseInt(day),
-      start_date: startDate || new Date().toISOString().slice(0, 10),
+      title: title,
+      expense: expense,
+      day: day,
+      start_date: startDate,
     };
 
     await createFixedExpense(newFixed);
