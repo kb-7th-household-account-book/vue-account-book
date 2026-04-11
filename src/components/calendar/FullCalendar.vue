@@ -1,8 +1,6 @@
 <template>
-  <div class="calendar-center-wrapper">
-    <div class="calendar-fixed-box">
-      <FullCalendar :options="calendarOptions" />
-    </div>
+  <div class="calendar-fixed-box">
+    <FullCalendar :options="calendarOptions" />
   </div>
 </template>
 
@@ -10,14 +8,17 @@
 import FullCalendar from '@fullcalendar/vue3';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import { onMounted, computed } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 
 const props = defineProps({
   dailyDataMap: Object, // 부모가 준 날짜별 요약 데이터
+  fixedList: Array, // 고정 지출 데이터
   currentDate: String,
 });
 
 const emit = defineEmits(['dateSelect', 'changeMonth']);
+
+const visibleYearMonth = ref(props.currentDate.substring(0, 7)); // 초기값 '2026-04'
 
 /* --- 💡 날짜 선택 스타일 유지 (건드리지 않음) --- */
 const selectDay = (dateStr, dayEl) => {
@@ -30,13 +31,12 @@ const selectDay = (dateStr, dayEl) => {
 };
 
 const handleDatesSet = (arg) => {
-  // arg.view.currentStart는 해당 월의 1일 날짜를 가리킵니다.
   const year = arg.view.currentStart.getFullYear();
   const month = String(arg.view.currentStart.getMonth() + 1).padStart(2, '0');
   const yearMonth = `${year}-${month}`;
 
-  // 부모에게 현재 달력에 보이는 연-월을 보냄
-  emit('changeMonth', yearMonth);
+  visibleYearMonth.value = yearMonth; // 내부 상태 업데이트 (이벤트 재계산 트리거)
+  emit('changeMonth', yearMonth); // 부모에게 알림
 };
 
 const handleDateClick = (info) => {
@@ -61,36 +61,74 @@ onMounted(() => {
 
 /* --- 📊 데이터 연동: 수입/지출 합계 요약 --- */
 const events = computed(() => {
-  if (!props.dailyDataMap) return [];
+  const dailyEvents = [];
 
-  return Object.values(props.dailyDataMap).flatMap((day) => {
-    const dailyEvents = [];
-    if (day.income > 0) {
-      dailyEvents.push({
-        date: day.date,
-        order: 1, // 수입 위로
-        extendedProps: { amount: day.income, type: 'income' },
-      });
-    }
-    if (day.expense > 0) {
-      dailyEvents.push({
-        date: day.date,
-        order: 2, // 지출 아래로
-        extendedProps: { amount: day.expense, type: 'expense' },
-      });
-    }
-    return dailyEvents;
-  });
+  // 1️⃣ 기존 변동 지출 & 수익 처리
+  if (props.dailyDataMap) {
+    Object.values(props.dailyDataMap).forEach((day) => {
+      if (day.income > 0) {
+        dailyEvents.push({
+          date: day.date,
+          order: 1,
+          extendedProps: { amount: day.income, type: 'income' },
+        });
+      }
+      if (day.expense > 0) {
+        dailyEvents.push({
+          date: day.date,
+          order: 2,
+          extendedProps: { amount: day.expense, type: 'expense' },
+        });
+      }
+    });
+  }
+
+  // 2️⃣ 🎯 고정 지출 처리 (visibleYearMonth 기준)
+  if (props.fixedList && visibleYearMonth.value) {
+    const [year, month] = visibleYearMonth.value.split('-');
+
+    props.fixedList.forEach((item) => {
+      const startDate = new Date(item.start_date);
+      const targetDateStr = `${year}-${month}-${String(item.day).padStart(2, '0')}`;
+      const targetDate = new Date(targetDateStr);
+
+      // 날짜 유효성 체크
+      if (isNaN(targetDate.getTime())) return;
+
+      // 시작일 조건 및 삭제 로직 체크
+      if (
+        startDate <= targetDate &&
+        (!item.deleted_at || new Date(item.deleted_at) > targetDate)
+      ) {
+        dailyEvents.push({
+          date: targetDateStr,
+          order: 3,
+          extendedProps: {
+            amount: item.expense,
+            type: 'fixed',
+            name: item.name,
+          },
+        });
+      }
+    });
+  }
+
+  return dailyEvents;
 });
 
 const renderEvent = (arg) => {
   const { amount, type } = arg.event.extendedProps;
-  const color = type === 'income' ? '#4dabf7' : '#ff6b6b';
+  const colors = {
+    income: '#4dabf7', // 파랑
+    expense: '#ff6b6b', // 빨강
+    fixed: '#ad46ff', // 🎯 고정지출 보라
+  };
+  const color = colors[type] || '#ffffff';
   const prefix = type === 'income' ? '+' : '-';
 
   return {
     html: `
-      <div style="font-size:12px; font-weight: 700; text-align: right; width: 100%; padding-right: 4px; color: ${color};">
+      <div style="font-size:11px; font-weight: 700; text-align: right; width: 100%; padding-right: 4px; color: ${color};">
         ${prefix}${amount.toLocaleString()}
       </div>
     `,
@@ -148,20 +186,14 @@ const calendarOptions = computed(() => ({
 :deep(.fc-toolbar-chunk) {
   display: flex;
   align-items: center;
-  gap: 8px;
-}
-
-.calendar-center-wrapper {
-  display: flex;
-  justify-content: center;
-  width: 100%;
+  gap: 6px;
 }
 
 /* 전체 달력 크기 조정 */
 .calendar-fixed-box {
   width: 100%;
-  max-width: 1000px; /* 100px 셀 7개 + 간격 고려한 적정 수치 */
-  min-width: 1000px;
+  max-width: 700px; /* 100px 셀 7개 + 간격 고려한 적정 수치 */
+  min-width: 700px;
 }
 
 /* 테이블 레이아웃 고정 (간격 유지의 핵심) */
@@ -175,16 +207,15 @@ const calendarOptions = computed(() => ({
 
 /* 날짜 카드 크기 및 비율 고정 */
 :deep(.fc-daygrid-day-frame) {
-  width: 128px;
-  height: 128px;
+  width: 85px;
   aspect-ratio: 1 / 1;
   color: black;
   border-radius: 16px;
   background-color: #e7e6c8;
   display: flex;
   flex-direction: column;
-  padding: 8px;
-  margin: 8px;
+  padding: 4px;
+  margin: 6px;
   box-sizing: border-box;
   transition: all 0.2s;
 }
