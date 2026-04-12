@@ -275,7 +275,7 @@ const adds = [
 .account-row {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 0 10px;
+  gap: 30px;
   width: 100%;
   justify-items: center;
 }
@@ -312,13 +312,13 @@ const adds = [
 .button-row {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 0 10px;
+  gap: 30px;
   width: 100%;
   justify-items: center;
 }
+
 .account-row > *,
 .button-row > * {
   width: 100%;
-  max-width: 300px;
 }
 </style>
