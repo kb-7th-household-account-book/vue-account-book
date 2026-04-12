@@ -255,7 +255,7 @@ const handleDeleteFixed = async (id) => {
 
 const adds = [
   { id: 1, name: '+ 거래 추가', type: 'transaction' },
-  { id: 2, name: '+ 이 날에게 거래 추가', type: 'todayTransaction' },
+  { id: 2, name: '+ 이 날에 거래 추가', type: 'todayTransaction' },
 ];
 </script>
 
