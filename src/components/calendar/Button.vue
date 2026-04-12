@@ -15,20 +15,6 @@ const props = defineProps({
 const emit = defineEmits(['action']);
 
 const handleButtonClick = () => {
-  // 타입별 분기 처리
-  switch (props.add.type) {
-    case 'transaction':
-      // 일반 거래 추가 로직
-      break;
-    case 'todayTransaction':
-      // 선택된 날짜에 추가하는 로직
-      break;
-    case 'fixedExpenses':
-      // 고정 지출 추가 로직
-      break;
-  }
-
-  // 부모 컴포넌트(Calendar.vue)로 타입 전달
   emit('action', props.add.type);
 };
 </script>
