@@ -12,59 +12,65 @@ import BotQuickTip from '@/components/transaction-register/BotQuickTip.vue';
 import { addTransaction } from '@/api/transactionsRegister';
 
 // 라우터 기능 import
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 const router = useRouter();
+const route = useRoute();
 
 // Vue 기능 import
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 const selectedType = ref('income'); // 현재 선택된 지출 타입 관리 (income or expense)
 const transactionAmount = ref(''); // 입력된 금액을 저장할 반응형 변수
-const transactionDate = ref('');
-const transactionTime = ref({ period: 'AM', hour: '', minute: ''});
+const transactionDate = ref(route.query.date || '');
+const transactionTime = ref({ period: 'AM', hour: '', minute: '' });
 const transactionTitle = ref('');
 const transactionCategory = ref('');
 const transactionMemo = ref('');
 
 const handleCancle = () => {
-    router.push({ name: 'home'}); // home 경로로 이동
+  router.push({ name: 'home' }); // home 경로로 이동
 };
 
 // 저장 버튼 클릭 시 실행될 함수
 const handleSave = async () => {
-    if (!transactionAmount.value || !transactionTitle.value || !transactionDate.value) {
-        alert('금액, 제목, 날짜는 필수 입력 항목입니다.');
-        return; 
-    }
-    
-    // Payload 
-    let formattedHour = transactionTime.value.hour;
-    if (transactionTime.value.period === '오후' && formattedHour < 12) formattedHour += 12;
-    if (transactionTime.value.period === '오전' && formattedHour === 12) formattedHour = 0;
-    
-    const timeString = `${String(formattedHour).padStart(2, '0')}:${String(transactionTime.value.minute).padStart(2, '0')}`;
+  if (
+    !transactionAmount.value ||
+    !transactionTitle.value ||
+    !transactionDate.value
+  ) {
+    alert('금액, 제목, 날짜는 필수 입력 항목입니다.');
+    return;
+  }
 
-    const payload = {
-        type: selectedType.value,
-        title: transactionTitle.value,
-        amount: Number(transactionAmount.value),
-        date: transactionDate.value,
-        time: timeString,
-        category: transactionCategory.value,
-        memo: transactionMemo.value
-    }
-    
-    try {
-        console.log('서버로 전송할 데이터:', payload)
-        await addTransaction(payload);
+  // Payload
+  let formattedHour = transactionTime.value.hour;
+  if (transactionTime.value.period === '오후' && formattedHour < 12)
+    formattedHour += 12;
+  if (transactionTime.value.period === '오전' && formattedHour === 12)
+    formattedHour = 0;
 
-        alert('성공적으로 등록되었습니다!');
-        router.push({ name: 'home'}); // home 경로로 이동
-    } catch (error) {
-        console.error('등록 실패:', error);
-        alert('저장 중 오류가 발생했습니다. 다시 시도해주세요')
-    }
-}  
+  const timeString = `${String(formattedHour).padStart(2, '0')}:${String(transactionTime.value.minute).padStart(2, '0')}`;
 
+  const payload = {
+    type: selectedType.value,
+    title: transactionTitle.value,
+    amount: Number(transactionAmount.value),
+    date: transactionDate.value,
+    time: timeString,
+    category: transactionCategory.value,
+    memo: transactionMemo.value,
+  };
+
+  try {
+    console.log('서버로 전송할 데이터:', payload);
+    await addTransaction(payload);
+
+    alert('성공적으로 등록되었습니다!');
+    router.push({ name: 'home' }); // home 경로로 이동
+  } catch (error) {
+    console.error('등록 실패:', error);
+    alert('저장 중 오류가 발생했습니다. 다시 시도해주세요');
+  }
+};
 </script>
 
 <template>
@@ -83,17 +89,14 @@ const handleSave = async () => {
       <div class="register-layout">
         <!-- Main Form Section -->
         <main class="registration-form">
-          <TypeSelectionSection 
-            v-model:selectedType="selectedType" 
+          <TypeSelectionSection
+            v-model:selectedType="selectedType"
             animation-delay="0.1s"
           />
 
-          <TopMoneyField 
-            v-model="transactionAmount" 
-            animation-delay="0.2s"
-          />
+          <TopMoneyField v-model="transactionAmount" animation-delay="0.2s" />
 
-          <TransactionDetailSection 
+          <TransactionDetailSection
             v-model:transactionDate="transactionDate"
             v-model:transactionTime="transactionTime"
             v-model:transactionCategory="transactionCategory"
@@ -110,13 +113,13 @@ const handleSave = async () => {
         <!-- Sidebar / Info Section -->
         <aside class="registration-info">
           <div class="info-sticky">
-            <BotSummaryList 
+            <BotSummaryList
               :type="selectedType"
               :amount="transactionAmount"
               :date="transactionDate"
               :category="transactionCategory"
             />
-            
+
             <BotRecentTransaction />
 
             <BotQuickTip />
@@ -135,9 +138,9 @@ const handleSave = async () => {
 
 /* Responsive Layout Grid */
 .register-page {
-  background-color: #0A0A0B;
+  background-color: #0a0a0b;
   min-height: 100vh;
-  color: #FFFFFF;
+  color: #ffffff;
   width: 100%;
   margin: 0 auto;
   padding: 40px 0; /* Vertical padding only, horizontal handled by container */
@@ -166,7 +169,7 @@ const handleSave = async () => {
 .header-title h1 {
   font-size: 28px;
   font-weight: 800;
-  background: linear-gradient(135deg, #FFFFFF 0%, #8E8E93 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #8e8e93 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -175,13 +178,13 @@ const handleSave = async () => {
 
 .header-subtitle {
   font-size: 15px;
-  color: #8E8E93;
+  color: #8e8e93;
 }
 
 .close-btn {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #FFFFFF;
+  color: #ffffff;
   width: 44px;
   height: 44px;
   border-radius: 12px;
@@ -201,7 +204,10 @@ const handleSave = async () => {
 /* Main Layout Grid */
 .register-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr); /* Allow shrinking to prevent overflow */
+  grid-template-columns: minmax(
+    0,
+    1fr
+  ); /* Allow shrinking to prevent overflow */
   gap: 32px;
   align-items: start;
 }

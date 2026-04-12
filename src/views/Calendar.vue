@@ -21,7 +21,7 @@
         <div class="fixed-container">
           <FixedExpenseList
             :items="currentFixedItems"
-            @add-action="handleButtonAction"
+            @add-action="handleAddAction"
             @refresh="calendarStore.fetchFixedData()"
             @edit-action="handleEditClick"
             @delete-action="handleDeleteFixed"
@@ -61,7 +61,7 @@ import TransactionDetail from '@/components/calendar/TransactionDetail.vue';
 import FixedExpenseModal from '@/components/calendar/FixedExpenseModal.vue';
 import FixedExpenseList from '@/components/calendar/FixedExpenseList.vue';
 import { ref, computed, onMounted } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useCalendarStore } from '@/store/calendar';
 import { categoryMeta } from '@/constants/category';
 
@@ -69,8 +69,8 @@ const calendarStore = useCalendarStore();
 const route = useRoute();
 const isModalOpen = ref(false);
 const selectedExpense = ref(null);
+const router = useRouter();
 
-/* --- 날짜 선택 관련 로직 --- */
 const getToday = () => {
   const today = new Date();
   const year = today.getFullYear();
@@ -79,15 +79,16 @@ const getToday = () => {
   return `${year}-${month}-${day}`;
 };
 
+// 선택한 날짜
 const selectedDate = ref(route.query.date || getToday());
 
-// 데이터 로드
+// 데이터 로드 (전체 거래 내역, 전체 고정 지출 내역)
 onMounted(async () => {
   await calendarStore.fetchAllData();
   await calendarStore.fetchFixedData();
 });
 
-/* --- 상단 계좌 정보 데이터 --- */
+// 상단 계좌 정보 데이터
 const accounts = computed(() => {
   const summary = calendarStore.monthlySummary;
   return [
@@ -112,10 +113,12 @@ const accounts = computed(() => {
   ];
 });
 
+// 날짜 선택
 const handleDateSelect = (date) => {
   selectedDate.value = date;
 };
 
+// 고정 지출 내역 수정
 const handleEditClick = (item) => {
   selectedExpense.value = { ...item }; // 원본 보호를 위해 복사본 전달
   isModalOpen.value = true;
@@ -135,10 +138,10 @@ const currentFixedItems = computed(() => {
   return calendarStore.fixedList.filter((item) => {
     const startDate = new Date(item.start_date);
 
-    // 조건 1: 고정지출 시작일이 현재 보고 있는 달보다 이전이거나 같아야 함
+    // 고정지출 시작일이 현재 보고 있는 달보다 이전이거나 같아야 함
     const isStarted = startDate <= viewDate;
 
-    // 조건 2: 삭제되지 않았거나, 삭제일이 현재 달보다 이후여야 함 (보존 로직)
+    // 삭제되지 않았거나, 삭제일이 현재 달보다 이후여야 함 (보존 로직)
     const isNotDeleted =
       !item.deleted_at || new Date(item.deleted_at) > viewDate;
 
@@ -151,9 +154,8 @@ const handleMonthChange = (yearMonth) => {
   calendarStore.setCurrentMonth(yearMonth);
 };
 
-// 상세 내역에 전달할 데이터 (Store에서 선택 날짜만 쏙)
+// 상세 내역에 전달할 데이터
 const selectedData = computed(() => {
-  // ... (기존 방어 코드 및 변동 지출 rawData 가져오는 로직)
   const dateKey = selectedDate.value;
   const rawData = calendarStore.dailyDataMap[dateKey] || {
     items: [],
@@ -163,7 +165,7 @@ const selectedData = computed(() => {
 
   const dayOnly = Number(dateKey.split('-')[2]);
 
-  // 1. 고정 지출 필터링 및 amount 추출
+  // 고정 지출 필터링 및 amount 추출
   const fixedItemsForDay = currentFixedItems.value
     .filter((f) => Number(f.day) === dayOnly)
     .map((f) => ({
@@ -175,13 +177,13 @@ const selectedData = computed(() => {
       category: 'FIXED',
     }));
 
-  // 2. 🎯 고정 지출 합계 계산
+  // 고정 지출 합계 계산
   const totalFixedAmount = fixedItemsForDay.reduce(
     (sum, f) => sum + f.amount,
     0,
   );
 
-  // 3. 아이템 합치기 및 메타데이터 강화 (기존 로직 동일)
+  // 아이템 합치기 및 메타데이터 강화 (기존 로직 동일)
   const combinedItems = [...rawData.items, ...fixedItemsForDay];
   const enrichedItems = combinedItems.map((item) => {
     const categoryKey = item.type === 'fixed' ? 'FIXED' : item.category;
@@ -192,27 +194,37 @@ const selectedData = computed(() => {
   return {
     ...rawData,
     items: enrichedItems,
-    // 🎯 핵심: 변동 지출 합계 + 고정 지출 합계
+    // 변동 지출 합계 + 고정 지출 합계
     expense: rawData.expense + totalFixedAmount,
   };
 });
 
-/* --- 버튼 및 모달 로직 --- */
+// 고정 지출 추가 버튼
+const handleAddAction = () => {
+  isModalOpen.value = true;
+};
+
+// 거래 추가, 이 날에 거래 추가 버튼 클릭 시 라우트
 const handleButtonAction = (type) => {
-  if (type === 'fixedExpenses') {
-    isModalOpen.value = true;
+  if (type === 'transaction') {
+    router.push('/register');
+  } else {
+    router.push({
+      path: '/register',
+      query: { date: selectedDate.value },
+    });
   }
 };
 
+// 고정 지출 내역 저장
 const saveFixedExpense = async (formData) => {
   try {
     console.log(formData);
     if (formData.id) {
-      // ID가 있으면 수정 (PATCH)
       await calendarStore.updateFixedItem(formData.id, formData);
+
       alert('고정 지출이 수정 되었습니다!');
     } else {
-      // ID가 없으면 추가 (POST)
       await calendarStore.addFixedItem(
         formData.title,
         formData.expense,
@@ -230,10 +242,11 @@ const saveFixedExpense = async (formData) => {
   }
 };
 
+// 고정 지출 내역 삭제
 const handleDeleteFixed = async (id) => {
   try {
-    console.log(id);
     await calendarStore.deleteFixedItem(id);
+
     alert('삭제되었습니다.');
   } catch (error) {
     alert('삭제 중 오류가 발생했습니다.');
