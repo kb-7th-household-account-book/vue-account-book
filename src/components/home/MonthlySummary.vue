@@ -34,7 +34,7 @@ const formatProfit = (value) => {
 <template>
   <section class="monthly-summary">
     <div class="summary-header">
-      <h3>월별 수입 및 지출 요약</h3>
+      <h3>월별 순수익 요약</h3>
     </div>
 
     <div class="summary-card">

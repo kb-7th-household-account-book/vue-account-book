@@ -58,13 +58,32 @@ export const useHomeStore = defineStore('home', () => {
 
     // 3. 고정 지출 요약
     try {
-      const res = await getFixedDetails(month);
-      if (res.data.length > 0) {
-        state.fixedExpense = {
-          total: res.data[0].total_fixed_expense,
-          items: res.data[0].items,
-        };
-      }
+      const res = await getFixedDetails();
+      const allFixed = res.data;
+      
+      const currentYear = new Date().getFullYear();
+      const currentViewDate = new Date(currentYear, month - 1, 1);
+
+      let total = 0;
+      const validItems = [];
+
+      allFixed.forEach((f) => {
+        const startDate = new Date(f.start_date);
+        // 시작일이 현재 달보다 이전이거나 같을 때만 더하기
+        if (
+          startDate <= currentViewDate ||
+          (startDate.getFullYear() === currentViewDate.getFullYear() &&
+            startDate.getMonth() === currentViewDate.getMonth())
+        ) {
+          total += f.expense || 0;
+          validItems.push(f);
+        }
+      });
+
+      state.fixedExpense = {
+        total,
+        items: validItems,
+      };
     } catch (e) {
       console.error('고정 지출 실패', e);
     }

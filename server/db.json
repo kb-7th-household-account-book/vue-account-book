@@ -682,6 +682,20 @@
       "day": 13,
       "start_date": "2025-06-13",
       "id": 8
+    },
+    {
+      "title": "ㅇㅇㅇ",
+      "expense": 22222,
+      "day": 21,
+      "start_date": "2026-05-21",
+      "id": 9
+    },
+    {
+      "title": "기후동행카드",
+      "expense": 50000,
+      "day": 9,
+      "start_date": "2026-04-09",
+      "id": 10
     }
   ],
   "categories": [
