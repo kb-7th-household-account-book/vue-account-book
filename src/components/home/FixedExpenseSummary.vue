@@ -22,13 +22,13 @@ const fixedExpenses = computed(() => {
     },
     {
       id: topTwoItems[0]?.id ?? 'top1',
-      label: topTwoItems[0]?.name ?? '-',
+      label: topTwoItems[0]?.title ?? '-',
       amount: formatAmount(topTwoItems[0]?.expense ?? 0),
       color: 'purple',
     },
     {
       id: topTwoItems[1]?.id ?? 'top2',
-      label: topTwoItems[1]?.name ?? '-',
+      label: topTwoItems[1]?.title ?? '-',
       amount: formatAmount(topTwoItems[1]?.expense ?? 0),
       color: 'pink',
     },

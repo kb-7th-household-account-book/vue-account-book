@@ -11,8 +11,8 @@ export const getAllMonthlyStats = () => {
 };
 
 // 3. 고정 지출 내역
-export const getFixedDetails = (month) => {
-  return apiClient.get(`/fixed_details?month=${month}`);
+export const getFixedDetails = () => {
+  return apiClient.get('/fixed_details');
 };
 
 // 4. 카테고리별 통계
